@@ -5,7 +5,7 @@ edition = "2021"
 
 # CPU and Platform abstractions
 [target.'cfg(target_arch = "x86_64")'.dependencies]
-x86_64 = "0.15"
+x86_64 = { version = "0.15", default-features = false, features = ["instructions", "abi_x86_interrupt"] }
 uart_16550 = "0.3"
 pic8259 = "0.11"
 
@@ -42,4 +42,3 @@ panic = "abort"
 panic = "abort"
 lto = true
 opt-level = 2
-

@@ -50,11 +50,35 @@ check_deps() {
 }
 
 get_limine() {
-    if [ ! -d "$LIMINE_DIR" ]; then
-        echo -e "${YELLOW}[DOWNLOAD]${NC} Descargando Limine..."
-        git clone https://github.com/limine-bootloader/limine.git \
-            --branch=v8.x-binary --depth=1
-        make -C limine
+    local required=(limine-bios.sys limine-bios-cd.bin limine-uefi-cd.bin)
+    local missing=0
+    local artifact
+
+    for artifact in "${required[@]}"; do
+        if [ ! -f "$LIMINE_DIR/$artifact" ]; then
+            missing=1
+        fi
+    done
+
+    if [ $missing -eq 1 ]; then
+        echo -e "${YELLOW}[DOWNLOAD]${NC} Descargando artefactos de Limine v8..."
+        local temp_limine
+        temp_limine=$(mktemp -d)
+        if ! git clone https://github.com/limine-bootloader/limine.git \
+            --branch=v8.x-binary --depth=1 "$temp_limine"; then
+            rm -rf "$temp_limine"
+            echo -e "${RED}[ERROR]${NC} No se pudieron descargar los artefactos de Limine."
+            exit 1
+        fi
+        mkdir -p "$LIMINE_DIR"
+        for artifact in "${required[@]}"; do
+            cp "$temp_limine/$artifact" "$LIMINE_DIR/$artifact"
+        done
+        rm -rf "$temp_limine"
+    fi
+
+    if [ ! -x "$LIMINE_DIR/limine" ]; then
+        make -C "$LIMINE_DIR"
     fi
 }
 
