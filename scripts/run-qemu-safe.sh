@@ -6,6 +6,7 @@
 #   - no host filesystem shares or hardware passthrough
 #   - a temporary virtual disk that is deleted on exit
 #   - QEMU's seccomp sandbox enabled
+#   - display exposed only through localhost VNC
 
 set -euo pipefail
 
@@ -29,8 +30,15 @@ if [[ ! -f "$ISO_PATH" ]]; then
 fi
 
 TEMP_DISK=$(mktemp --tmpdir mesaos-qemu-disk.XXXXXX.img)
+SERIAL_LOG=$(mktemp --tmpdir mesaos-qemu-serial.XXXXXX.log)
+QEMU_PID=""
 cleanup() {
+    if [[ -n "$QEMU_PID" ]] && kill -0 "$QEMU_PID" 2>/dev/null; then
+        kill "$QEMU_PID" 2>/dev/null || true
+        wait "$QEMU_PID" 2>/dev/null || true
+    fi
     rm -f -- "$TEMP_DISK"
+    rm -f -- "$SERIAL_LOG"
 }
 trap cleanup EXIT
 
@@ -38,14 +46,15 @@ trap cleanup EXIT
 # QEMU exits and is never mapped to a physical host disk.
 truncate -s 100M "$TEMP_DISK"
 
-echo "Starting MesaOS in an isolated QEMU window."
+echo "Starting MesaOS on a local-only VNC display."
 echo "  Network:       disabled"
 echo "  Host shares:   none"
 echo "  Virtual disk:  temporary (deleted on exit)"
 echo "  Acceleration:  TCG software emulation"
+echo "  VNC endpoint:  127.0.0.1:5901"
 echo
-echo "Use the QEMU window for the MesaOS keyboard and CLI."
-echo "In this terminal, press Ctrl-A then X to stop QEMU."
+echo "Use the VNC viewer for the MesaOS keyboard and CLI."
+echo "Press Ctrl-C in this terminal to stop QEMU."
 
 qemu-system-x86_64 \
     -machine pc,accel=tcg \
@@ -57,4 +66,29 @@ qemu-system-x86_64 \
     -nic none \
     -sandbox on,obsolete=deny,elevateprivileges=deny,spawn=deny,resourcecontrol=deny \
     -no-reboot \
-    -serial mon:stdio
+    -display none \
+    -vnc 127.0.0.1:1 \
+    -monitor none \
+    -serial "file:$SERIAL_LOG" &
+QEMU_PID=$!
+
+# Give QEMU a moment to create its VNC listener and report early failures.
+sleep 1
+if ! kill -0 "$QEMU_PID" 2>/dev/null; then
+    wait "$QEMU_PID"
+fi
+
+if [[ -n "${DISPLAY:-}" ]] && command -v remote-viewer >/dev/null 2>&1; then
+    echo "Opening remote-viewer on the current desktop..."
+    remote-viewer vnc://127.0.0.1:5901
+elif [[ -n "${DISPLAY:-}" ]] && command -v gvncviewer >/dev/null 2>&1; then
+    echo "Opening gvncviewer on the current desktop..."
+    gvncviewer 127.0.0.1:1
+else
+    echo
+    echo "No graphical VNC viewer was found. In another terminal, run:"
+    echo "  remote-viewer vnc://127.0.0.1:5901"
+    echo
+    echo "Serial diagnostics are being captured in: $SERIAL_LOG"
+    wait "$QEMU_PID"
+fi
