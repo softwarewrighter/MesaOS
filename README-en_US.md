@@ -234,6 +234,40 @@ chmod +x build.sh
 ./build.sh run-wifi        # With graphical display
 ```
 
+### Safe, isolated QEMU session
+
+The safe launcher disables guest networking, host file sharing, hardware
+passthrough, and KVM. It uses a disposable virtual disk and exposes the display
+only through VNC on the host loopback address (`127.0.0.1:5901`).
+
+In the first terminal, start QEMU and leave this command running:
+
+```bash
+./scripts/run-qemu-safe.sh
+```
+
+In a second terminal inside the graphical desktop (including Chrome Remote
+Desktop), attach the VNC viewer:
+
+```bash
+./scripts/connect-qemu-vnc.sh
+```
+
+You can close and rerun the connection script without stopping MesaOS. The VM
+continues running as long as the first terminal and launcher remain active.
+Press `Ctrl+C` in the first terminal to stop QEMU and delete its temporary disk.
+
+At the MesaOS login screen, use one of these local accounts:
+
+| User | Password |
+|------|----------|
+| `root` | Empty (press Enter) |
+| `guest` | `guest` |
+| `mesa` | `mesa` |
+
+MesaOS does not currently provide an SSH server. The VNC connection is the
+interactive console and is available only from the host by default.
+
 ### Environment variables
 
 ```bash

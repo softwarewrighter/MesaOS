@@ -32,12 +32,7 @@ fi
 TEMP_DISK=$(mktemp --tmpdir mesaos-qemu-disk.XXXXXX.img)
 SERIAL_LOG=$(mktemp --tmpdir mesaos-qemu-serial.XXXXXX.log)
 QEMU_PID=""
-VIEWER_PID=""
 cleanup() {
-    if [[ -n "$VIEWER_PID" ]] && kill -0 "$VIEWER_PID" 2>/dev/null; then
-        kill "$VIEWER_PID" 2>/dev/null || true
-        wait "$VIEWER_PID" 2>/dev/null || true
-    fi
     if [[ -n "$QEMU_PID" ]] && kill -0 "$QEMU_PID" 2>/dev/null; then
         kill "$QEMU_PID" 2>/dev/null || true
         wait "$QEMU_PID" 2>/dev/null || true
@@ -60,7 +55,7 @@ echo "  VNC endpoint:  127.0.0.1:5901"
 echo
 echo "Use the VNC viewer for the MesaOS keyboard and CLI."
 echo "Press Ctrl-C in this terminal to stop QEMU."
-echo "Reconnect with: remote-viewer vnc://127.0.0.1:5901"
+echo "In a second terminal, run: ./scripts/connect-qemu-vnc.sh"
 echo "Serial diagnostics: $SERIAL_LOG"
 
 qemu-system-x86_64 \
@@ -85,20 +80,5 @@ if ! kill -0 "$QEMU_PID" 2>/dev/null; then
     wait "$QEMU_PID"
 fi
 
-if [[ -n "${DISPLAY:-}" ]] && command -v remote-viewer >/dev/null 2>&1; then
-    echo "Opening remote-viewer on the current desktop..."
-    remote-viewer vnc://127.0.0.1:5901 &
-    VIEWER_PID=$!
-elif [[ -n "${DISPLAY:-}" ]] && command -v gvncviewer >/dev/null 2>&1; then
-    echo "Opening gvncviewer on the current desktop..."
-    gvncviewer 127.0.0.1:1 &
-    VIEWER_PID=$!
-else
-    echo
-    echo "No graphical VNC viewer was found. In another terminal, run:"
-    echo "  remote-viewer vnc://127.0.0.1:5901"
-fi
-
-# The VM owns the launcher lifetime. Closing or losing the VNC viewer must not
-# stop QEMU; reconnect with the command printed above or rerun remote-viewer.
+# This terminal owns the VM. VNC viewers may connect and disconnect freely.
 wait "$QEMU_PID"
