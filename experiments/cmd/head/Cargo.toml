@@ -1,0 +1,12 @@
+[package]
+name = "mesa-head"
+version = "0.1.0"
+edition = "2024"
+build = "build.rs"
+
+[[bin]]
+name = "head"
+path = "src/main.rs"
+
+[dependencies]
+mesaos-user = { path = "../../crates/mesaos-user" }

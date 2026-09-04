@@ -1,0 +1,12 @@
+# Cargo and rustc build output
+target/
+**/target/
+
+# Generated command binaries (rebuild with ./experiments/build.sh)
+*.elf
+*.bin
+*.rlib
+
+# Local test/runtime byproducts
+__pycache__/
+*.py[cod]
