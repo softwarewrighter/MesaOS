@@ -61,7 +61,7 @@ echo "Serial diagnostics: $SERIAL_LOG"
 qemu-system-x86_64 \
     -machine pc,accel=tcg \
     -m 512 \
-    -smp 4 \
+    -smp 1 \
     -boot order=d,menu=off \
     -cdrom "$ISO_PATH" \
     -drive "file=$TEMP_DISK,format=raw,media=disk,if=ide" \

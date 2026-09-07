@@ -273,7 +273,15 @@ ARCH=aarch64 ./build.sh build   # ARM64 (experimental)
 
 El workspace independiente de `experiments/` incluye un reloj analógico ASCII
 escrito en Rust `no_std`. Se carga como un ELF aislado en Ring 3, sin acceso
-directo al framebuffer ni privilegios de kernel.
+directo al framebuffer ni privilegios de kernel. Syscalls pequeños y de alcance
+limitado proporcionan la hora RTC, el borrado/color de la consola y una señal
+Ctrl+C enclavada. El shell del kernel espera mientras un hijo de `exec` está en
+primer plano, evitando carreras de teclado/pantalla; Ctrl+C termina xclock y
+restaura el prompt.
+
+El lanzador QEMU seguro usa intencionalmente una sola CPU virtual porque el
+scheduler SMP de MesaOS todavía no es fiable con el shell del kernel y cargas
+Ring 3 concurrentes.
 
 ![MesaOS xclock ejecutándose mediante QEMU, noVNC y Playwright](experiments/capture/xclock-vnc.webp)
 

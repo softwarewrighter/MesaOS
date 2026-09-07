@@ -56,6 +56,12 @@ pub mod numbers {
     pub const SYS_EXIT: u64 = 60;
     pub const SYS_GETUID: u64 = 102;
     pub const SYS_BIOS_ANALYZE: u64 = 200;
+    /// MesaOS extension ABI, kept above the Linux x86-64 syscall range.
+    pub const SYS_RTC_SECONDS: u64 = 1000;
+    pub const SYS_SLEEP_MS: u64 = 1001;
+    pub const SYS_DISPLAY_CLEAR: u64 = 1002;
+    pub const SYS_DISPLAY_COLOR: u64 = 1003;
+    pub const SYS_CTRL_C_PENDING: u64 = 1004;
 }
 
 /// Return path for fork/clone child.
@@ -144,6 +150,29 @@ extern "C" fn syscall_dispatcher(
     arg4: u64,
     arg5: u64,
 ) -> i64 {
+    // MesaOS extensions are available to both native and Linux-format Ring-3 ELFs.
+    if num == numbers::SYS_RTC_SECONDS {
+        return sys_rtc_seconds();
+    }
+    if num == numbers::SYS_SLEEP_MS {
+        return sys_sleep(arg1);
+    }
+    if num == numbers::SYS_DISPLAY_CLEAR {
+        crate::drivers::framebuffer::clear();
+        return 0;
+    }
+    if num == numbers::SYS_DISPLAY_COLOR {
+        let color = match arg1 {
+            1 => crate::drivers::framebuffer::Color::new(80, 140, 255),
+            2 => crate::drivers::framebuffer::Color::new(235, 80, 80),
+            _ => crate::drivers::framebuffer::palette::TEXT,
+        };
+        crate::drivers::framebuffer::set_color(color);
+        return 0;
+    }
+    if num == numbers::SYS_CTRL_C_PENDING {
+        return i64::from(crate::drivers::keyboard::take_ctrl_c());
+    }
     let is_linux = crate::scheduler::with_current_task(|t| t.is_linux).unwrap_or(false);
     if is_linux {
         return crate::linux_compat::syscalls::dispatch(num, arg1, arg2, arg3, arg4, arg5);
@@ -316,6 +345,13 @@ fn sys_sleep(ms: u64) -> i64 {
         crate::scheduler::yield_now();
     }
     0
+}
+
+fn sys_rtc_seconds() -> i64 {
+    let datetime = crate::drivers::rtc::read();
+    (u64::from(datetime.hour) * 3_600
+        + u64::from(datetime.minute) * 60
+        + u64::from(datetime.second)) as i64
 }
 
 fn sys_pipe(_arg1: u64, _arg2: u64) -> i64 {

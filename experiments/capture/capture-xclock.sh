@@ -18,7 +18,7 @@ trap cleanup EXIT
 
 truncate -s 100M "$CAPTURE_TMP/disk.img"
 qemu-system-x86_64 \
-    -machine pc,accel=tcg -m 512 -smp 4 -boot order=d,menu=off \
+    -machine pc,accel=tcg -m 512 -smp 1 -boot order=d,menu=off \
     -cdrom "$PROJECT_ROOT/mesa-os.iso" \
     -drive "file=$CAPTURE_TMP/disk.img,format=raw,media=disk,if=ide" \
     -nic none \
@@ -30,7 +30,7 @@ QEMU_PID=$!
 CAPTURE_HTTP_PORT=$HTTP_PORT CAPTURE_VNC_PORT=$VNC_PORT \
     node "$SCRIPT_DIR/server.mjs" >"$CAPTURE_TMP/server.log" 2>&1 &
 SERVER_PID=$!
-sleep 1
+sleep 3
 
 cd "$SCRIPT_DIR"
 node capture.mjs

@@ -15,9 +15,11 @@ KEYS = {
 
 
 def send(monitor: socket.socket, command: str) -> None:
+    if command.startswith("sendkey "):
+        command += " 20"
     monitor.sendall((command + "\n").encode("ascii"))
     # MesaOS's polling keyboard path drops/repeats events if driven too fast.
-    time.sleep(0.075)
+    time.sleep(0.12)
 
 
 def type_text(monitor: socket.socket, text: str) -> None:
@@ -35,6 +37,9 @@ def main() -> int:
     with socket.socket(socket.AF_UNIX, socket.SOCK_STREAM) as monitor:
         monitor.connect(sys.argv[1])
         monitor.recv(4096)
+        if sys.argv[2] == "--ctrl-c":
+            send(monitor, "sendkey ctrl-c")
+            return 0
         type_text(monitor, sys.argv[2])
         send(monitor, "sendkey ret")
     return 0

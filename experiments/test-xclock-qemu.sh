@@ -26,7 +26,7 @@ fi
 qemu-system-x86_64 \
     -machine pc,accel=tcg \
     -m 512 \
-    -smp 4 \
+    -smp 1 \
     -boot order=d,menu=off \
     -cdrom "$ISO_PATH" \
     -nic none \
@@ -65,8 +65,9 @@ wait_for_log "[SHELL] Shell iniciado"
 python3 "$SCRIPT_DIR/send-qemu-keys.py" "$MONITOR_SOCKET" \
     "run /inyect/experiments/xclock/xclock.sh"
 wait_for_log "MesaOS experiment: xclock v0.1.0 (Ring 3, no_std Rust)"
-wait_for_log "H=hour  M=minute  .=second"
-sleep 1
+wait_for_log "o=hour  *=minute"
+wait_for_log "=sweep second"
+sleep 2
 
 if ! kill -0 "$QEMU_PID" 2>/dev/null; then
     echo "Error: QEMU exited unexpectedly." >&2
@@ -79,4 +80,27 @@ if ! grep -Fq "MesaOS experiment: xclock v0.1.0 (Ring 3, no_std Rust)" "$SERIAL_
     tail -120 "$SERIAL_LOG" >&2
     exit 1
 fi
+if ! grep -Eq "Time: [0-2][0-9]:[0-5][0-9]:[0-5][0-9]" "$SERIAL_LOG"; then
+    echo "Error: xclock did not display an RTC-style HH:MM:SS value." >&2
+    tail -120 "$SERIAL_LOG" >&2
+    exit 1
+fi
+if LC_ALL=C grep -q $'\033' "$SERIAL_LOG"; then
+    echo "Error: xclock emitted raw ANSI control characters." >&2
+    exit 1
+fi
+distinct_times=$(grep -Eo "Time: [0-2][0-9]:[0-5][0-9]:[0-5][0-9]" "$SERIAL_LOG" | sort -u | wc -l)
+if (( distinct_times < 2 )); then
+    echo "Error: xclock did not advance its displayed time." >&2
+    tail -120 "$SERIAL_LOG" >&2
+    exit 1
+fi
+python3 "$SCRIPT_DIR/send-qemu-keys.py" "$MONITOR_SOCKET" --ctrl-c
+sleep 0.5
+python3 "$SCRIPT_DIR/send-qemu-keys.py" "$MONITOR_SOCKET" --ctrl-c
+sleep 0.5
+python3 "$SCRIPT_DIR/send-qemu-keys.py" "$MONITOR_SOCKET" --ctrl-c
+wait_for_log "xclock stopped by Ctrl+C."
+python3 "$SCRIPT_DIR/send-qemu-keys.py" "$MONITOR_SOCKET" uptime
+wait_for_log "Uptime:"
 echo "PASS: Ring-3 xclock rendered its analog clock successfully."

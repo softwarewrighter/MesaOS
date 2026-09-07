@@ -17,6 +17,11 @@ mod syscall {
     pub const CLOSE: usize = 3;
     pub const EXIT: usize = 60;
     pub const TIME: usize = 201;
+    pub const RTC_SECONDS: usize = 1000;
+    pub const SLEEP_MS: usize = 1001;
+    pub const DISPLAY_CLEAR: usize = 1002;
+    pub const DISPLAY_COLOR: usize = 1003;
+    pub const CTRL_C_PENDING: usize = 1004;
 
     #[inline(always)]
     pub unsafe fn call1(number: usize, arg1: usize) -> isize {
@@ -44,6 +49,19 @@ pub mod clock {
     /// time to Ring-3 programs, so this is intentionally an uptime clock.
     pub fn uptime_seconds() -> u64 {
         let result = unsafe { syscall::call1(syscall::TIME, 0) };
+        result.max(0) as u64
+    }
+
+    /// Suspend the current task for approximately `milliseconds`.
+    pub fn sleep(milliseconds: u64) {
+        unsafe {
+            syscall::call1(syscall::SLEEP_MS, milliseconds as usize);
+        }
+    }
+
+    /// Local RTC time as seconds since midnight.
+    pub fn rtc_seconds() -> u64 {
+        let result = unsafe { syscall::call1(syscall::RTC_SECONDS, 0) };
         result.max(0) as u64
     }
 }
@@ -77,6 +95,26 @@ pub mod io {
         print(" v");
         print(version);
         print(" (Ring 3, no_std Rust)\n");
+    }
+}
+
+pub mod display {
+    use super::syscall;
+
+    pub const TEXT: usize = 0;
+    pub const BLUE: usize = 1;
+    pub const RED: usize = 2;
+
+    pub fn clear() {
+        unsafe {
+            syscall::call1(syscall::DISPLAY_CLEAR, 0);
+        }
+    }
+
+    pub fn set_color(color: usize) {
+        unsafe {
+            syscall::call1(syscall::DISPLAY_COLOR, color);
+        }
     }
 }
 
@@ -216,6 +254,10 @@ pub mod args {
 
 pub mod process {
     use super::syscall;
+    pub fn ctrl_c_pending() -> bool {
+        unsafe { syscall::call1(syscall::CTRL_C_PENDING, 0) > 0 }
+    }
+
     pub fn exit(status: usize) -> ! {
         unsafe {
             syscall::call1(syscall::EXIT, status);

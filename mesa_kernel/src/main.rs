@@ -1822,6 +1822,7 @@ fn cmd_exec(args: &[&str]) {
     }
 
     let program = args[0];
+    let parent_id = scheduler::current_task_id().unwrap_or(0);
     let task_id = match program {
         "hello" => userland::exec::exec_user_from_slice(program, &userland::exec::programs::HELLO),
         "counter" => {
@@ -1854,6 +1855,14 @@ fn cmd_exec(args: &[&str]) {
             "Proceso '{}' iniciado con PID {} (Ring 3)",
             program, task_id
         ));
+        // `exec` is foreground execution: keep the kernel shell out of the
+        // child's keyboard/display path until that child exits.
+        loop {
+            scheduler::yield_now();
+            if scheduler::collect_zombie(Some(task_id), parent_id).is_some() {
+                break;
+            }
+        }
     } else {
         print_error("Error al crear proceso");
     }

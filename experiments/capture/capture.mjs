@@ -1,9 +1,10 @@
 import { chromium } from "playwright";
-import { mkdir, readdir, rename } from "node:fs/promises";
+import { mkdir, readdir, rename, rm } from "node:fs/promises";
 import { join } from "node:path";
 
 const root = new URL(".", import.meta.url).pathname;
 const videoDir = join(root, "video");
+await rm(videoDir, { recursive: true, force: true });
 await mkdir(videoDir, { recursive: true });
 
 const browser = await chromium.launch({ channel: "chrome", headless: true });
@@ -12,10 +13,19 @@ const context = await browser.newContext({
   recordVideo: { dir: videoDir, size: { width: 1024, height: 768 } },
 });
 const page = await context.newPage();
-await page.goto("http://127.0.0.1:6080");
-await page.waitForFunction(() => document.title.includes("connected"), null, { timeout: 15000 });
+let connected = false;
+for (let attempt = 0; attempt < 10 && !connected; attempt += 1) {
+  await page.goto("http://127.0.0.1:6080");
+  try {
+    await page.waitForFunction(() => document.title.includes("connected"), null, { timeout: 5000 });
+    connected = true;
+  } catch {
+    await page.waitForTimeout(1000);
+  }
+}
+if (!connected) throw new Error("noVNC did not connect after 10 attempts");
 await page.waitForTimeout(12000);
-await page.locator("canvas").click();
+await page.locator("#screen").click();
 await page.keyboard.type("root", { delay: 120 });
 await page.keyboard.press("Enter");
 await page.waitForTimeout(700);

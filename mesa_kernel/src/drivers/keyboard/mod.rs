@@ -3,6 +3,7 @@
 pub mod scancode;
 
 use alloc::collections::VecDeque;
+use core::sync::atomic::{AtomicBool, Ordering};
 use spin::Mutex;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -48,6 +49,7 @@ pub enum SpecialKey {
 }
 
 static EVENT_BUFFER: Mutex<VecDeque<KeyEvent>> = Mutex::new(VecDeque::new());
+static CTRL_C_PENDING: AtomicBool = AtomicBool::new(false);
 
 const BUFFER_CAPACITY: usize = 64;
 
@@ -209,12 +211,19 @@ pub fn handle_interrupt_simple(scancode: u8) {
     // crate::mesa_print!("*");
 
     if let Some(event) = scancode::decode(scancode) {
+        if event == KeyEvent::Special(SpecialKey::CtrlC) {
+            CTRL_C_PENDING.store(true, Ordering::Release);
+        }
         if let Some(mut buffer) = EVENT_BUFFER.try_lock() {
             if buffer.len() < BUFFER_CAPACITY {
                 buffer.push_back(event);
             }
         }
     }
+}
+
+pub fn take_ctrl_c() -> bool {
+    CTRL_C_PENDING.swap(false, Ordering::AcqRel)
 }
 
 pub fn read_event() -> Option<KeyEvent> {
