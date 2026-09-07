@@ -33,20 +33,20 @@ SERVER_PID=$!
 sleep 3
 
 cd "$SCRIPT_DIR"
-node capture.mjs
+CAPTURE_SERIAL_LOG="$CAPTURE_TMP/serial.log" node capture.mjs
 
-ffmpeg -y -i xclock-vnc.webm -vf "fps=8,scale=768:-1:flags=lanczos" \
-    -loop 0 xclock-vnc.webp >/dev/null 2>&1
-ffmpeg -y -i xclock-vnc.webm -vf \
+ffmpeg -y -ss 2 -i xclock-vnc.webm -vf "fps=8,scale=768:-1:flags=lanczos" \
+    -loop 0 xclock-demo.webp >/dev/null 2>&1
+ffmpeg -y -ss 2 -i xclock-vnc.webm -vf \
     "fps=8,scale=768:-1:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse" \
     -loop 0 xclock-vnc.gif >/dev/null 2>&1
 
-WEBP_SIZE=$(stat -c %s xclock-vnc.webp)
+WEBP_SIZE=$(stat -c %s xclock-demo.webp)
 GIF_SIZE=$(stat -c %s xclock-vnc.gif)
 if (( WEBP_SIZE <= GIF_SIZE )); then
     rm -f xclock-vnc.gif
-    echo "Created experiments/capture/xclock-vnc.webp ($WEBP_SIZE bytes; smaller than GIF)."
+    echo "Created experiments/capture/xclock-demo.webp ($WEBP_SIZE bytes; smaller than GIF)."
 else
-    rm -f xclock-vnc.webp
+    rm -f xclock-demo.webp
     echo "Created experiments/capture/xclock-vnc.gif ($GIF_SIZE bytes; smaller than WebP)."
 fi

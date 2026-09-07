@@ -283,7 +283,7 @@ El lanzador QEMU seguro usa intencionalmente una sola CPU virtual porque el
 scheduler SMP de MesaOS todavía no es fiable con el shell del kernel y cargas
 Ring 3 concurrentes.
 
-![MesaOS xclock ejecutándose mediante QEMU, noVNC y Playwright](experiments/capture/xclock-vnc.webp)
+![MesaOS xclock ejecutándose mediante QEMU, noVNC y Playwright](experiments/capture/xclock-demo.webp)
 
 Consulta [`experiments/cmd/xclock/README.md`](experiments/cmd/xclock/README.md)
 para compilarlo, instalarlo y ejecutarlo.

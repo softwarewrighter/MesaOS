@@ -4,4 +4,4 @@ video/
 *.gif
 *.webp
 *.webm
-!xclock-vnc.webp
+!xclock-demo.webp

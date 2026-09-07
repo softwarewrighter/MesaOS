@@ -13,7 +13,7 @@ cd ../..
 ```
 
 The intermediate Playwright recording is `xclock-vnc.webm`. The final result
-is either `xclock-vnc.webp` or `xclock-vnc.gif` in this directory.
+is either `xclock-demo.webp` or `xclock-vnc.gif` in this directory.
 
 ## Browser-based VNC viewer
 

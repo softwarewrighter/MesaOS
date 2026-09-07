@@ -315,7 +315,7 @@ races; Ctrl+C exits xclock and restores the prompt.
 The safe QEMU launcher intentionally uses one virtual CPU because MesaOS's SMP
 scheduler is not yet reliable for concurrent kernel-shell and Ring-3 workloads.
 
-![MesaOS xclock running through QEMU, noVNC, and Playwright](experiments/capture/xclock-vnc.webp)
+![MesaOS xclock running through QEMU, noVNC, and Playwright](experiments/capture/xclock-demo.webp)
 
 See [`experiments/cmd/xclock/README.md`](experiments/cmd/xclock/README.md) for
 build, installation, and usage instructions.
