@@ -35,3 +35,9 @@ run /inyect/experiments/head/head.sh -5 help.txt
 ```
 
 Enter those as two separate commands because MesaOS does not support `&&`.
+
+Run the terminal analog-clock experiment with:
+
+```text
+run /inyect/experiments/xclock/xclock.sh
+```

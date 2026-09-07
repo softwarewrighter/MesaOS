@@ -1,5 +1,5 @@
 [workspace]
-members = ["crates/mesaos-user", "cmd/head"]
+members = ["crates/mesaos-user", "cmd/head", "cmd/xclock"]
 resolver = "3"
 
 [profile.release]

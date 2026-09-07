@@ -269,6 +269,19 @@ ARCH=aarch64 ./build.sh build   # ARM64 (experimental)
 
 ---
 
+## 🕐 Experimento xclock en Rust
+
+El workspace independiente de `experiments/` incluye un reloj analógico ASCII
+escrito en Rust `no_std`. Se carga como un ELF aislado en Ring 3, sin acceso
+directo al framebuffer ni privilegios de kernel.
+
+![MesaOS xclock ejecutándose mediante QEMU, noVNC y Playwright](experiments/capture/xclock-vnc.webp)
+
+Consulta [`experiments/cmd/xclock/README.md`](experiments/cmd/xclock/README.md)
+para compilarlo, instalarlo y ejecutarlo.
+
+---
+
 ## ⚠️ Aviso
 
 El driver **NVMe sobrescribe el Sector 0** (tabla de particiones) durante la inicialización.  

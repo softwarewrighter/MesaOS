@@ -10,5 +10,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "mesa-xclock"
+version = "0.1.0"
+dependencies = [
+ "mesaos-user",
+]
+
+[[package]]
 name = "mesaos-user"
 version = "0.1.0"

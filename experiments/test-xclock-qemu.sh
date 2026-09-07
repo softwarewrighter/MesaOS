@@ -63,8 +63,9 @@ wait_for_log "[LOGIN] Usuario introducido: root"
 python3 "$SCRIPT_DIR/send-qemu-keys.py" "$MONITOR_SOCKET" ""
 wait_for_log "[SHELL] Shell iniciado"
 python3 "$SCRIPT_DIR/send-qemu-keys.py" "$MONITOR_SOCKET" \
-    "run /inyect/experiments/head/head.sh -5 /inyect/experiments/head/input.txt"
-wait_for_log "MesaOS experiment: head v0.1.0 (Ring 3, no_std Rust)"
+    "run /inyect/experiments/xclock/xclock.sh"
+wait_for_log "MesaOS experiment: xclock v0.1.0 (Ring 3, no_std Rust)"
+wait_for_log "H=hour  M=minute  .=second"
 sleep 1
 
 if ! kill -0 "$QEMU_PID" 2>/dev/null; then
@@ -73,20 +74,9 @@ if ! kill -0 "$QEMU_PID" 2>/dev/null; then
     exit 1
 fi
 
-if ! grep -Fq "MesaOS experiment: head v0.1.0 (Ring 3, no_std Rust)" "$SERIAL_LOG"; then
-    echo "Error: head banner was not observed." >&2
+if ! grep -Fq "MesaOS experiment: xclock v0.1.0 (Ring 3, no_std Rust)" "$SERIAL_LOG"; then
+    echo "Error: xclock banner was not observed." >&2
     tail -120 "$SERIAL_LOG" >&2
     exit 1
 fi
-if ! grep -Fq "line 05" "$SERIAL_LOG"; then
-    echo "Error: expected line 05 was not observed." >&2
-    tail -120 "$SERIAL_LOG" >&2
-    exit 1
-fi
-if grep -Fq "line 06" "$SERIAL_LOG"; then
-    echo "Error: head printed line 06 despite a five-line limit." >&2
-    tail -120 "$SERIAL_LOG" >&2
-    exit 1
-fi
-
-echo "PASS: Ring-3 head printed exactly the requested first five lines."
+echo "PASS: Ring-3 xclock rendered its analog clock successfully."

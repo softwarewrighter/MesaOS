@@ -1,0 +1,12 @@
+[package]
+name = "mesa-xclock"
+version = "0.1.0"
+edition = "2024"
+build = "build.rs"
+
+[[bin]]
+name = "xclock"
+path = "src/main.rs"
+
+[dependencies]
+mesaos-user = { path = "../../crates/mesaos-user" }

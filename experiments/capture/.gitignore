@@ -1,0 +1,7 @@
+node_modules/
+frames/
+video/
+*.gif
+*.webp
+*.webm
+!xclock-vnc.webp

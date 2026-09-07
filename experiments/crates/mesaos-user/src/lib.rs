@@ -16,12 +16,13 @@ mod syscall {
     pub const OPEN: usize = 2;
     pub const CLOSE: usize = 3;
     pub const EXIT: usize = 60;
+    pub const TIME: usize = 201;
 
     #[inline(always)]
     pub unsafe fn call1(number: usize, arg1: usize) -> isize {
         let result: isize;
         unsafe {
-            asm!("syscall", inlateout("rax") number as isize => result, inlateout("rdi") arg1 => _, lateout("rcx") _, lateout("r8") _, lateout("r9") _, lateout("r10") _, lateout("r11") _, options(nostack));
+            asm!("syscall", inlateout("rax") number as isize => result, inlateout("rdi") arg1 => _, lateout("rsi") _, lateout("rdx") _, lateout("rcx") _, lateout("r8") _, lateout("r9") _, lateout("r10") _, lateout("r11") _, options(nostack));
         }
         result
     }
@@ -33,6 +34,17 @@ mod syscall {
             asm!("syscall", inlateout("rax") number as isize => result, inlateout("rdi") arg1 => _, inlateout("rsi") arg2 => _, inlateout("rdx") arg3 => _, lateout("rcx") _, lateout("r8") _, lateout("r9") _, lateout("r10") _, lateout("r11") _, options(nostack));
         }
         result
+    }
+}
+
+pub mod clock {
+    use super::syscall;
+
+    /// Seconds since MesaOS boot. The current kernel does not expose RTC wall
+    /// time to Ring-3 programs, so this is intentionally an uptime clock.
+    pub fn uptime_seconds() -> u64 {
+        let result = unsafe { syscall::call1(syscall::TIME, 0) };
+        result.max(0) as u64
     }
 }
 

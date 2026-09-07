@@ -12,11 +12,13 @@ cd "$SCRIPT_DIR"
 cargo build --workspace --release
 
 HEAD_ELF="$SCRIPT_DIR/target/x86_64-unknown-none/release/head"
-if [[ ! -f "$HEAD_ELF" ]]; then
-    echo "Error: Cargo did not produce $HEAD_ELF" >&2
-    exit 1
-fi
+XCLOCK_ELF="$SCRIPT_DIR/target/x86_64-unknown-none/release/xclock"
+for elf in "$HEAD_ELF" "$XCLOCK_ELF"; do
+    [[ -f "$elf" ]] || { echo "Error: Cargo did not produce $elf" >&2; exit 1; }
+done
 
 echo "Built command ELFs:"
 echo "  $HEAD_ELF"
 file "$HEAD_ELF"
+echo "  $XCLOCK_ELF"
+file "$XCLOCK_ELF"

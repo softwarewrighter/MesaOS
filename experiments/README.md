@@ -3,6 +3,7 @@
 This directory is an independent Cargo workspace for freestanding MesaOS
 user-space commands. Command binaries live under `cmd/`; the first example is
 [`cmd/head`](cmd/head/README.md).
+The [`cmd/xclock`](cmd/xclock/README.md) example renders an ASCII analog clock.
 
 Reusable `no_std` support lives under `crates/`. `mesaos-user` currently
 provides Ring-3 syscall wrappers, file reads, console output, request-file
@@ -24,7 +25,7 @@ initrd, and rebuild `mesa-os.iso`:
 Run the automated, network-disabled QEMU smoke test:
 
 ```bash
-./experiments/test-head-qemu.sh
+./experiments/test-xclock-qemu.sh
 ```
 
 Convenience launch, snapshot-sharing, and VNC scripts are documented in

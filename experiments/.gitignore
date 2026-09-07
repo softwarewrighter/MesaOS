@@ -6,6 +6,8 @@ target/
 *.elf
 *.bin
 *.rlib
+*.gif
+*.mp4
 
 # Local test/runtime byproducts
 __pycache__/
