@@ -50,7 +50,9 @@ const recordContext = await browser.newContext({
   recordVideo: { dir: videoDir, size: { width: 1024, height: 768 } },
 });
 await connectPage(recordContext);
-await new Promise((resolve) => setTimeout(resolve, 8000));
+// Record long enough to show roughly ten full second-hand steps after the
+// conversion trims noVNC's reconnect setup frames.
+await new Promise((resolve) => setTimeout(resolve, 12000));
 await recordContext.close();
 await browser.close();
 
