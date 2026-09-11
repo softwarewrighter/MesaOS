@@ -119,6 +119,26 @@ carried in the artifact as the relationship edge table:
 Calling a `.ko` an `image` would draw it as something that gets its own user
 space, which is exactly what it does not get — hence the separate kind.
 
+#### What MesaOS adds to the shared vocabulary
+
+`kind` is a small closed vocabulary per the contract, and the consumer's
+palette has to cover the union of what the producers emit — a kind with no
+palette row draws as nothing. MesaOS shares `header`, `catalog`, `image`,
+`free`, `padding`, `text`, `data`, `bss` and `stack` with SWTOS, and adds:
+
+| kind | why it is not one of the existing ones |
+|---|---|
+| `rodata` | a read-only segment is neither `text` nor `data`, and it is the largest single region in the kernel image |
+| `got` | linker bookkeeping, not program data |
+| `module` | a `.ko` loaded into the kernel's address space, not a user program |
+| `file` | an initrd payload that is never loaded at all |
+| `heap` | the brk origin, which grows on demand rather than being placed |
+| `mmap` | the anonymous-mapping arena, which is address space rather than memory |
+| `limine_requests`, `limine_requests_start`, `limine_requests_end` | bootloader request markers, kept under their own names because an unrecognised section keeping its name is more honest than folding it into `data` |
+
+The producer prints its emitted vocabulary in the run summary, so relaying
+this to the palette owner is a matter of reading the last run.
+
 ### The four colour modes
 
 Colour should mean one thing at a time, so the artifact carries four
