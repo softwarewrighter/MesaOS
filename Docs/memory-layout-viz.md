@@ -53,18 +53,33 @@ against an x86_64 target the same as it runs on the build machine.
 | Flag | |
 |---|---|
 | `--kernel PATH` | the linked kernel ELF (default `iso/boot/mesa_kernel`) |
-| `--initrd PATH` | the initrd container (default `output/initrd.bin`) |
-| `--inyect-dir DIR` | pack an initrd from an injection tree instead of reading one |
-| `--program NAME` | which embedded ELF's loaded address space to draw |
+| `--initrd-from` | `embedded` (default), `inyect`, or a path — see below |
+| `--inyect-dir DIR` | the injection tree `--initrd-from inyect` packs |
+| `--program NAME` | draw this ELF's address space; repeatable |
+| `--module-depth N` | how finely to attribute code to parts (default 1) |
 | `--revision REV` | record this revision instead of asking git |
 | `--shape columnar\|row\|both` | which serialization to write (default both) |
 | `-o PATH` | where to write (default `build/memory-layout.json`) |
 
-`output/initrd.bin` is a build output and `*.bin` is gitignored, so a fresh
-clone has no initrd to read. `--inyect-dir inyect` packs one in memory using
-`tools/inject_to_iso.py` — the build's own packer, so the container described
-is the one the build would have produced. Without either, the initrd space is
-omitted rather than invented.
+### Which initrd
+
+`--initrd-from embedded` (the default) finds the container **inside the
+kernel** by walking `.rodata` for one that parses. `INITRD_DATA` is a
+`&[u8]`, so its payload has no symbol to look up, but the format is
+constrained enough to recognise — on this kernel exactly one offset in 7.7 MB
+satisfies it. That gives the initrd a real address, and describes the
+container this kernel actually carries.
+
+`--initrd-from inyect` packs one from the injection tree using
+`tools/inject_to_iso.py`, the build's own packer. That describes what the
+**next** build would embed, which is how a program added since the last build
+becomes visible — `xclock` and `head` are in `inyect/` but not in the
+committed kernel. The producer says so on stderr when the two differ, and
+records which was used in `provenance.initrd_source`.
+
+Either way the blob labelled inside the kernel image is the embedded one: the
+bytes in `.rodata` do not change because a different container was asked
+about.
 
 ## Two serializations of one document
 
@@ -97,7 +112,10 @@ checksum a consumer pins into a moving target.
 
 ## What gets emitted
 
-Three address spaces, each fully tiled by regions in address order:
+Address spaces, each fully tiled by regions in address order: the kernel
+image twice (once by section, once by the part of the project each byte was
+built from), the initrd, and one per program whose loaded address space is
+drawn.
 
 ```
       kernel image                 embedded initrd              user address space
@@ -119,6 +137,11 @@ Three address spaces, each fully tiled by regions in address order:
 └──────────────────────┘                                        └──────────────────────┘
 ```
 
+Each `experiments/` program gets its own tower. Every MesaOS process is laid
+out at the same nominal addresses, so those towers overlay in the machine
+even though they are drawn side by side — which is the point of drawing them
+side by side.
+
 That middle arrow is the point of the whole exercise. It is the chain MesaOS
 is otherwise hard to explain in prose: a file is injected into the ISO, packed
 into a container, embedded in `.rodata` by `include_bytes!`, unpacked into the
@@ -130,6 +153,47 @@ carried in the artifact as the relationship edge table:
 | `embeds` | `.rodata` | the initrd it holds via `include_bytes!` |
 | `describes` | an initrd record | the payload it points at |
 | `loads-to` | an initrd ELF | the user segments and stack it becomes |
+
+### The kernel image by part
+
+Sections answer "how much of the image is read-only data". They do not answer
+"how much of the image is the USB stack", which is what a rough layout is
+actually asked. The kernel ELF is not stripped, so the symbol table answers
+it: every sized symbol carries a Rust v0 mangled path naming the crate and
+module it was compiled from, which the producer decodes far enough to get the
+prefix. Adjacent symbols from the same part merge into one run, across gaps
+up to a page — without that, a subsystem shatters into a thousand slivers
+with a sliver of "no symbol" between each pair.
+
+`module_name` / `module_bytes` / `module_runs` / `module_share_bp` roll that
+up, largest first. On the committed kernel:
+
+| bytes | share | what |
+|---|---|---|
+| 7,070,642 | 65.0% | the embedded initrd, sitting in `.rodata` |
+| 1,319,460 | 12.1% | `mesa_kernel::smp` — the per-CPU stack arrays in `.bss` |
+| 624,077 | 5.7% | genuinely unattributed: literals, vtables, padding |
+| 529,338 | 4.9% | `mesa_kernel::memory` — mostly the PMM's 512 KiB bitmap |
+| 166,926 | 1.5% | `mesa_kernel::drivers` |
+| 112,808 | 1.0% | `aml::parser` — the ACPI interpreter |
+
+Two thirds of this kernel is the files injected into it, and an eighth is
+preallocated SMP stacks. That is the kind of thing a section view cannot say.
+
+The attribution is deliberately rough, and says so: symbols cover about a
+third of the image — `.text` almost completely, `.bss` well, `.rodata`
+barely — and what is left is reported as `unattributed` rather than
+distributed by guesswork. An honest third is worth more than a fabricated
+whole.
+
+`--module-depth 1` gives a per-subsystem view (`mesa_kernel::drivers`); `2`
+goes a level finer (`mesa_kernel::drivers::usb`). A symbol sitting directly
+in the crate root keeps its own name, which is what makes a shell built-in
+such as `nano` visible as itself rather than dissolved into the crate.
+
+`kernel` and `kernel-modules` are two views of the same bytes. The
+`space_overlays` column says so, so a consumer that assumes spaces are
+disjoint knows which one to drop.
 
 ### Region kinds
 
@@ -144,6 +208,9 @@ carried in the artifact as the relationship edge table:
 | `module` | a relocatable `.ko`: the Linux driver shim loads it into the kernel's |
 | `file` | anything else the RamFS will simply hold |
 | `heap` `stack` `mmap` | the user address space's dynamic areas |
+| `code` | a run of symbols from one part of the project |
+| `blob` | an opaque extent inside the image that is known but not code |
+| `unattributed` | image bytes no symbol covers |
 | `padding` | the cost of 4 KiB page alignment, named rather than hidden |
 | `free` | unmapped or unused capacity |
 
@@ -182,6 +249,7 @@ independent classifications and the consumer picks one:
 | `region_location` | `kernel-image`, `initrd`, `user-space` |
 | `region_state` | `stored`, `zero`, `live`, `reserved`, `free`, `unmapped` |
 | `region_perm` | the page permission it is mapped with, `rwx`-style |
+| `region_module` | which part of the project the bytes were built from |
 
 `region_location`, `region_state` and `region_perm` are additive columns
 beyond the four the contract requires; a consumer that ignores them still
@@ -260,6 +328,14 @@ Its block heights offer three scales because no single one is honest and
 useful at once: true scale shows that `.rodata` is 70% of the kernel image and
 makes the 16-byte `.limine_requests_end` next to it invisible; the log default
 keeps both on screen; equal treats each region as a slab.
+
+That is also how the Linux driver blobs stay out of the way. `xhci-hcd.ko` is
+6 MB of a 7 MB initrd — on a true scale it is the entire tower and the 8 KB
+`xclock.elf` is a hairline. The log default keeps both legible, colouring by
+purpose separates `module` (a `.ko` the driver shim loads) from `image` (an
+ELF that gets a user address space), and clicking a legend key hides that
+whole class. Hiding `module` leaves the picture that is actually interesting:
+the programs.
 
 ## Next: the runtime snapshot
 

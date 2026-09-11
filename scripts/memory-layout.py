@@ -137,10 +137,11 @@ def read_elf(data: bytes) -> dict:
             off = e_shoff + i * e_shentsize
             if off + 64 > len(data):
                 raise ElfError("section headers out of bounds")
-            (sh_name, sh_type, sh_flags, sh_addr, _sh_off, sh_size,
+            (sh_name, sh_type, sh_flags, sh_addr, sh_off, sh_size,
              _link, _info, _align, _entsize) = struct.unpack_from("<IIQQQQIIQQ", data, off)
             raw.append({"index": i, "name_offset": sh_name, "type": sh_type,
-                        "flags": sh_flags, "addr": sh_addr, "size": sh_size})
+                        "flags": sh_flags, "addr": sh_addr, "size": sh_size,
+                        "file_offset": sh_off})
         sections = raw
         if e_shstrndx < len(raw):
             # The section-header string table's own sh_offset/sh_size sit at
@@ -246,6 +247,274 @@ def kernel_regions(elf: dict, next_id) -> tuple[list[dict], int, int]:
             "start": cursor - base, "length": capacity - (cursor - base),
         })
     return rows, base, capacity
+
+
+# --------------------------------------------------------------------------
+# symbols, and what part of the project they came from
+#
+# Sections answer "how much of the image is read-only data". They do not
+# answer "how much of the image is the USB stack", which is the question a
+# rough layout is actually asked. The kernel ELF is not stripped, so the
+# symbol table can answer it: every sized symbol carries a Rust v0 mangled
+# path whose prefix names the crate and module it was compiled from.
+#
+# The attribution is deliberately rough. Symbols cover about a third of the
+# image -- .text almost completely, .bss well, .rodata barely -- and what is
+# left over is reported as unattributed rather than distributed by guesswork.
+# An honest third is worth more than a fabricated whole.
+# --------------------------------------------------------------------------
+
+STT_OBJECT, STT_FUNC = 1, 2
+SHT_SYMTAB = 2
+
+
+def read_symbols(data: bytes) -> list[dict]:
+    """Every symbol with both an address and a size. A symbol with neither
+    describes nothing that occupies memory."""
+    e_shoff, = struct.unpack_from("<Q", data, 0x28)
+    e_shentsize, e_shnum, _ = struct.unpack_from("<HHH", data, 0x3A)
+    headers = []
+    for i in range(e_shnum):
+        off = e_shoff + i * e_shentsize
+        if off + 64 > len(data):
+            return []
+        headers.append(struct.unpack_from("<IIQQQQIIQQ", data, off))
+
+    table = next((h for h in headers if h[1] == SHT_SYMTAB), None)
+    if table is None or table[6] >= len(headers):
+        return []
+    strings = headers[table[6]]
+
+    def name_at(offset: int) -> str:
+        start = strings[4] + offset
+        end = data.find(b"\0", start)
+        return data[start:end].decode("utf-8", "replace")
+
+    symbols = []
+    for i in range(table[5] // 24):
+        off = table[4] + i * 24
+        if off + 24 > len(data):
+            break
+        name, info, _other, shndx, value, size = struct.unpack_from(
+            "<IBBHQQ", data, off)
+        if size and value and (info & 0xF) in (STT_OBJECT, STT_FUNC):
+            symbols.append({"name": name_at(name), "address": value,
+                            "size": size, "section": shndx})
+    symbols.sort(key=lambda s: s["address"])
+    return symbols
+
+
+def v0_path(mangled: str) -> list[str]:
+    """The path prefix of a Rust v0 mangled name, outermost first.
+
+    Only the prefix is decoded, because only the prefix says where the code
+    came from: `_RNvNtNtCs..._11mesa_kernel6memory3pmm6BITMAP` yields
+    `[mesa_kernel, memory, pmm, BITMAP]`. Generic arguments, types and
+    backreferences are not decoded -- the grammar for those is large, and
+    nothing here needs them.
+    """
+    i, out = 2, []
+
+    def number() -> int | None:
+        nonlocal i
+        start = i
+        while i < len(mangled) and mangled[i].isdigit():
+            i += 1
+        return int(mangled[start:i]) if i > start else None
+
+    def skip_disambiguator() -> None:
+        nonlocal i
+        if i < len(mangled) and mangled[i] == "s":
+            i += 1
+            while i < len(mangled) and mangled[i] != "_":
+                i += 1
+            i += 1
+
+    def identifier() -> str | None:
+        nonlocal i
+        skip_disambiguator()
+        punycode = i < len(mangled) and mangled[i] == "u"
+        if punycode:
+            i += 1
+        length = number()
+        if length is None:
+            return None
+        if i < len(mangled) and mangled[i] == "_":
+            i += 1
+        text, i_end = mangled[i:i + length], i + length
+        i = i_end
+        return text
+
+    def path(depth: int = 0) -> bool:
+        """Descend to the crate root, then collect identifiers on the way
+        back out -- which is the order the path reads in."""
+        nonlocal i
+        if depth > 24 or i >= len(mangled):
+            return False
+        tag = mangled[i]
+        i += 1
+        if tag == "C":
+            name = identifier()
+            if name is None:
+                return False
+            out.append(name)
+            return True
+        if tag == "N":
+            i += 1  # the namespace byte
+            if not path(depth + 1):
+                return False
+            name = identifier()
+            if name is not None:
+                out.append(name)
+            return True
+        if tag in ("I", "M", "X", "Y"):
+            # A specialization or an impl still hangs off a path; descend
+            # into it and stop there rather than decoding the type grammar.
+            # An impl path carries its own disambiguator first.
+            if tag in ("M", "X", "Y"):
+                skip_disambiguator()
+            return path(depth + 1)
+        return False  # a backreference or something undecoded
+
+    if not mangled.startswith("_R"):
+        return []
+    path()
+    return out
+
+
+def legacy_path(mangled: str) -> list[str]:
+    """The same for the older `_ZN3foo3barE` mangling."""
+    i, out = 3, []
+    while i < len(mangled) and mangled[i].isdigit():
+        start = i
+        while i < len(mangled) and mangled[i].isdigit():
+            i += 1
+        length = int(mangled[start:i])
+        out.append(mangled[i:i + length])
+        i += length
+    return out
+
+
+#: Unmangled symbols, bucketed by what they actually are. The Linux driver
+#: shim is the interesting one: it is a headline feature of this kernel and
+#: exports its symbols under C names, so leaving it in an "unmangled" pile
+#: would hide several hundred functions that are very much part of the
+#: project.
+BUILTIN_NAMES = {"memcpy", "memmove", "memset", "memcmp", "strlen", "bcmp"}
+
+
+def plain_bucket(name: str) -> str:
+    if name.startswith("__shim_"):
+        return "mesa_kernel::shim (C ABI)"
+    if name in BUILTIN_NAMES or name.startswith("__"):
+        return "compiler_builtins"
+    return "(unmangled)"
+
+
+def attribute(symbol: dict, depth: int) -> str:
+    """Which part of the project a symbol belongs to.
+
+    `depth` is how many path segments below the crate to keep. One gives a
+    per-subsystem view (`mesa_kernel::drivers`), two goes a level finer
+    (`mesa_kernel::drivers::usb`). A symbol that sits directly in the crate
+    root keeps its own name, which is what makes a shell built-in such as
+    `nano` visible as itself rather than dissolved into the crate.
+    """
+    path = v0_path(symbol["name"]) or legacy_path(symbol["name"])
+    if not path:
+        return plain_bucket(symbol["name"])
+    return "::".join(path[:1 + max(depth, 1)])
+
+
+#: How far apart two symbols from the same part can sit and still be drawn
+#: as one run. Between consecutive functions there is alignment padding, and
+#: the symbol table does not cover every literal a function refers to, so
+#: without a tolerance a subsystem shatters into a thousand slivers with a
+#: sliver of "no symbol" between each pair. A page is the granularity the
+#: kernel is mapped at, which makes it the natural place to stop pretending
+#: to know more.
+MERGE_GAP = PAGE
+
+
+def module_regions(symbols: list[dict], base: int, capacity: int,
+                   depth: int, known: list[dict], next_id,
+                   merge_gap: int = MERGE_GAP) -> list[dict]:
+    """The kernel image again, attributed to the parts it was built from.
+
+    Adjacent symbols from the same part are merged into one run, because a
+    picture with one box per symbol is a picture of nothing. Everything the
+    symbol table does not cover becomes an `unattributed` region -- mostly
+    .rodata, which is string literals and the embedded initrd -- so the space
+    still tiles and the size of what is not known stays visible.
+
+    `known` names extents that are unattributed but not unknown; the initrd
+    is the whole reason .rodata is the size it is, and labelling it turns the
+    largest region in the image from a mystery into a fact.
+    """
+    runs: list[dict] = []
+    for symbol in symbols:
+        start, end = symbol["address"], symbol["address"] + symbol["size"]
+        if start < base or end > base + capacity:
+            continue
+        part = attribute(symbol, depth)
+        if runs and start < runs[-1]["end"] and runs[-1]["part"] != part:
+            continue  # an overlapping alias from elsewhere; the first wins
+        if (runs and runs[-1]["part"] == part
+                and start <= runs[-1]["end"] + merge_gap):
+            runs[-1]["end"] = max(runs[-1]["end"], end)
+            runs[-1]["symbols"] += 1
+        else:
+            runs.append({"part": part, "start": start, "end": end,
+                         "symbols": 1})
+
+    labelled = sorted(known, key=lambda k: k["start"])
+    rows, cursor = [], base
+
+    def fill(upto: int) -> None:
+        """Name the space between two runs, using a known extent where one
+        covers it and `unattributed` everywhere else."""
+        nonlocal cursor
+        while cursor < upto:
+            here = next((k for k in labelled
+                         if k["start"] < upto and k["end"] > cursor), None)
+            if here is None:
+                rows.append(gap_row(cursor, upto))
+                cursor = upto
+                return
+            if here["start"] > cursor:
+                rows.append(gap_row(cursor, here["start"]))
+                cursor = here["start"]
+            end = min(here["end"], upto)
+            rows.append({
+                "id": next_id("kernel-known", here["index"]),
+                "kind": here["kind"], "name": here["name"],
+                "owner": here["owner"], "location": "kernel-image",
+                "state": "stored", "perm": "r--", "module": here["name"],
+                "start": cursor - base, "length": end - cursor,
+            })
+            cursor = end
+
+    def gap_row(start: int, end: int) -> dict:
+        return {
+            "id": next_id("kernel-unattributed", (start - base) // PAGE),
+            "kind": "unattributed", "name": "no symbol", "owner": NOBODY,
+            "location": "kernel-image", "state": "stored", "perm": "",
+            "module": "", "start": start - base, "length": end - start,
+        }
+
+    for run in runs:
+        fill(run["start"])
+        rows.append({
+            "id": next_id("kernel-module", (run["start"] - base) // 8),
+            "kind": "code", "name": run["part"], "owner": run["part"],
+            "location": "kernel-image", "state": "stored",
+            "perm": "", "module": run["part"],
+            "start": run["start"] - base, "length": run["end"] - run["start"],
+            "symbols": run["symbols"],
+        })
+        cursor = run["end"]
+    fill(base + capacity)
+    return rows
 
 
 # --------------------------------------------------------------------------
@@ -372,6 +641,59 @@ def initrd_regions(entries: list[dict], total: int, next_id) -> list[dict]:
     return rows
 
 
+def find_embedded_initrd(kernel: bytes, elf: dict) -> dict | None:
+    """The initrd container actually embedded in this kernel, found by
+    walking `.rodata` for one that parses.
+
+    `INITRD_DATA` is a `&[u8]`, so the payload has no symbol of its own and
+    cannot be looked up -- but the container is self-describing enough to
+    recognise: a plausible entry count, then entries whose name and path
+    lengths bound printable ASCII, walked to a clean end. On this kernel
+    exactly one offset in 7.7 MB satisfies that, which is the point: a format
+    this constrained is not matched by accident.
+
+    Finding it matters twice over. It is the difference between saying "the
+    initrd is somewhere in .rodata" and pointing at it, and it is the only
+    way to describe the initrd this kernel really carries rather than the one
+    the injection tree would produce on the next build.
+    """
+    rodata = next((s for s in elf["sections"] if s.get("name") == ".rodata"),
+                  None)
+    if rodata is None:
+        return None
+    file_start = rodata["file_offset"]
+    end = min(file_start + rodata["size"], len(kernel))
+
+    offset = file_start
+    while offset < end - 8:
+        # Both leading words are small, so their high bytes are zero. Testing
+        # that first keeps the scan over several megabytes cheap.
+        if kernel[offset + 3] or kernel[offset + 7]:
+            offset += 1
+            continue
+        count = struct.unpack_from("<I", kernel, offset)[0]
+        if 1 <= count <= 1024:
+            name_len = struct.unpack_from("<I", kernel, offset + 4)[0]
+            if (1 <= name_len <= 64
+                    and all(32 <= c < 127
+                            for c in kernel[offset + 8:offset + 8 + name_len])):
+                try:
+                    entries = parse_initrd(kernel[offset:end])
+                except ValueError:
+                    entries = None
+                if entries and len(entries) == count:
+                    length = (entries[-1]["data_start"]
+                              + entries[-1]["data_length"])
+                    return {
+                        "bytes": kernel[offset:offset + length],
+                        "file_offset": offset,
+                        "address": rodata["addr"] + (offset - file_start),
+                        "length": length,
+                    }
+        offset += 1
+    return None
+
+
 def pack_initrd(inyect_dir: Path) -> bytes:
     """Pack an initrd from the injection tree using the build's own packer,
     so a layout emitted without a built `output/initrd.bin` still describes
@@ -446,17 +768,25 @@ def user_layout() -> dict:
 SEGMENT_KINDS = [(PF_X, "text"), (PF_W, "data")]
 
 
-def user_regions(program: dict | None, layout: dict, next_id) -> list[dict]:
+def user_regions(program: dict | None, layout: dict, next_id,
+                 slot: int = 0) -> list[dict]:
     """A user address space with a program loaded into it, in address order
     with no gaps: the null guard, the program's own loadable segments, the
-    brk origin, the mmap arena and the stack."""
+    brk origin, the mmap arena and the stack.
+
+    `slot` keeps the ids of one program's tower apart from another's. Every
+    process is laid out at the same nominal addresses, so without it two
+    programs would claim the same region ids and picking one would select
+    the other.
+    """
     rows = []
     owner = program["name"] if program else NOBODY
+    seat = slot * 100
 
     def gap(start: int, end: int, name: str) -> None:
         if end > start:
             rows.append({
-                "id": next_id("user-gap", start), "kind": "free", "name": name,
+                "id": next_id("user-gap", start + seat), "kind": "free", "name": name,
                 "owner": NOBODY, "location": "user-space", "state": "unmapped",
                 "perm": "", "start": start, "length": end - start,
             })
@@ -469,7 +799,7 @@ def user_regions(program: dict | None, layout: dict, next_id) -> list[dict]:
                          if segment["flags"] & bit), "rodata")
             perm = segment_perm(segment["flags"])
             rows.append({
-                "id": next_id("user-segment", number), "kind": kind,
+                "id": next_id("user-segment", number + seat), "kind": kind,
                 "name": f"{program['name']} {kind}", "owner": owner,
                 "location": "user-space", "state": "live", "perm": perm,
                 "start": segment["vaddr"], "length": segment["filesz"],
@@ -478,7 +808,7 @@ def user_regions(program: dict | None, layout: dict, next_id) -> list[dict]:
             # loader zeroes, with no bytes behind it in the file.
             if segment["memsz"] > segment["filesz"]:
                 rows.append({
-                    "id": next_id("user-segment-bss", number), "kind": "bss",
+                    "id": next_id("user-segment-bss", number + seat), "kind": "bss",
                     "name": f"{program['name']} bss", "owner": owner,
                     "location": "user-space", "state": "zero", "perm": perm,
                     "start": segment["vaddr"] + segment["filesz"],
@@ -493,7 +823,7 @@ def user_regions(program: dict | None, layout: dict, next_id) -> list[dict]:
     # drawn so the origin is visible, not because one page is reserved.
     gap(cursor, layout["brk_origin"], "unmapped")
     rows.append({
-        "id": next_id("user-brk", 0), "kind": "heap",
+        "id": next_id("user-brk", seat), "kind": "heap",
         "name": "brk origin", "owner": owner, "location": "user-space",
         "state": "reserved", "perm": "rw-",
         "start": layout["brk_origin"], "length": PAGE,
@@ -502,13 +832,13 @@ def user_regions(program: dict | None, layout: dict, next_id) -> list[dict]:
     stack_bottom = layout["stack_top"] - layout["stack_size"]
     gap(layout["brk_origin"] + PAGE, layout["mmap_base"], "unmapped")
     rows.append({
-        "id": next_id("user-mmap", 0), "kind": "mmap",
+        "id": next_id("user-mmap", seat), "kind": "mmap",
         "name": "mmap arena", "owner": NOBODY, "location": "user-space",
         "state": "free", "perm": "", "start": layout["mmap_base"],
         "length": stack_bottom - layout["mmap_base"],
     })
     rows.append({
-        "id": next_id("user-stack", 0), "kind": "stack",
+        "id": next_id("user-stack", seat), "kind": "stack",
         "name": f"{owner or 'user'} stack", "owner": owner,
         "location": "user-space", "state": "live", "perm": "rw-",
         "start": stack_bottom, "length": layout["stack_size"],
@@ -540,7 +870,9 @@ class Ids:
         "kernel-section": 1_000, "kernel-pad": 2_000,
         "initrd-record": 3_000, "initrd-file": 4_000,
         "user-segment": 5_000, "user-segment-bss": 5_500, "user-brk": 6_000,
-        "user-mmap": 6_001, "user-stack": 6_002, "user-gap": 7_000,
+        "user-mmap": 6_200, "user-stack": 6_400, "user-gap": 7_000,
+        "kernel-module": 100_000, "kernel-unattributed": 400_000,
+        "kernel-known": 500_000,
     }
 
     def __init__(self):
@@ -550,7 +882,7 @@ class Ids:
         # A gap is identified by where it starts, which can be large; fold it
         # into the category's range and resolve the rare collision by probing.
         ident = self.BASES[category] + (key if category != "user-gap"
-                                        else key // PAGE % 1000)
+                                        else key // PAGE % 100_000)
         while ident in self.taken:
             ident += 1
         self.taken[ident] = category
@@ -590,40 +922,80 @@ def revision() -> str:
     return head.stdout.strip() + ("-dirty" if dirty.stdout.strip() else "")
 
 
-def choose_program(entries: list[dict], wanted: str | None) -> dict | None:
-    """The program whose loaded address space is drawn. One user space is
-    drawn, not one per program, because MesaOS gives each process its own
-    page tables at the same nominal addresses -- overlaying them would draw
-    the same rectangle N times."""
+#: Where the curated Ring 3 command experiments live in the injection tree.
+#: They are the programs worth drawing a loaded address space for by default:
+#: the `bin/linux*.elf` set are syscall probes that all link identically, so
+#: drawing fifteen of them would be drawing the same picture fifteen times.
+EXPERIMENTS = "experiments/"
+
+
+def choose_programs(entries: list[dict], wanted: list[str]) -> list[dict]:
+    """The programs whose loaded address spaces are drawn, one tower each.
+
+    Each MesaOS process gets its own page tables at the same nominal
+    addresses, so these towers overlay in the machine even though they are
+    drawn side by side. That is the point of drawing them side by side.
+    """
     elves = [e for e in entries if e["kind"] == "image"]
     if wanted:
-        match = [e for e in elves
-                 if wanted in (e["name"], e["path"], Path(e["path"]).name)]
-        if not match:
-            available = ", ".join(e["path"] for e in elves) or "none"
-            raise ValueError(f"no ELF named {wanted!r} in the initrd (have: {available})")
-        chosen = match[0]
-    elif elves:
-        chosen = min(elves, key=lambda e: e["index"])
+        chosen = []
+        for name in wanted:
+            match = [e for e in elves
+                     if name in (e["name"], e["path"], Path(e["path"]).name)]
+            if not match:
+                available = ", ".join(e["path"] for e in elves) or "none"
+                raise ValueError(
+                    f"no ELF named {name!r} in the initrd (have: {available})")
+            if match[0] not in chosen:
+                chosen.append(match[0])
     else:
-        return None
-    return {"name": Path(chosen["path"]).name, "entry": chosen,
-            "elf": read_elf(chosen["payload"])}
+        chosen = [e for e in elves if e["path"].startswith(EXPERIMENTS)]
+        if not chosen and elves:
+            chosen = [min(elves, key=lambda e: e["index"])]
+
+    return [{"name": Path(e["path"]).name, "entry": e,
+             "elf": read_elf(e["payload"])} for e in chosen]
 
 
-def build(kernel_bytes: bytes, initrd_bytes: bytes | None,
-          wanted_program: str | None, source_revision: str | None) -> dict:
+def build(kernel_bytes: bytes, initrd: dict | None, wanted: list[str],
+          source_revision: str | None, module_depth: int,
+          embedded: dict | None = None) -> dict:
     ids = Ids()
     kernel_elf = read_elf(kernel_bytes)
     kernel_rows, kernel_base, kernel_capacity = kernel_regions(kernel_elf, ids)
 
     spaces = [{
-        "id": "kernel", "name": "kernel image (higher half)",
+        "id": "kernel", "name": "kernel image, by section",
         "base": kernel_base, "block": PAGE, "capacity": kernel_capacity,
         "rows": kernel_rows,
     }]
 
+    initrd_bytes = initrd["bytes"] if initrd else None
     entries = parse_initrd(initrd_bytes) if initrd_bytes is not None else []
+
+    # The same bytes again, attributed to the parts of the project they were
+    # built from. Sections say how much is read-only data; this says how much
+    # is the USB stack -- which is the question a rough layout is asked.
+    # The blob labelled inside the kernel image is always the one this
+    # kernel actually carries, even when the initrd drawn in its own tower
+    # came from the injection tree. The bytes in .rodata do not change
+    # because a different container was asked about.
+    known = []
+    if embedded and embedded.get("address"):
+        known.append({
+            "index": 0, "kind": "blob",
+            "name": "embedded initrd", "owner": KERNEL,
+            "start": embedded["address"],
+            "end": embedded["address"] + embedded["length"],
+        })
+    spaces.append({
+        "id": "kernel-modules", "name": "kernel image, by module",
+        "base": kernel_base, "block": 1, "capacity": kernel_capacity,
+        "overlays": "kernel",
+        "rows": module_regions(read_symbols(kernel_bytes), kernel_base,
+                               kernel_capacity, module_depth, known, ids),
+    })
+
     if initrd_bytes is not None:
         spaces.append({
             "id": "initrd", "name": "embedded initrd", "base": 0,
@@ -633,13 +1005,28 @@ def build(kernel_bytes: bytes, initrd_bytes: bytes | None,
             "rows": initrd_regions(entries, len(initrd_bytes), ids),
         })
 
-    program = choose_program(entries, wanted_program)
+    programs = choose_programs(entries, wanted)
     layout = user_layout()
-    spaces.append({
-        "id": "user", "name": "user address space", "base": 0,
-        "block": PAGE, "capacity": layout["stack_top"],
-        "rows": user_regions(program, layout, ids),
-    })
+    for number, program in enumerate(programs):
+        rows = user_regions(program, layout, ids, number)
+        # What this program's stored image becomes once loaded. Collected
+        # here rather than recomputed from id arithmetic, because a duplicate
+        # id gets nudged when it is assigned and the arithmetic would then
+        # point at a region belonging to another program.
+        program["loaded"] = [row["id"] for row in rows
+                             if row["owner"] == program["name"]]
+        spaces.append({
+            "id": f"user:{program['name']}",
+            "name": f"{program['name']} address space",
+            "base": 0, "block": PAGE, "capacity": layout["stack_top"],
+            "rows": rows,
+        })
+    if not programs:
+        spaces.append({
+            "id": "user", "name": "user address space", "base": 0,
+            "block": PAGE, "capacity": layout["stack_top"],
+            "rows": user_regions(None, layout, ids, 0),
+        })
 
     rows = [row for space in spaces for row in space["rows"]]
     space_of = {id(row): space["id"] for space in spaces for row in space["rows"]}
@@ -656,6 +1043,10 @@ def build(kernel_bytes: bytes, initrd_bytes: bytes | None,
             "kernel_sha256": hashlib.sha256(kernel_bytes).hexdigest(),
             "initrd_sha256": (hashlib.sha256(initrd_bytes).hexdigest()
                               if initrd_bytes is not None else ""),
+            # Which initrd this describes. "embedded" is the container found
+            # inside this kernel; anything else describes a container the
+            # NEXT build would embed, which is a different claim.
+            "initrd_source": initrd["source"] if initrd else "none",
         },
 
         "spaces": [space["id"] for space in spaces],
@@ -671,6 +1062,11 @@ def build(kernel_bytes: bytes, initrd_bytes: bytes | None,
         # to survive the round trip today; a future base one page lower would
         # not, and an address that is quietly wrong is worse than no address.
         "space_base_hex": [f"{space['base']:#x}" for space in spaces],
+        # Which space this one re-describes, or "" when it is a space in its
+        # own right. `kernel` and `kernel-modules` are two views of the same
+        # bytes; a consumer that assumes spaces are disjoint should draw one
+        # of them, and this column is how it knows which.
+        "space_overlays": [space.get("overlays", "") for space in spaces],
         "space_used": [sum(row["length"] for row in space["rows"]
                            if row["kind"] not in ("free", "mmap"))
                        for space in spaces],
@@ -689,9 +1085,17 @@ def build(kernel_bytes: bytes, initrd_bytes: bytes | None,
         "region_location": column("location", ""),
         "region_state": column("state", ""),
         "region_perm": column("perm", ""),
+        # Which part of the project a region was built from, for the regions
+        # where that is known. Empty for everything outside the module view.
+        "region_module": column("module", ""),
+        # How many symbols a module run merged, so a consumer can say whether
+        # a box is one big function or four hundred small ones. Zero outside
+        # the module view.
+        "region_symbols": column("symbols", 0),
     }
-    document.update(relationships(entries, program, ids, kernel_rows,
+    document.update(relationships(entries, programs, ids, kernel_rows,
                                   initrd_bytes is not None))
+    document.update(rollup(spaces))
 
     # Length P, not length N: an initrd entry that is not an ELF has a region
     # but is not a program, and a program has more than one region.
@@ -705,7 +1109,38 @@ def build(kernel_bytes: bytes, initrd_bytes: bytes | None,
     return document
 
 
-def relationships(entries: list[dict], program: dict | None, ids: Ids,
+def rollup(spaces: list[dict]) -> dict:
+    """Per-part totals for the kernel image, largest first. Length M.
+
+    The towers show where the bytes are; this says how many, which is the
+    other half of "relative sizes" and the half you cannot read off a
+    picture. It is a rollup of the module view, not a second measurement.
+    """
+    totals: dict[str, dict] = {}
+    for space in spaces:
+        if space["id"] != "kernel-modules":
+            continue
+        for row in space["rows"]:
+            part = row["module"] or "(unattributed)"
+            entry = totals.setdefault(part, {"bytes": 0, "runs": 0})
+            entry["bytes"] += row["length"]
+            entry["runs"] += 1
+    order = sorted(totals, key=lambda part: -totals[part]["bytes"])
+    total = sum(entry["bytes"] for entry in totals.values()) or 1
+    return {
+        "module_name": order,
+        "module_bytes": [totals[part]["bytes"] for part in order],
+        "module_runs": [totals[part]["runs"] for part in order],
+        # Share of the kernel image, in basis points: an integer column
+        # survives a consumer that only ingests homogeneous numeric arrays,
+        # and a percentage rounded to a whole number would show most parts
+        # of this kernel as 0.
+        "module_share_bp": [round(totals[part]["bytes"] * 10_000 / total)
+                            for part in order],
+    }
+
+
+def relationships(entries: list[dict], programs: list[dict], ids: Ids,
                   kernel_rows: list[dict], has_initrd: bool) -> dict:
     """The edge table: what explains what. Length E, independent of N.
 
@@ -732,13 +1167,12 @@ def relationships(entries: list[dict], program: dict | None, ids: Ids,
         source.append(Ids.BASES["initrd-record"] + entry["index"])
         target.append(Ids.BASES["initrd-file"] + entry["index"])
 
-    if program:
+    for program in programs:
         stored = Ids.BASES["initrd-file"] + program["entry"]["index"]
-        for region_id, category in ids.taken.items():
-            if category in ("user-segment", "user-segment-bss", "user-stack"):
-                kind.append("loads-to")
-                source.append(stored)
-                target.append(region_id)
+        for region_id in program.get("loaded", []):
+            kind.append("loads-to")
+            source.append(stored)
+            target.append(region_id)
 
     return {"rel_kind": kind, "rel_from": source, "rel_to": target}
 
@@ -845,14 +1279,22 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--kernel", type=Path, default=DEFAULT_KERNEL,
                         help="the linked kernel ELF the ISO boots")
-    parser.add_argument("--initrd", type=Path, default=DEFAULT_INITRD,
-                        help="the initrd container the kernel embeds")
-    parser.add_argument("--inyect-dir", type=Path, default=None,
-                        help="pack an initrd from this injection tree instead "
-                             "of reading one (uses tools/inject_to_iso.py)")
-    parser.add_argument("--program", default=None,
-                        help="which embedded ELF's loaded address space to "
-                             "draw (default: the first one in the initrd)")
+    parser.add_argument("--initrd-from", default="embedded",
+                        help="where the initrd comes from: 'embedded' (the "
+                             "container found inside the kernel itself), "
+                             "'inyect' (packed from the injection tree, which "
+                             "is what the NEXT build would embed), or a path")
+    parser.add_argument("--inyect-dir", type=Path, default=ROOT / "inyect",
+                        help="the injection tree --initrd-from inyect packs")
+    parser.add_argument("--program", action="append", default=[],
+                        metavar="NAME",
+                        help="draw this ELF's loaded address space; repeatable "
+                             f"(default: every ELF under {EXPERIMENTS})")
+    parser.add_argument("--module-depth", type=int, default=1, metavar="N",
+                        help="how many path segments below the crate to keep "
+                             "when attributing code to a part of the project: "
+                             "1 gives mesa_kernel::drivers, 2 goes a level "
+                             "finer (default: 1)")
     parser.add_argument("-o", "--output", type=Path,
                         default=ROOT / "build" / "memory-layout.json")
     parser.add_argument("--revision", default=None,
@@ -870,23 +1312,53 @@ def main() -> int:
               file=sys.stderr)
         return 1
 
-    initrd_bytes = None
-    if args.inyect_dir is not None:
+    kernel_bytes = args.kernel.read_bytes()
+    try:
+        kernel_elf = read_elf(kernel_bytes)
+    except ElfError as error:
+        print(f"memory-layout: {args.kernel}: {error}", file=sys.stderr)
+        return 1
+
+    embedded = find_embedded_initrd(kernel_bytes, kernel_elf)
+    initrd = None
+    if args.initrd_from == "embedded":
+        if embedded is None:
+            print("memory-layout: no initrd container found inside the "
+                  "kernel; emitting the kernel and user spaces only "
+                  "(try --initrd-from inyect)", file=sys.stderr)
+        else:
+            initrd = {**embedded, "source": "embedded"}
+    elif args.initrd_from == "inyect":
         if not args.inyect_dir.is_dir():
             print(f"memory-layout: no injection tree at {args.inyect_dir}",
                   file=sys.stderr)
             return 1
-        initrd_bytes = pack_initrd(args.inyect_dir)
-    elif args.initrd.exists():
-        initrd_bytes = args.initrd.read_bytes()
+        initrd = {"bytes": pack_initrd(args.inyect_dir), "address": 0,
+                  "length": 0, "source": "inyect"}
+        initrd["length"] = len(initrd["bytes"])
     else:
-        print(f"memory-layout: no initrd at {args.initrd}; emitting the kernel "
-              f"and user spaces only (pass --inyect-dir inyect to pack one)",
-              file=sys.stderr)
+        path = Path(args.initrd_from)
+        if not path.exists():
+            print(f"memory-layout: no initrd at {path}", file=sys.stderr)
+            return 1
+        initrd = {"bytes": path.read_bytes(), "address": 0,
+                  "length": path.stat().st_size, "source": str(path)}
+
+    # An initrd that is not the embedded one describes a container this
+    # kernel does not carry. That can be exactly what is wanted -- it is how
+    # a program added since the last build becomes visible -- but it is a
+    # different claim, and a picture that does not say so is misleading.
+    if initrd and initrd["source"] != "embedded" and embedded is not None:
+        if hashlib.sha256(initrd["bytes"]).digest() != \
+                hashlib.sha256(embedded["bytes"]).digest():
+            print(f"memory-layout: note: the initrd from "
+                  f"{initrd['source']} is NOT the one embedded in "
+                  f"{args.kernel.name}; the picture describes what the next "
+                  f"build would embed", file=sys.stderr)
 
     try:
-        document = build(args.kernel.read_bytes(), initrd_bytes, args.program,
-                         args.revision)
+        document = build(kernel_bytes, initrd, args.program, args.revision,
+                         args.module_depth, embedded)
     except (ElfError, ValueError) as error:
         print(f"memory-layout: {error}", file=sys.stderr)
         return 1

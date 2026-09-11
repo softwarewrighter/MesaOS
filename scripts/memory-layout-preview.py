@@ -110,6 +110,7 @@ const N = LAYOUT.region_id.length;
 const SPACES = LAYOUT.spaces;
 
 const MODES = [
+  ["region_module", "Part of the project"],
   ["region_kind", "Purpose"], ["region_owner", "Owner"],
   ["region_location", "Location"], ["region_state", "State"],
   ["region_perm", "Permission"], ["region_space", "Address space"],
@@ -130,6 +131,8 @@ for (let i = 0; i < N; i++) {
     location: col("region_location", [])[i] || "",
     state: col("region_state", [])[i] || "",
     perm: col("region_perm", [])[i] || "",
+    module: col("region_module", [])[i] || "",
+    symbols: col("region_symbols", [])[i] || 0,
   });
 }
 
@@ -171,15 +174,23 @@ function build() {
   const span = towers.length * TOWER_W + (towers.length - 1) * GAP;
   towers.forEach((tower, i) => {
     tower.x = -span / 2 + TOWER_W / 2 + i * (TOWER_W + GAP);
+    // Every region gets a floor so a 16-byte one stays clickable, but with
+    // 700 regions the floors alone would outgrow the tower -- so the floor
+    // scales with the count, and the heights are renormalised afterwards.
+    // Towers are only comparable if they are actually the same height.
     const total = tower.rows.reduce((sum, r) => sum + weigh(r), 0) || 1;
+    const floor = Math.min(0.06, TOWER_H / (tower.rows.length * 3 || 1));
+    const heights = tower.rows.map(
+      (r) => Math.max((weigh(r) / total) * TOWER_H, floor));
+    const sum = heights.reduce((a, b) => a + b, 0) || 1;
     let y = 0;
-    for (const region of tower.rows) {
-      const h = Math.max((weigh(region) / total) * TOWER_H, 0.06);
+    tower.rows.forEach((region, j) => {
+      const h = heights[j] * TOWER_H / sum;
       region.box = { x: tower.x, y: y + h / 2, z: 0,
                      w: TOWER_W, h, d: TOWER_D };
       region.tower = tower;
       y += h;
-    }
+    });
     tower.height = y;
   });
   return towers;
@@ -190,6 +201,10 @@ function build() {
 // colour means, and selection adds an outline rather than changing the colour.
 // ---------------------------------------------------------------------------
 
+// Twelve hand-picked hues read best, but colouring by module means 160
+// keys, so past the twelfth the hue wheel is walked at an irrational step
+// and lightness alternated. Adjacent keys stay distinguishable and nothing
+// collides with the first twelve.
 const PALETTE = [
   [0.48, 0.64, 1.00], [0.98, 0.75, 0.36], [0.45, 0.83, 0.62],
   [0.93, 0.51, 0.56], [0.71, 0.58, 0.96], [0.40, 0.82, 0.87],
@@ -198,15 +213,34 @@ const PALETTE = [
 ];
 const NEUTRAL = [0.30, 0.33, 0.42];
 
+function hsl(h, s, l) {
+  const f = (n) => {
+    const k = (n + h * 12) % 12;
+    return l - s * Math.min(l, 1 - l) *
+      Math.max(-1, Math.min(k - 3, 9 - k, 1));
+  };
+  return [f(0), f(8), f(4)];
+}
+
+function swatch(i) {
+  if (i < PALETTE.length) return PALETTE[i];
+  const n = i - PALETTE.length;
+  return hsl((n * 0.618033988749895) % 1, 0.52, n % 2 ? 0.48 : 0.68);
+}
+
 let mode = modes[0][0];
 let keys = [], colorOf = new Map(), hidden = new Set();
 
 function classify() {
-  const values = [...new Set(regions.map((r) => String(LAYOUT[mode][r.index] ?? "")))]
-    .sort((a, b) => (a === "" ? 1 : b === "" ? -1 : a.localeCompare(b)));
+  const weight = new Map();
+  for (const region of regions) {
+    const v = String(LAYOUT[mode][region.index] ?? "");
+    weight.set(v, (weight.get(v) || 0) + region.length);
+  }
+  const values = [...weight.keys()].sort((a, b) =>
+    a === "" ? 1 : b === "" ? -1 : weight.get(b) - weight.get(a));
   keys = values;
-  colorOf = new Map(values.map((v, i) =>
-    [v, v === "" ? NEUTRAL : PALETTE[i % PALETTE.length]]));
+  colorOf = new Map(values.map((v, i) => [v, v === "" ? NEUTRAL : swatch(i)]));
 }
 
 const valueOf = (region) => String(LAYOUT[mode][region.index] ?? "");
@@ -354,6 +388,13 @@ function uploadOutline() {
 
 const HOME = { yaw: -0.6, pitch: 0.45, distance: 78, target: [0, TOWER_H / 2, 0] };
 let cam = { ...HOME, target: [...HOME.target] };
+
+function fit() {
+  // Five towers do not fit in a frame framed for three.
+  const span = SPACES.length * TOWER_W + (SPACES.length - 1) * GAP;
+  HOME.distance = Math.max(60, span * 1.3);
+  cam.distance = HOME.distance;
+}
 
 function matrix() {
   const { yaw, pitch, distance, target } = cam;
@@ -511,6 +552,8 @@ function select(region) {
     ["space", tower.name], ["purpose", region.kind],
     ["owner", region.owner || "--"], ["state", region.state || "--"],
     ["location", region.location || "--"], ["mapped", region.perm || "not mapped"],
+    ["built from", region.module || "--"],
+    ["symbols", region.symbols || "--"],
     ["address", absolute],
     ["offset", hex(region.start) + " .. " + hex(region.start + region.length)],
     ["size", bytes(region.length) + " (" + region.length + ")"],
@@ -540,7 +583,7 @@ function renderLegend() {
   const counts = new Map();
   for (const region of regions) {
     const v = valueOf(region);
-    counts.set(v, (counts.get(v) || 0) + 1);
+    counts.set(v, (counts.get(v) || 0) + region.length);
   }
   document.getElementById("legend").innerHTML =
     `<h1>${label}</h1><div class="sub">click a key to hide it</div>` +
@@ -549,7 +592,8 @@ function renderLegend() {
       return `<div class="key ${hidden.has(k) ? "off" : ""}" data-key="${escape(k)}">` +
              `<i style="background:rgb(${c})"></i>` +
              `<span>${escape(k || "(none)")}</span>` +
-             `<span style="margin-left:auto;color:var(--muted)">${counts.get(k)}</span></div>`;
+             `<span style="margin-left:auto;color:var(--muted)">` +
+             `${bytes(counts.get(k))}</span></div>`;
     }).join("");
   document.querySelectorAll("#legend .key").forEach((el) => {
     el.onclick = () => {
@@ -563,6 +607,7 @@ function renderLegend() {
 
 function refresh() {
   towers = build();
+  fit();
   classify();
   hidden = new Set([...hidden].filter((k) => keys.includes(k)));
   upload(); renderLegend(); draw(false);
