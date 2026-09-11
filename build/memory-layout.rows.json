@@ -3,8 +3,8 @@
   "version": 1,
   "provenance": {
     "producer": "MesaOS",
-    "producer_revision": "a8642202e",
-    "generated_at": "2026-09-11T13:39:39-07:00",
+    "producer_revision": "35da57bc6",
+    "generated_at": "2026-09-11T16:18:41-07:00",
     "source_description": "Linked kernel ELF, embedded initrd container, and the nominal user address space of a loaded program"
   },
   "spaces": [
@@ -15,13 +15,25 @@
       "block_size": 4096
     },
     {
+      "id": "kernel-modules",
+      "address_unit": "byte",
+      "extent": 10878976,
+      "block_size": 1
+    },
+    {
       "id": "initrd",
       "address_unit": "byte",
       "extent": 7089082,
       "block_size": 1
     },
     {
-      "id": "user",
+      "id": "user:head.elf",
+      "address_unit": "byte",
+      "extent": 134217728,
+      "block_size": 4096
+    },
+    {
+      "id": "user:xclock.elf",
       "address_unit": "byte",
       "extent": 134217728,
       "block_size": 4096
@@ -157,6 +169,7206 @@
       "owner": "kernel",
       "location": "kernel-image",
       "state": "reserved"
+    },
+    {
+      "id": "kernel-modules.100000",
+      "space_id": "kernel-modules",
+      "address": 0,
+      "extent": 93,
+      "purpose": "code",
+      "owner": "mesa_kernel::syscall",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400000",
+      "space_id": "kernel-modules",
+      "address": 93,
+      "extent": 3,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.100012",
+      "space_id": "kernel-modules",
+      "address": 96,
+      "extent": 56,
+      "purpose": "code",
+      "owner": "mesa_kernel::arch",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.100019",
+      "space_id": "kernel-modules",
+      "address": 152,
+      "extent": 21,
+      "purpose": "code",
+      "owner": "(unmangled)",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400001",
+      "space_id": "kernel-modules",
+      "address": 173,
+      "extent": 3,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.100022",
+      "space_id": "kernel-modules",
+      "address": 176,
+      "extent": 631,
+      "purpose": "code",
+      "owner": "core::str",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400002",
+      "space_id": "kernel-modules",
+      "address": 807,
+      "extent": 9,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.100102",
+      "space_id": "kernel-modules",
+      "address": 816,
+      "extent": 7672,
+      "purpose": "code",
+      "owner": "alloc::collections",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400003",
+      "space_id": "kernel-modules",
+      "address": 8488,
+      "extent": 8,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.101062",
+      "space_id": "kernel-modules",
+      "address": 8496,
+      "extent": 20075,
+      "purpose": "code",
+      "owner": "spin::once",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400006",
+      "space_id": "kernel-modules",
+      "address": 28571,
+      "extent": 5,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.103572",
+      "space_id": "kernel-modules",
+      "address": 28576,
+      "extent": 2919,
+      "purpose": "code",
+      "owner": "alloc::str",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400007",
+      "space_id": "kernel-modules",
+      "address": 31495,
+      "extent": 9,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.103938",
+      "space_id": "kernel-modules",
+      "address": 31504,
+      "extent": 23197,
+      "purpose": "code",
+      "owner": "alloc::collections",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400013",
+      "space_id": "kernel-modules",
+      "address": 54701,
+      "extent": 3,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.106838",
+      "space_id": "kernel-modules",
+      "address": 54704,
+      "extent": 440,
+      "purpose": "code",
+      "owner": "core::str",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400014",
+      "space_id": "kernel-modules",
+      "address": 55144,
+      "extent": 8,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.106894",
+      "space_id": "kernel-modules",
+      "address": 55152,
+      "extent": 589,
+      "purpose": "code",
+      "owner": "alloc::str",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400015",
+      "space_id": "kernel-modules",
+      "address": 55741,
+      "extent": 3,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.106968",
+      "space_id": "kernel-modules",
+      "address": 55744,
+      "extent": 13462,
+      "purpose": "code",
+      "owner": "core::ptr",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400016",
+      "space_id": "kernel-modules",
+      "address": 69206,
+      "extent": 10,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.108652",
+      "space_id": "kernel-modules",
+      "address": 69216,
+      "extent": 2330,
+      "purpose": "code",
+      "owner": "mesa_kernel::scheduler",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400017",
+      "space_id": "kernel-modules",
+      "address": 71546,
+      "extent": 6,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.108944",
+      "space_id": "kernel-modules",
+      "address": 71552,
+      "extent": 6761,
+      "purpose": "code",
+      "owner": "core::slice",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400019",
+      "space_id": "kernel-modules",
+      "address": 78313,
+      "extent": 7,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.109790",
+      "space_id": "kernel-modules",
+      "address": 78320,
+      "extent": 114,
+      "purpose": "code",
+      "owner": "alloc::raw_vec",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400020",
+      "space_id": "kernel-modules",
+      "address": 78434,
+      "extent": 14,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.109806",
+      "space_id": "kernel-modules",
+      "address": 78448,
+      "extent": 1066,
+      "purpose": "code",
+      "owner": "alloc::collections",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400021",
+      "space_id": "kernel-modules",
+      "address": 79514,
+      "extent": 6,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.109940",
+      "space_id": "kernel-modules",
+      "address": 79520,
+      "extent": 89,
+      "purpose": "code",
+      "owner": "alloc::vec",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400022",
+      "space_id": "kernel-modules",
+      "address": 79609,
+      "extent": 7,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.109952",
+      "space_id": "kernel-modules",
+      "address": 79616,
+      "extent": 107,
+      "purpose": "code",
+      "owner": "alloc::slice",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400023",
+      "space_id": "kernel-modules",
+      "address": 79723,
+      "extent": 5,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.109966",
+      "space_id": "kernel-modules",
+      "address": 79728,
+      "extent": 1055,
+      "purpose": "code",
+      "owner": "mesa_kernel::linux_compat",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400024",
+      "space_id": "kernel-modules",
+      "address": 80783,
+      "extent": 1,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.110098",
+      "space_id": "kernel-modules",
+      "address": 80784,
+      "extent": 1486,
+      "purpose": "code",
+      "owner": "mesa_kernel::net",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400025",
+      "space_id": "kernel-modules",
+      "address": 82270,
+      "extent": 2,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.110284",
+      "space_id": "kernel-modules",
+      "address": 82272,
+      "extent": 7300,
+      "purpose": "code",
+      "owner": "mesa_kernel::cmd_colors",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400026",
+      "space_id": "kernel-modules",
+      "address": 89572,
+      "extent": 12,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.111198",
+      "space_id": "kernel-modules",
+      "address": 89584,
+      "extent": 4228,
+      "purpose": "code",
+      "owner": "mesa_kernel::cmd_config",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400027",
+      "space_id": "kernel-modules",
+      "address": 93812,
+      "extent": 12,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.111728",
+      "space_id": "kernel-modules",
+      "address": 93824,
+      "extent": 1240,
+      "purpose": "code",
+      "owner": "mesa_kernel::cmd_logout",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400028",
+      "space_id": "kernel-modules",
+      "address": 95064,
+      "extent": 8,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.111884",
+      "space_id": "kernel-modules",
+      "address": 95072,
+      "extent": 2546,
+      "purpose": "code",
+      "owner": "mesa_kernel::cmd_passwd",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400029",
+      "space_id": "kernel-modules",
+      "address": 97618,
+      "extent": 14,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.112204",
+      "space_id": "kernel-modules",
+      "address": 97632,
+      "extent": 131,
+      "purpose": "code",
+      "owner": "mesa_kernel::cmd_reboot",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400030",
+      "space_id": "kernel-modules",
+      "address": 97763,
+      "extent": 13,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.112222",
+      "space_id": "kernel-modules",
+      "address": 97776,
+      "extent": 645,
+      "purpose": "code",
+      "owner": "mesa_kernel::cmd_whoami",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400031",
+      "space_id": "kernel-modules",
+      "address": 98421,
+      "extent": 11,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.112304",
+      "space_id": "kernel-modules",
+      "address": 98432,
+      "extent": 448,
+      "purpose": "code",
+      "owner": "mesa_kernel::print_info",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.112360",
+      "space_id": "kernel-modules",
+      "address": 98880,
+      "extent": 12231,
+      "purpose": "code",
+      "owner": "mesa_kernel::shell_loop",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400032",
+      "space_id": "kernel-modules",
+      "address": 111111,
+      "extent": 9,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.113890",
+      "space_id": "kernel-modules",
+      "address": 111120,
+      "extent": 2481,
+      "purpose": "code",
+      "owner": "mesa_kernel::cmd_cpuinfo",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400033",
+      "space_id": "kernel-modules",
+      "address": 113601,
+      "extent": 15,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.114202",
+      "space_id": "kernel-modules",
+      "address": 113616,
+      "extent": 6636,
+      "purpose": "code",
+      "owner": "mesa_kernel::cmd_desktop",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400034",
+      "space_id": "kernel-modules",
+      "address": 120252,
+      "extent": 4,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.115032",
+      "space_id": "kernel-modules",
+      "address": 120256,
+      "extent": 3987,
+      "purpose": "code",
+      "owner": "mesa_kernel::cmd_hexdump",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400035",
+      "space_id": "kernel-modules",
+      "address": 124243,
+      "extent": 13,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.115532",
+      "space_id": "kernel-modules",
+      "address": 124256,
+      "extent": 2356,
+      "purpose": "code",
+      "owner": "mesa_kernel::cmd_log_ps2",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400036",
+      "space_id": "kernel-modules",
+      "address": 126612,
+      "extent": 12,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.115828",
+      "space_id": "kernel-modules",
+      "address": 126624,
+      "extent": 3474,
+      "purpose": "code",
+      "owner": "mesa_kernel::cmd_useradd",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400037",
+      "space_id": "kernel-modules",
+      "address": 130098,
+      "extent": 14,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.116264",
+      "space_id": "kernel-modules",
+      "address": 130112,
+      "extent": 1611,
+      "purpose": "code",
+      "owner": "mesa_kernel::cmd_userdel",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400038",
+      "space_id": "kernel-modules",
+      "address": 131723,
+      "extent": 5,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.116466",
+      "space_id": "kernel-modules",
+      "address": 131728,
+      "extent": 446,
+      "purpose": "code",
+      "owner": "mesa_kernel::demo_worker",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400039",
+      "space_id": "kernel-modules",
+      "address": 132174,
+      "extent": 2,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.116522",
+      "space_id": "kernel-modules",
+      "address": 132176,
+      "extent": 448,
+      "purpose": "code",
+      "owner": "mesa_kernel::print_error",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.116578",
+      "space_id": "kernel-modules",
+      "address": 132624,
+      "extent": 4063,
+      "purpose": "code",
+      "owner": "mesa_kernel::cmd_calendar",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400040",
+      "space_id": "kernel-modules",
+      "address": 136687,
+      "extent": 1,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.117086",
+      "space_id": "kernel-modules",
+      "address": 136688,
+      "extent": 5318,
+      "purpose": "code",
+      "owner": "mesa_kernel::cmd_ifconfig",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400041",
+      "space_id": "kernel-modules",
+      "address": 142006,
+      "extent": 10,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.117752",
+      "space_id": "kernel-modules",
+      "address": 142016,
+      "extent": 1339,
+      "purpose": "code",
+      "owner": "mesa_kernel::cmd_userland",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400042",
+      "space_id": "kernel-modules",
+      "address": 143355,
+      "extent": 5,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.117920",
+      "space_id": "kernel-modules",
+      "address": 143360,
+      "extent": 255,
+      "purpose": "code",
+      "owner": "mesa_kernel::demo_counter",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400043",
+      "space_id": "kernel-modules",
+      "address": 143615,
+      "extent": 1,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.117952",
+      "space_id": "kernel-modules",
+      "address": 143616,
+      "extent": 245,
+      "purpose": "code",
+      "owner": "mesa_kernel::demo_spinner",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400044",
+      "space_id": "kernel-modules",
+      "address": 143861,
+      "extent": 11,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.117984",
+      "space_id": "kernel-modules",
+      "address": 143872,
+      "extent": 8243,
+      "purpose": "code",
+      "owner": "mesa_kernel::login_screen",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400045",
+      "space_id": "kernel-modules",
+      "address": 152115,
+      "extent": 13,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.119016",
+      "space_id": "kernel-modules",
+      "address": 152128,
+      "extent": 471,
+      "purpose": "code",
+      "owner": "mesa_kernel::replace_line",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400046",
+      "space_id": "kernel-modules",
+      "address": 152599,
+      "extent": 9,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.119076",
+      "space_id": "kernel-modules",
+      "address": 152608,
+      "extent": 745,
+      "purpose": "code",
+      "owner": "mesa_kernel::shell_stdout",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400047",
+      "space_id": "kernel-modules",
+      "address": 153353,
+      "extent": 7,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.119170",
+      "space_id": "kernel-modules",
+      "address": 153360,
+      "extent": 320,
+      "purpose": "code",
+      "owner": "mesa_kernel::print_section",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.119210",
+      "space_id": "kernel-modules",
+      "address": 153680,
+      "extent": 448,
+      "purpose": "code",
+      "owner": "mesa_kernel::print_success",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.119266",
+      "space_id": "kernel-modules",
+      "address": 154128,
+      "extent": 448,
+      "purpose": "code",
+      "owner": "mesa_kernel::print_warning",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.119322",
+      "space_id": "kernel-modules",
+      "address": 154576,
+      "extent": 2541,
+      "purpose": "code",
+      "owner": "mesa_kernel::update_status",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400048",
+      "space_id": "kernel-modules",
+      "address": 157117,
+      "extent": 3,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.119640",
+      "space_id": "kernel-modules",
+      "address": 157120,
+      "extent": 1226,
+      "purpose": "code",
+      "owner": "mesa_kernel::cmd_audio_info",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400049",
+      "space_id": "kernel-modules",
+      "address": 158346,
+      "extent": 6,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.119794",
+      "space_id": "kernel-modules",
+      "address": 158352,
+      "extent": 3314,
+      "purpose": "code",
+      "owner": "mesa_kernel::cmd_audio_list",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400050",
+      "space_id": "kernel-modules",
+      "address": 161666,
+      "extent": 14,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.120210",
+      "space_id": "kernel-modules",
+      "address": 161680,
+      "extent": 480,
+      "purpose": "code",
+      "owner": "mesa_kernel::print_cmd_help",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.120270",
+      "space_id": "kernel-modules",
+      "address": 162160,
+      "extent": 864,
+      "purpose": "code",
+      "owner": "mesa_kernel::print_neo_info",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.120378",
+      "space_id": "kernel-modules",
+      "address": 163024,
+      "extent": 25703,
+      "purpose": "code",
+      "owner": "mesa_kernel::execute_command",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400051",
+      "space_id": "kernel-modules",
+      "address": 188727,
+      "extent": 9,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.123592",
+      "space_id": "kernel-modules",
+      "address": 188736,
+      "extent": 480,
+      "purpose": "code",
+      "owner": "mesa_kernel::print_info_line",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.123652",
+      "space_id": "kernel-modules",
+      "address": 189216,
+      "extent": 1147,
+      "purpose": "code",
+      "owner": "mesa_kernel::read_line_simple",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400052",
+      "space_id": "kernel-modules",
+      "address": 190363,
+      "extent": 5,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.123796",
+      "space_id": "kernel-modules",
+      "address": 190368,
+      "extent": 3080,
+      "purpose": "code",
+      "owner": "mesa_kernel::cmd_battery_report",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400053",
+      "space_id": "kernel-modules",
+      "address": 193448,
+      "extent": 8,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.124182",
+      "space_id": "kernel-modules",
+      "address": 193456,
+      "extent": 1099,
+      "purpose": "code",
+      "owner": "mesa_kernel::read_line_password",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400054",
+      "space_id": "kernel-modules",
+      "address": 194555,
+      "extent": 5,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.124320",
+      "space_id": "kernel-modules",
+      "address": 194560,
+      "extent": 1307,
+      "purpose": "code",
+      "owner": "mesa_kernel::execute_maybe_piped",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400055",
+      "space_id": "kernel-modules",
+      "address": 195867,
+      "extent": 5,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.124484",
+      "space_id": "kernel-modules",
+      "address": 195872,
+      "extent": 358,
+      "purpose": "code",
+      "owner": "mesa_kernel::cmd_cd",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400056",
+      "space_id": "kernel-modules",
+      "address": 196230,
+      "extent": 10,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.124530",
+      "space_id": "kernel-modules",
+      "address": 196240,
+      "extent": 1778,
+      "purpose": "code",
+      "owner": "mesa_kernel::cmd_id",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400057",
+      "space_id": "kernel-modules",
+      "address": 198018,
+      "extent": 14,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.124754",
+      "space_id": "kernel-modules",
+      "address": 198032,
+      "extent": 2642,
+      "purpose": "code",
+      "owner": "mesa_kernel::cmd_ls",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400058",
+      "space_id": "kernel-modules",
+      "address": 200674,
+      "extent": 14,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.125086",
+      "space_id": "kernel-modules",
+      "address": 200688,
+      "extent": 728,
+      "purpose": "code",
+      "owner": "mesa_kernel::cmd_mv",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400059",
+      "space_id": "kernel-modules",
+      "address": 201416,
+      "extent": 8,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.125178",
+      "space_id": "kernel-modules",
+      "address": 201424,
+      "extent": 799,
+      "purpose": "code",
+      "owner": "mesa_kernel::cmd_rm",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400060",
+      "space_id": "kernel-modules",
+      "address": 202223,
+      "extent": 1,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.125278",
+      "space_id": "kernel-modules",
+      "address": 202224,
+      "extent": 3507,
+      "purpose": "code",
+      "owner": "mesa_kernel::cmd_su",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400061",
+      "space_id": "kernel-modules",
+      "address": 205731,
+      "extent": 13,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.125718",
+      "space_id": "kernel-modules",
+      "address": 205744,
+      "extent": 2053,
+      "purpose": "code",
+      "owner": "mesa_kernel::cmd_arp",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400062",
+      "space_id": "kernel-modules",
+      "address": 207797,
+      "extent": 11,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.125976",
+      "space_id": "kernel-modules",
+      "address": 207808,
+      "extent": 3324,
+      "purpose": "code",
+      "owner": "mesa_kernel::cmd_cat",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400063",
+      "space_id": "kernel-modules",
+      "address": 211132,
+      "extent": 4,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.126392",
+      "space_id": "kernel-modules",
+      "address": 211136,
+      "extent": 6762,
+      "purpose": "code",
+      "owner": "mesa_kernel::cmd_net",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400064",
+      "space_id": "kernel-modules",
+      "address": 217898,
+      "extent": 6,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.127238",
+      "space_id": "kernel-modules",
+      "address": 217904,
+      "extent": 924,
+      "purpose": "code",
+      "owner": "mesa_kernel::cmd_pwd",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400065",
+      "space_id": "kernel-modules",
+      "address": 218828,
+      "extent": 4,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.127354",
+      "space_id": "kernel-modules",
+      "address": 218832,
+      "extent": 7607,
+      "purpose": "code",
+      "owner": "mesa_kernel::cmd_run",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400066",
+      "space_id": "kernel-modules",
+      "address": 226439,
+      "extent": 9,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.128306",
+      "space_id": "kernel-modules",
+      "address": 226448,
+      "extent": 1838,
+      "purpose": "code",
+      "owner": "mesa_kernel::cmd_smp",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400067",
+      "space_id": "kernel-modules",
+      "address": 228286,
+      "extent": 2,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.128536",
+      "space_id": "kernel-modules",
+      "address": 228288,
+      "extent": 1052,
+      "purpose": "code",
+      "owner": "mesa_kernel::cmd_vmm",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400068",
+      "space_id": "kernel-modules",
+      "address": 229340,
+      "extent": 4,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.128668",
+      "space_id": "kernel-modules",
+      "address": 229344,
+      "extent": 1722,
+      "purpose": "code",
+      "owner": "mesa_kernel::cmd_acpi",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400069",
+      "space_id": "kernel-modules",
+      "address": 231066,
+      "extent": 6,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.128884",
+      "space_id": "kernel-modules",
+      "address": 231072,
+      "extent": 13298,
+      "purpose": "code",
+      "owner": "mesa_kernel::cmd_calc",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400070",
+      "space_id": "kernel-modules",
+      "address": 244370,
+      "extent": 14,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.130548",
+      "space_id": "kernel-modules",
+      "address": 244384,
+      "extent": 4853,
+      "purpose": "code",
+      "owner": "mesa_kernel::cmd_curl",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400071",
+      "space_id": "kernel-modules",
+      "address": 249237,
+      "extent": 11,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.131156",
+      "space_id": "kernel-modules",
+      "address": 249248,
+      "extent": 2033,
+      "purpose": "code",
+      "owner": "mesa_kernel::cmd_exec",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400072",
+      "space_id": "kernel-modules",
+      "address": 251281,
+      "extent": 15,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.131412",
+      "space_id": "kernel-modules",
+      "address": 251296,
+      "extent": 739,
+      "purpose": "code",
+      "owner": "mesa_kernel::cmd_halt",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400073",
+      "space_id": "kernel-modules",
+      "address": 252035,
+      "extent": 13,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.131506",
+      "space_id": "kernel-modules",
+      "address": 252048,
+      "extent": 13313,
+      "purpose": "code",
+      "owner": "mesa_kernel::cmd_help",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400074",
+      "space_id": "kernel-modules",
+      "address": 265361,
+      "extent": 15,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.133172",
+      "space_id": "kernel-modules",
+      "address": 265376,
+      "extent": 3755,
+      "purpose": "code",
+      "owner": "mesa_kernel::cmd_html",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400075",
+      "space_id": "kernel-modules",
+      "address": 269131,
+      "extent": 5,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.133642",
+      "space_id": "kernel-modules",
+      "address": 269136,
+      "extent": 937,
+      "purpose": "code",
+      "owner": "mesa_kernel::cmd_kill",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400076",
+      "space_id": "kernel-modules",
+      "address": 270073,
+      "extent": 7,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.133760",
+      "space_id": "kernel-modules",
+      "address": 270080,
+      "extent": 3251,
+      "purpose": "code",
+      "owner": "mesa_kernel::cmd_logo",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400077",
+      "space_id": "kernel-modules",
+      "address": 273331,
+      "extent": 13,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.134168",
+      "space_id": "kernel-modules",
+      "address": 273344,
+      "extent": 8473,
+      "purpose": "code",
+      "owner": "mesa_kernel::cmd_nano",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400078",
+      "space_id": "kernel-modules",
+      "address": 281817,
+      "extent": 7,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.135228",
+      "space_id": "kernel-modules",
+      "address": 281824,
+      "extent": 5182,
+      "purpose": "code",
+      "owner": "mesa_kernel::cmd_ping",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400079",
+      "space_id": "kernel-modules",
+      "address": 287006,
+      "extent": 2,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.135876",
+      "space_id": "kernel-modules",
+      "address": 287008,
+      "extent": 3518,
+      "purpose": "code",
+      "owner": "mesa_kernel::cmd_play",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400080",
+      "space_id": "kernel-modules",
+      "address": 290526,
+      "extent": 2,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.136316",
+      "space_id": "kernel-modules",
+      "address": 290528,
+      "extent": 705,
+      "purpose": "code",
+      "owner": "mesa_kernel::cmd_scan",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400081",
+      "space_id": "kernel-modules",
+      "address": 291233,
+      "extent": 15,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.136406",
+      "space_id": "kernel-modules",
+      "address": 291248,
+      "extent": 1070,
+      "purpose": "code",
+      "owner": "mesa_kernel::cmd_test",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400082",
+      "space_id": "kernel-modules",
+      "address": 292318,
+      "extent": 2,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.136540",
+      "space_id": "kernel-modules",
+      "address": 292320,
+      "extent": 550,
+      "purpose": "code",
+      "owner": "mesa_kernel::cmd_tree",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400083",
+      "space_id": "kernel-modules",
+      "address": 292870,
+      "extent": 10,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.136610",
+      "space_id": "kernel-modules",
+      "address": 292880,
+      "extent": 448,
+      "purpose": "code",
+      "owner": "mesa_kernel::print_ok",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.136666",
+      "space_id": "kernel-modules",
+      "address": 293328,
+      "extent": 2689,
+      "purpose": "code",
+      "owner": "mesa_kernel::cmd_chmod",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400084",
+      "space_id": "kernel-modules",
+      "address": 296017,
+      "extent": 15,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.137004",
+      "space_id": "kernel-modules",
+      "address": 296032,
+      "extent": 4143,
+      "purpose": "code",
+      "owner": "mesa_kernel::cmd_clock",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400085",
+      "space_id": "kernel-modules",
+      "address": 300175,
+      "extent": 1,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.137522",
+      "space_id": "kernel-modules",
+      "address": 300176,
+      "extent": 2499,
+      "purpose": "code",
+      "owner": "mesa_kernel::cmd_dmesg",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400086",
+      "space_id": "kernel-modules",
+      "address": 302675,
+      "extent": 13,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.137836",
+      "space_id": "kernel-modules",
+      "address": 302688,
+      "extent": 2914,
+      "purpose": "code",
+      "owner": "mesa_kernel::cmd_lspci",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400087",
+      "space_id": "kernel-modules",
+      "address": 305602,
+      "extent": 14,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.138202",
+      "space_id": "kernel-modules",
+      "address": 305616,
+      "extent": 799,
+      "purpose": "code",
+      "owner": "mesa_kernel::cmd_mkdir",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400088",
+      "space_id": "kernel-modules",
+      "address": 306415,
+      "extent": 1,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.138302",
+      "space_id": "kernel-modules",
+      "address": 306416,
+      "extent": 64,
+      "purpose": "code",
+      "owner": "mesa_kernel::cmd_panic",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.138310",
+      "space_id": "kernel-modules",
+      "address": 306480,
+      "extent": 808,
+      "purpose": "code",
+      "owner": "mesa_kernel::cmd_ring3",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400089",
+      "space_id": "kernel-modules",
+      "address": 307288,
+      "extent": 8,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.138412",
+      "space_id": "kernel-modules",
+      "address": 307296,
+      "extent": 799,
+      "purpose": "code",
+      "owner": "mesa_kernel::cmd_rmdir",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400090",
+      "space_id": "kernel-modules",
+      "address": 308095,
+      "extent": 1,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.138512",
+      "space_id": "kernel-modules",
+      "address": 308096,
+      "extent": 3216,
+      "purpose": "code",
+      "owner": "mesa_kernel::cmd_sched",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.138914",
+      "space_id": "kernel-modules",
+      "address": 311312,
+      "extent": 1852,
+      "purpose": "code",
+      "owner": "mesa_kernel::cmd_snake",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400091",
+      "space_id": "kernel-modules",
+      "address": 313164,
+      "extent": 4,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.139146",
+      "space_id": "kernel-modules",
+      "address": 313168,
+      "extent": 2555,
+      "purpose": "code",
+      "owner": "mesa_kernel::cmd_spawn",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400092",
+      "space_id": "kernel-modules",
+      "address": 315723,
+      "extent": 5,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.139466",
+      "space_id": "kernel-modules",
+      "address": 315728,
+      "extent": 3104,
+      "purpose": "code",
+      "owner": "mesa_kernel::cmd_tasks",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.139854",
+      "space_id": "kernel-modules",
+      "address": 318832,
+      "extent": 559,
+      "purpose": "code",
+      "owner": "mesa_kernel::cmd_touch",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400093",
+      "space_id": "kernel-modules",
+      "address": 319391,
+      "extent": 1,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.139924",
+      "space_id": "kernel-modules",
+      "address": 319392,
+      "extent": 2668,
+      "purpose": "code",
+      "owner": "mesa_kernel::cmd_users",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400094",
+      "space_id": "kernel-modules",
+      "address": 322060,
+      "extent": 4,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.140258",
+      "space_id": "kernel-modules",
+      "address": 322064,
+      "extent": 1189,
+      "purpose": "code",
+      "owner": "mesa_kernel::cmd_write",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400095",
+      "space_id": "kernel-modules",
+      "address": 323253,
+      "extent": 11,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.140408",
+      "space_id": "kernel-modules",
+      "address": 323264,
+      "extent": 180,
+      "purpose": "code",
+      "owner": "mesa_kernel::cmd_yield",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400096",
+      "space_id": "kernel-modules",
+      "address": 323444,
+      "extent": 12,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.140432",
+      "space_id": "kernel-modules",
+      "address": 323456,
+      "extent": 198,
+      "purpose": "code",
+      "owner": "__rustc::__rust_dealloc",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400097",
+      "space_id": "kernel-modules",
+      "address": 323654,
+      "extent": 10,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.140458",
+      "space_id": "kernel-modules",
+      "address": 323664,
+      "extent": 277,
+      "purpose": "code",
+      "owner": "__rustc::__rust_realloc",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400098",
+      "space_id": "kernel-modules",
+      "address": 323941,
+      "extent": 11,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.140494",
+      "space_id": "kernel-modules",
+      "address": 323952,
+      "extent": 1267,
+      "purpose": "code",
+      "owner": "__rustc::rust_begin_unwind",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400099",
+      "space_id": "kernel-modules",
+      "address": 325219,
+      "extent": 13,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.140654",
+      "space_id": "kernel-modules",
+      "address": 325232,
+      "extent": 15,
+      "purpose": "code",
+      "owner": "__rustc::__rust_alloc_error_handler",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400100",
+      "space_id": "kernel-modules",
+      "address": 325247,
+      "extent": 1,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.140656",
+      "space_id": "kernel-modules",
+      "address": 325248,
+      "extent": 1096,
+      "purpose": "code",
+      "owner": "xhci::registers",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400101",
+      "space_id": "kernel-modules",
+      "address": 326344,
+      "extent": 8,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.140794",
+      "space_id": "kernel-modules",
+      "address": 326352,
+      "extent": 126,
+      "purpose": "code",
+      "owner": "alloc::string",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400102",
+      "space_id": "kernel-modules",
+      "address": 326478,
+      "extent": 2,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.140810",
+      "space_id": "kernel-modules",
+      "address": 326480,
+      "extent": 411,
+      "purpose": "code",
+      "owner": "mesa_kernel::pci",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400103",
+      "space_id": "kernel-modules",
+      "address": 326891,
+      "extent": 5,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.140862",
+      "space_id": "kernel-modules",
+      "address": 326896,
+      "extent": 1558,
+      "purpose": "code",
+      "owner": "mesa_kernel::scheduler",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400104",
+      "space_id": "kernel-modules",
+      "address": 328454,
+      "extent": 10,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.141058",
+      "space_id": "kernel-modules",
+      "address": 328464,
+      "extent": 3353,
+      "purpose": "code",
+      "owner": "mesa_kernel::memory",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400105",
+      "space_id": "kernel-modules",
+      "address": 331817,
+      "extent": 7,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.141478",
+      "space_id": "kernel-modules",
+      "address": 331824,
+      "extent": 10801,
+      "purpose": "code",
+      "owner": "mesa_kernel::drivers",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400106",
+      "space_id": "kernel-modules",
+      "address": 342625,
+      "extent": 15,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.142830",
+      "space_id": "kernel-modules",
+      "address": 342640,
+      "extent": 11481,
+      "purpose": "code",
+      "owner": "alloc::collections",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400107",
+      "space_id": "kernel-modules",
+      "address": 354121,
+      "extent": 7,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.144266",
+      "space_id": "kernel-modules",
+      "address": 354128,
+      "extent": 194,
+      "purpose": "code",
+      "owner": "xhci::registers",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400108",
+      "space_id": "kernel-modules",
+      "address": 354322,
+      "extent": 14,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.144292",
+      "space_id": "kernel-modules",
+      "address": 354336,
+      "extent": 1285,
+      "purpose": "code",
+      "owner": "alloc::collections",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400109",
+      "space_id": "kernel-modules",
+      "address": 355621,
+      "extent": 11,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.144454",
+      "space_id": "kernel-modules",
+      "address": 355632,
+      "extent": 4320,
+      "purpose": "code",
+      "owner": "alloc::raw_vec",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.144994",
+      "space_id": "kernel-modules",
+      "address": 359952,
+      "extent": 1153,
+      "purpose": "code",
+      "owner": "alloc::collections",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400110",
+      "space_id": "kernel-modules",
+      "address": 361105,
+      "extent": 15,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.145140",
+      "space_id": "kernel-modules",
+      "address": 361120,
+      "extent": 171,
+      "purpose": "code",
+      "owner": "alloc::raw_vec",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400111",
+      "space_id": "kernel-modules",
+      "address": 361291,
+      "extent": 5,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.145162",
+      "space_id": "kernel-modules",
+      "address": 361296,
+      "extent": 426,
+      "purpose": "code",
+      "owner": "mesa_kernel::fs",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400112",
+      "space_id": "kernel-modules",
+      "address": 361722,
+      "extent": 6,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.145216",
+      "space_id": "kernel-modules",
+      "address": 361728,
+      "extent": 1616,
+      "purpose": "code",
+      "owner": "core::str",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.145418",
+      "space_id": "kernel-modules",
+      "address": 363344,
+      "extent": 13293,
+      "purpose": "code",
+      "owner": "alloc::collections",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400113",
+      "space_id": "kernel-modules",
+      "address": 376637,
+      "extent": 3,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.147080",
+      "space_id": "kernel-modules",
+      "address": 376640,
+      "extent": 129,
+      "purpose": "code",
+      "owner": "alloc::fmt",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400114",
+      "space_id": "kernel-modules",
+      "address": 376769,
+      "extent": 15,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.147098",
+      "space_id": "kernel-modules",
+      "address": 376784,
+      "extent": 7560,
+      "purpose": "code",
+      "owner": "mesa_kernel::audio_player",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400115",
+      "space_id": "kernel-modules",
+      "address": 384344,
+      "extent": 8,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.148044",
+      "space_id": "kernel-modules",
+      "address": 384352,
+      "extent": 12676,
+      "purpose": "code",
+      "owner": "mesa_kernel::linux_compat",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400116",
+      "space_id": "kernel-modules",
+      "address": 397028,
+      "extent": 12,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.149630",
+      "space_id": "kernel-modules",
+      "address": 397040,
+      "extent": 21823,
+      "purpose": "code",
+      "owner": "mesa_kernel::fs",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400117",
+      "space_id": "kernel-modules",
+      "address": 418863,
+      "extent": 1,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.152358",
+      "space_id": "kernel-modules",
+      "address": 418864,
+      "extent": 1591,
+      "purpose": "code",
+      "owner": "mesa_kernel::elf",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400118",
+      "space_id": "kernel-modules",
+      "address": 420455,
+      "extent": 9,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.152558",
+      "space_id": "kernel-modules",
+      "address": 420464,
+      "extent": 1548,
+      "purpose": "code",
+      "owner": "mesa_kernel::log",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400119",
+      "space_id": "kernel-modules",
+      "address": 422012,
+      "extent": 4,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.152752",
+      "space_id": "kernel-modules",
+      "address": 422016,
+      "extent": 8433,
+      "purpose": "code",
+      "owner": "mesa_kernel::net",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400120",
+      "space_id": "kernel-modules",
+      "address": 430449,
+      "extent": 15,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.153808",
+      "space_id": "kernel-modules",
+      "address": 430464,
+      "extent": 1960,
+      "purpose": "code",
+      "owner": "mesa_kernel::pci",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400121",
+      "space_id": "kernel-modules",
+      "address": 432424,
+      "extent": 8,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.154054",
+      "space_id": "kernel-modules",
+      "address": 432432,
+      "extent": 2843,
+      "purpose": "code",
+      "owner": "mesa_kernel::smp",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400122",
+      "space_id": "kernel-modules",
+      "address": 435275,
+      "extent": 5,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.154410",
+      "space_id": "kernel-modules",
+      "address": 435280,
+      "extent": 12327,
+      "purpose": "code",
+      "owner": "mesa_kernel::acpi",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400123",
+      "space_id": "kernel-modules",
+      "address": 447607,
+      "extent": 9,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.155952",
+      "space_id": "kernel-modules",
+      "address": 447616,
+      "extent": 1695,
+      "purpose": "code",
+      "owner": "mesa_kernel::pipe",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400124",
+      "space_id": "kernel-modules",
+      "address": 449311,
+      "extent": 1,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.156164",
+      "space_id": "kernel-modules",
+      "address": 449312,
+      "extent": 650,
+      "purpose": "code",
+      "owner": "mesa_kernel::shim",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400125",
+      "space_id": "kernel-modules",
+      "address": 449962,
+      "extent": 6,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.156246",
+      "space_id": "kernel-modules",
+      "address": 449968,
+      "extent": 18904,
+      "purpose": "code",
+      "owner": "mesa_kernel::users",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400126",
+      "space_id": "kernel-modules",
+      "address": 468872,
+      "extent": 8,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.158610",
+      "space_id": "kernel-modules",
+      "address": 468880,
+      "extent": 3570,
+      "purpose": "code",
+      "owner": "mesa_kernel::config",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400127",
+      "space_id": "kernel-modules",
+      "address": 472450,
+      "extent": 14,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.159058",
+      "space_id": "kernel-modules",
+      "address": 472464,
+      "extent": 4200,
+      "purpose": "code",
+      "owner": "mesa_kernel::drivers",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400128",
+      "space_id": "kernel-modules",
+      "address": 476664,
+      "extent": 8,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.159584",
+      "space_id": "kernel-modules",
+      "address": 476672,
+      "extent": 1710,
+      "purpose": "code",
+      "owner": "mesa_kernel::syscall",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400129",
+      "space_id": "kernel-modules",
+      "address": 478382,
+      "extent": 2,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.159798",
+      "space_id": "kernel-modules",
+      "address": 478384,
+      "extent": 2267,
+      "purpose": "code",
+      "owner": "mesa_kernel::security",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400130",
+      "space_id": "kernel-modules",
+      "address": 480651,
+      "extent": 5,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.160082",
+      "space_id": "kernel-modules",
+      "address": 480656,
+      "extent": 7753,
+      "purpose": "code",
+      "owner": "mesa_kernel::scheduler",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400131",
+      "space_id": "kernel-modules",
+      "address": 488409,
+      "extent": 7,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.161052",
+      "space_id": "kernel-modules",
+      "address": 488416,
+      "extent": 738,
+      "purpose": "code",
+      "owner": "mesa_kernel::audio_player",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400132",
+      "space_id": "kernel-modules",
+      "address": 489154,
+      "extent": 14,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.161146",
+      "space_id": "kernel-modules",
+      "address": 489168,
+      "extent": 82354,
+      "purpose": "code",
+      "owner": "mesa_kernel::linux_compat",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400139",
+      "space_id": "kernel-modules",
+      "address": 571522,
+      "extent": 14,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.171442",
+      "space_id": "kernel-modules",
+      "address": 571536,
+      "extent": 2917,
+      "purpose": "code",
+      "owner": "mesa_kernel::fs",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400140",
+      "space_id": "kernel-modules",
+      "address": 574453,
+      "extent": 11,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.171808",
+      "space_id": "kernel-modules",
+      "address": 574464,
+      "extent": 21108,
+      "purpose": "code",
+      "owner": "mesa_kernel::net",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400145",
+      "space_id": "kernel-modules",
+      "address": 595572,
+      "extent": 12,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.174448",
+      "space_id": "kernel-modules",
+      "address": 595584,
+      "extent": 517,
+      "purpose": "code",
+      "owner": "mesa_kernel::arch",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400146",
+      "space_id": "kernel-modules",
+      "address": 596101,
+      "extent": 11,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.174514",
+      "space_id": "kernel-modules",
+      "address": 596112,
+      "extent": 64691,
+      "purpose": "code",
+      "owner": "mesa_kernel::shim",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400161",
+      "space_id": "kernel-modules",
+      "address": 660803,
+      "extent": 13,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.182602",
+      "space_id": "kernel-modules",
+      "address": 660816,
+      "extent": 788,
+      "purpose": "code",
+      "owner": "mesa_kernel::linux",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400162",
+      "space_id": "kernel-modules",
+      "address": 661604,
+      "extent": 12,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.182702",
+      "space_id": "kernel-modules",
+      "address": 661616,
+      "extent": 665,
+      "purpose": "code",
+      "owner": "mesa_kernel::memory",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400163",
+      "space_id": "kernel-modules",
+      "address": 662281,
+      "extent": 7,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.182786",
+      "space_id": "kernel-modules",
+      "address": 662288,
+      "extent": 52738,
+      "purpose": "code",
+      "owner": "mesa_kernel::drivers",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400174",
+      "space_id": "kernel-modules",
+      "address": 715026,
+      "extent": 14,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.189380",
+      "space_id": "kernel-modules",
+      "address": 715040,
+      "extent": 3056,
+      "purpose": "code",
+      "owner": "mesa_kernel::userland",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.189762",
+      "space_id": "kernel-modules",
+      "address": 718096,
+      "extent": 6053,
+      "purpose": "code",
+      "owner": "mesa_kernel::arch",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400176",
+      "space_id": "kernel-modules",
+      "address": 724149,
+      "extent": 11,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.190520",
+      "space_id": "kernel-modules",
+      "address": 724160,
+      "extent": 80298,
+      "purpose": "code",
+      "owner": "mesa_kernel::drivers",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400196",
+      "space_id": "kernel-modules",
+      "address": 804458,
+      "extent": 6,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.200558",
+      "space_id": "kernel-modules",
+      "address": 804464,
+      "extent": 13155,
+      "purpose": "code",
+      "owner": "mesa_kernel::arch",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400199",
+      "space_id": "kernel-modules",
+      "address": 817619,
+      "extent": 13,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.202204",
+      "space_id": "kernel-modules",
+      "address": 817632,
+      "extent": 1705,
+      "purpose": "code",
+      "owner": "mesa_kernel::cmd_tree",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400200",
+      "space_id": "kernel-modules",
+      "address": 819337,
+      "extent": 7,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.202418",
+      "space_id": "kernel-modules",
+      "address": 819344,
+      "extent": 4136,
+      "purpose": "code",
+      "owner": "mesa_kernel::cmd_snake",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400201",
+      "space_id": "kernel-modules",
+      "address": 823480,
+      "extent": 8,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.202936",
+      "space_id": "kernel-modules",
+      "address": 823488,
+      "extent": 145,
+      "purpose": "code",
+      "owner": "mesa_kernel::drivers",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400202",
+      "space_id": "kernel-modules",
+      "address": 823633,
+      "extent": 15,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.202956",
+      "space_id": "kernel-modules",
+      "address": 823648,
+      "extent": 898,
+      "purpose": "code",
+      "owner": "alloc::vec",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400203",
+      "space_id": "kernel-modules",
+      "address": 824546,
+      "extent": 14,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.203070",
+      "space_id": "kernel-modules",
+      "address": 824560,
+      "extent": 449,
+      "purpose": "code",
+      "owner": "core::str",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400204",
+      "space_id": "kernel-modules",
+      "address": 825009,
+      "extent": 15,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.203128",
+      "space_id": "kernel-modules",
+      "address": 825024,
+      "extent": 946,
+      "purpose": "code",
+      "owner": "mesa_kernel::acpi",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400205",
+      "space_id": "kernel-modules",
+      "address": 825970,
+      "extent": 14,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.203248",
+      "space_id": "kernel-modules",
+      "address": 825984,
+      "extent": 12118,
+      "purpose": "code",
+      "owner": "mesa_kernel::fs",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400206",
+      "space_id": "kernel-modules",
+      "address": 838102,
+      "extent": 10,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.204764",
+      "space_id": "kernel-modules",
+      "address": 838112,
+      "extent": 269,
+      "purpose": "code",
+      "owner": "core::iter",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400207",
+      "space_id": "kernel-modules",
+      "address": 838381,
+      "extent": 3,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.204798",
+      "space_id": "kernel-modules",
+      "address": 838384,
+      "extent": 183,
+      "purpose": "code",
+      "owner": "x86_64::structures",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400208",
+      "space_id": "kernel-modules",
+      "address": 838567,
+      "extent": 9,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.204822",
+      "space_id": "kernel-modules",
+      "address": 838576,
+      "extent": 1493,
+      "purpose": "code",
+      "owner": "core::fmt",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400209",
+      "space_id": "kernel-modules",
+      "address": 840069,
+      "extent": 11,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.205010",
+      "space_id": "kernel-modules",
+      "address": 840080,
+      "extent": 36,
+      "purpose": "code",
+      "owner": "mesa_kernel::fs",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400210",
+      "space_id": "kernel-modules",
+      "address": 840116,
+      "extent": 12,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.205016",
+      "space_id": "kernel-modules",
+      "address": 840128,
+      "extent": 12100,
+      "purpose": "code",
+      "owner": "mesa_kernel::drivers",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400211",
+      "space_id": "kernel-modules",
+      "address": 852228,
+      "extent": 12,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.206530",
+      "space_id": "kernel-modules",
+      "address": 852240,
+      "extent": 207,
+      "purpose": "code",
+      "owner": "core::alloc",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400212",
+      "space_id": "kernel-modules",
+      "address": 852447,
+      "extent": 1,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.206556",
+      "space_id": "kernel-modules",
+      "address": 852448,
+      "extent": 1040,
+      "purpose": "code",
+      "owner": "mesa_kernel::shim",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.206686",
+      "space_id": "kernel-modules",
+      "address": 853488,
+      "extent": 37,
+      "purpose": "code",
+      "owner": "aml::value",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400213",
+      "space_id": "kernel-modules",
+      "address": 853525,
+      "extent": 11,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.206692",
+      "space_id": "kernel-modules",
+      "address": 853536,
+      "extent": 170,
+      "purpose": "code",
+      "owner": "core::fmt",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400214",
+      "space_id": "kernel-modules",
+      "address": 853706,
+      "extent": 6,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.206714",
+      "space_id": "kernel-modules",
+      "address": 853712,
+      "extent": 887,
+      "purpose": "code",
+      "owner": "aml::value",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400215",
+      "space_id": "kernel-modules",
+      "address": 854599,
+      "extent": 9,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.206826",
+      "space_id": "kernel-modules",
+      "address": 854608,
+      "extent": 675,
+      "purpose": "code",
+      "owner": "core::fmt",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400216",
+      "space_id": "kernel-modules",
+      "address": 855283,
+      "extent": 13,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.206912",
+      "space_id": "kernel-modules",
+      "address": 855296,
+      "extent": 364,
+      "purpose": "code",
+      "owner": "alloc::string",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400217",
+      "space_id": "kernel-modules",
+      "address": 855660,
+      "extent": 4,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.206958",
+      "space_id": "kernel-modules",
+      "address": 855664,
+      "extent": 179,
+      "purpose": "code",
+      "owner": "core::fmt",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400218",
+      "space_id": "kernel-modules",
+      "address": 855843,
+      "extent": 13,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.206982",
+      "space_id": "kernel-modules",
+      "address": 855856,
+      "extent": 928,
+      "purpose": "code",
+      "owner": "mesa_kernel::memory",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.207098",
+      "space_id": "kernel-modules",
+      "address": 856784,
+      "extent": 1106,
+      "purpose": "code",
+      "owner": "core::iter",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400219",
+      "space_id": "kernel-modules",
+      "address": 857890,
+      "extent": 14,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.207238",
+      "space_id": "kernel-modules",
+      "address": 857904,
+      "extent": 282,
+      "purpose": "code",
+      "owner": "mesa_kernel::arch",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400220",
+      "space_id": "kernel-modules",
+      "address": 858186,
+      "extent": 6,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.207274",
+      "space_id": "kernel-modules",
+      "address": 858192,
+      "extent": 818,
+      "purpose": "code",
+      "owner": "core::array",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400221",
+      "space_id": "kernel-modules",
+      "address": 859010,
+      "extent": 14,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.207378",
+      "space_id": "kernel-modules",
+      "address": 859024,
+      "extent": 989,
+      "purpose": "code",
+      "owner": "x86_64::structures",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400222",
+      "space_id": "kernel-modules",
+      "address": 860013,
+      "extent": 3,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.207502",
+      "space_id": "kernel-modules",
+      "address": 860016,
+      "extent": 19,
+      "purpose": "code",
+      "owner": "alloc::borrow",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400223",
+      "space_id": "kernel-modules",
+      "address": 860035,
+      "extent": 13,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.207506",
+      "space_id": "kernel-modules",
+      "address": 860048,
+      "extent": 25,
+      "purpose": "code",
+      "owner": "core::alloc",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400224",
+      "space_id": "kernel-modules",
+      "address": 860073,
+      "extent": 7,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.207510",
+      "space_id": "kernel-modules",
+      "address": 860080,
+      "extent": 2119,
+      "purpose": "code",
+      "owner": "aml",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400225",
+      "space_id": "kernel-modules",
+      "address": 862199,
+      "extent": 9,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.207776",
+      "space_id": "kernel-modules",
+      "address": 862208,
+      "extent": 36,
+      "purpose": "code",
+      "owner": "mesa_kernel::fs",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400226",
+      "space_id": "kernel-modules",
+      "address": 862244,
+      "extent": 12,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.207782",
+      "space_id": "kernel-modules",
+      "address": 862256,
+      "extent": 346,
+      "purpose": "code",
+      "owner": "core::fmt",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400227",
+      "space_id": "kernel-modules",
+      "address": 862602,
+      "extent": 6,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.207826",
+      "space_id": "kernel-modules",
+      "address": 862608,
+      "extent": 58,
+      "purpose": "code",
+      "owner": "alloc::string",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400228",
+      "space_id": "kernel-modules",
+      "address": 862666,
+      "extent": 6,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.207834",
+      "space_id": "kernel-modules",
+      "address": 862672,
+      "extent": 494,
+      "purpose": "code",
+      "owner": "core::result",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400229",
+      "space_id": "kernel-modules",
+      "address": 863166,
+      "extent": 2,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.207896",
+      "space_id": "kernel-modules",
+      "address": 863168,
+      "extent": 1579,
+      "purpose": "code",
+      "owner": "core::str",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400230",
+      "space_id": "kernel-modules",
+      "address": 864747,
+      "extent": 5,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.208094",
+      "space_id": "kernel-modules",
+      "address": 864752,
+      "extent": 155,
+      "purpose": "code",
+      "owner": "alloc::string",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400231",
+      "space_id": "kernel-modules",
+      "address": 864907,
+      "extent": 5,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.208114",
+      "space_id": "kernel-modules",
+      "address": 864912,
+      "extent": 202,
+      "purpose": "code",
+      "owner": "uart_16550::port",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400232",
+      "space_id": "kernel-modules",
+      "address": 865114,
+      "extent": 6,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.208140",
+      "space_id": "kernel-modules",
+      "address": 865120,
+      "extent": 5,
+      "purpose": "code",
+      "owner": "mesa_kernel::fs",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400233",
+      "space_id": "kernel-modules",
+      "address": 865125,
+      "extent": 11,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.208142",
+      "space_id": "kernel-modules",
+      "address": 865136,
+      "extent": 99,
+      "purpose": "code",
+      "owner": "mesa_kernel::acpi",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400234",
+      "space_id": "kernel-modules",
+      "address": 865235,
+      "extent": 13,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.208156",
+      "space_id": "kernel-modules",
+      "address": 865248,
+      "extent": 202,
+      "purpose": "code",
+      "owner": "mesa_kernel::drivers",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400235",
+      "space_id": "kernel-modules",
+      "address": 865450,
+      "extent": 6,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.208182",
+      "space_id": "kernel-modules",
+      "address": 865456,
+      "extent": 90,
+      "purpose": "code",
+      "owner": "compiler_builtins",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400236",
+      "space_id": "kernel-modules",
+      "address": 865546,
+      "extent": 6,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.208194",
+      "space_id": "kernel-modules",
+      "address": 865552,
+      "extent": 23684,
+      "purpose": "code",
+      "owner": "mesa_kernel::shim (C ABI)",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400237",
+      "space_id": "kernel-modules",
+      "address": 889236,
+      "extent": 12,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.211156",
+      "space_id": "kernel-modules",
+      "address": 889248,
+      "extent": 34643,
+      "purpose": "code",
+      "owner": "(unmangled)",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.215486",
+      "space_id": "kernel-modules",
+      "address": 923891,
+      "extent": 487,
+      "purpose": "code",
+      "owner": "alloc::raw_vec",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.215547",
+      "space_id": "kernel-modules",
+      "address": 924378,
+      "extent": 15,
+      "purpose": "code",
+      "owner": "alloc::alloc",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400238",
+      "space_id": "kernel-modules",
+      "address": 924393,
+      "extent": 7,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.215550",
+      "space_id": "kernel-modules",
+      "address": 924400,
+      "extent": 25,
+      "purpose": "code",
+      "owner": "alloc::raw_vec",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400239",
+      "space_id": "kernel-modules",
+      "address": 924425,
+      "extent": 7,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.215554",
+      "space_id": "kernel-modules",
+      "address": 924432,
+      "extent": 579,
+      "purpose": "code",
+      "owner": "alloc::string",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400240",
+      "space_id": "kernel-modules",
+      "address": 925011,
+      "extent": 13,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.215628",
+      "space_id": "kernel-modules",
+      "address": 925024,
+      "extent": 7361,
+      "purpose": "code",
+      "owner": "alloc::str",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400241",
+      "space_id": "kernel-modules",
+      "address": 932385,
+      "extent": 15,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.216550",
+      "space_id": "kernel-modules",
+      "address": 932400,
+      "extent": 85,
+      "purpose": "code",
+      "owner": "alloc::raw_vec",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.216560",
+      "space_id": "kernel-modules",
+      "address": 932485,
+      "extent": 127,
+      "purpose": "code",
+      "owner": "alloc::vec",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400242",
+      "space_id": "kernel-modules",
+      "address": 932612,
+      "extent": 12,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.216578",
+      "space_id": "kernel-modules",
+      "address": 932624,
+      "extent": 482,
+      "purpose": "code",
+      "owner": "alloc::fmt",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400243",
+      "space_id": "kernel-modules",
+      "address": 933106,
+      "extent": 14,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.216640",
+      "space_id": "kernel-modules",
+      "address": 933120,
+      "extent": 25,
+      "purpose": "code",
+      "owner": "core::fmt",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400244",
+      "space_id": "kernel-modules",
+      "address": 933145,
+      "extent": 7,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.216644",
+      "space_id": "kernel-modules",
+      "address": 933152,
+      "extent": 192,
+      "purpose": "code",
+      "owner": "core::ptr",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.216668",
+      "space_id": "kernel-modules",
+      "address": 933344,
+      "extent": 598,
+      "purpose": "code",
+      "owner": "alloc::string",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.216742",
+      "space_id": "kernel-modules",
+      "address": 933942,
+      "extent": 52,
+      "purpose": "code",
+      "owner": "core::panicking",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400245",
+      "space_id": "kernel-modules",
+      "address": 933994,
+      "extent": 6,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.216750",
+      "space_id": "kernel-modules",
+      "address": 934000,
+      "extent": 1161,
+      "purpose": "code",
+      "owner": "core::fmt",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400246",
+      "space_id": "kernel-modules",
+      "address": 935161,
+      "extent": 7,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.216896",
+      "space_id": "kernel-modules",
+      "address": 935168,
+      "extent": 5811,
+      "purpose": "code",
+      "owner": "aml",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400247",
+      "space_id": "kernel-modules",
+      "address": 940979,
+      "extent": 13,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.217624",
+      "space_id": "kernel-modules",
+      "address": 940992,
+      "extent": 751,
+      "purpose": "code",
+      "owner": "aml::value",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400248",
+      "space_id": "kernel-modules",
+      "address": 941743,
+      "extent": 1,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.217718",
+      "space_id": "kernel-modules",
+      "address": 941744,
+      "extent": 1298,
+      "purpose": "code",
+      "owner": "aml::namespace",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400249",
+      "space_id": "kernel-modules",
+      "address": 943042,
+      "extent": 14,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.217882",
+      "space_id": "kernel-modules",
+      "address": 943056,
+      "extent": 700,
+      "purpose": "code",
+      "owner": "core::ptr",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400250",
+      "space_id": "kernel-modules",
+      "address": 943756,
+      "extent": 4,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.217970",
+      "space_id": "kernel-modules",
+      "address": 943760,
+      "extent": 590,
+      "purpose": "code",
+      "owner": "alloc::sync",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400251",
+      "space_id": "kernel-modules",
+      "address": 944350,
+      "extent": 2,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.218044",
+      "space_id": "kernel-modules",
+      "address": 944352,
+      "extent": 3238,
+      "purpose": "code",
+      "owner": "aml::namespace",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400252",
+      "space_id": "kernel-modules",
+      "address": 947590,
+      "extent": 10,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.218450",
+      "space_id": "kernel-modules",
+      "address": 947600,
+      "extent": 213,
+      "purpose": "code",
+      "owner": "core::ptr",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400253",
+      "space_id": "kernel-modules",
+      "address": 947813,
+      "extent": 11,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.218478",
+      "space_id": "kernel-modules",
+      "address": 947824,
+      "extent": 279,
+      "purpose": "code",
+      "owner": "alloc::raw_vec",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400254",
+      "space_id": "kernel-modules",
+      "address": 948103,
+      "extent": 9,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.218514",
+      "space_id": "kernel-modules",
+      "address": 948112,
+      "extent": 20,
+      "purpose": "code",
+      "owner": "core::fmt",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400255",
+      "space_id": "kernel-modules",
+      "address": 948132,
+      "extent": 12,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.218518",
+      "space_id": "kernel-modules",
+      "address": 948144,
+      "extent": 125,
+      "purpose": "code",
+      "owner": "alloc::raw_vec",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400256",
+      "space_id": "kernel-modules",
+      "address": 948269,
+      "extent": 3,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.218534",
+      "space_id": "kernel-modules",
+      "address": 948272,
+      "extent": 1258,
+      "purpose": "code",
+      "owner": "aml::value",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400257",
+      "space_id": "kernel-modules",
+      "address": 949530,
+      "extent": 6,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.218692",
+      "space_id": "kernel-modules",
+      "address": 949536,
+      "extent": 422,
+      "purpose": "code",
+      "owner": "core::ops",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400258",
+      "space_id": "kernel-modules",
+      "address": 949958,
+      "extent": 10,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.218746",
+      "space_id": "kernel-modules",
+      "address": 949968,
+      "extent": 849,
+      "purpose": "code",
+      "owner": "bitvec::slice",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400259",
+      "space_id": "kernel-modules",
+      "address": 950817,
+      "extent": 15,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.218854",
+      "space_id": "kernel-modules",
+      "address": 950832,
+      "extent": 514,
+      "purpose": "code",
+      "owner": "bitvec::vec",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400260",
+      "space_id": "kernel-modules",
+      "address": 951346,
+      "extent": 14,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.218920",
+      "space_id": "kernel-modules",
+      "address": 951360,
+      "extent": 38,
+      "purpose": "code",
+      "owner": "alloc::boxed",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400261",
+      "space_id": "kernel-modules",
+      "address": 951398,
+      "extent": 10,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.218926",
+      "space_id": "kernel-modules",
+      "address": 951408,
+      "extent": 438,
+      "purpose": "code",
+      "owner": "bitvec::slice",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400262",
+      "space_id": "kernel-modules",
+      "address": 951846,
+      "extent": 10,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.218982",
+      "space_id": "kernel-modules",
+      "address": 951856,
+      "extent": 218,
+      "purpose": "code",
+      "owner": "core::ops",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400263",
+      "space_id": "kernel-modules",
+      "address": 952074,
+      "extent": 6,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.219010",
+      "space_id": "kernel-modules",
+      "address": 952080,
+      "extent": 432,
+      "purpose": "code",
+      "owner": "bitvec::domain",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.219064",
+      "space_id": "kernel-modules",
+      "address": 952512,
+      "extent": 192,
+      "purpose": "code",
+      "owner": "core::ptr",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.219088",
+      "space_id": "kernel-modules",
+      "address": 952704,
+      "extent": 506,
+      "purpose": "code",
+      "owner": "alloc::vec",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400264",
+      "space_id": "kernel-modules",
+      "address": 953210,
+      "extent": 6,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.219152",
+      "space_id": "kernel-modules",
+      "address": 953216,
+      "extent": 965,
+      "purpose": "code",
+      "owner": "bitvec::ptr",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400265",
+      "space_id": "kernel-modules",
+      "address": 954181,
+      "extent": 11,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.219274",
+      "space_id": "kernel-modules",
+      "address": 954192,
+      "extent": 942,
+      "purpose": "code",
+      "owner": "core::fmt",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400266",
+      "space_id": "kernel-modules",
+      "address": 955134,
+      "extent": 2,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.219392",
+      "space_id": "kernel-modules",
+      "address": 955136,
+      "extent": 170,
+      "purpose": "code",
+      "owner": "wyz::fmt",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400267",
+      "space_id": "kernel-modules",
+      "address": 955306,
+      "extent": 6,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.219414",
+      "space_id": "kernel-modules",
+      "address": 955312,
+      "extent": 2837,
+      "purpose": "code",
+      "owner": "aml",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400268",
+      "space_id": "kernel-modules",
+      "address": 958149,
+      "extent": 11,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.219770",
+      "space_id": "kernel-modules",
+      "address": 958160,
+      "extent": 52,
+      "purpose": "code",
+      "owner": "bit_field",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400269",
+      "space_id": "kernel-modules",
+      "address": 958212,
+      "extent": 12,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.219778",
+      "space_id": "kernel-modules",
+      "address": 958224,
+      "extent": 2744,
+      "purpose": "code",
+      "owner": "aml::namespace",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400270",
+      "space_id": "kernel-modules",
+      "address": 960968,
+      "extent": 8,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.220122",
+      "space_id": "kernel-modules",
+      "address": 960976,
+      "extent": 229,
+      "purpose": "code",
+      "owner": "core::ptr",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400271",
+      "space_id": "kernel-modules",
+      "address": 961205,
+      "extent": 11,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.220152",
+      "space_id": "kernel-modules",
+      "address": 961216,
+      "extent": 162,
+      "purpose": "code",
+      "owner": "aml::namespace",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400272",
+      "space_id": "kernel-modules",
+      "address": 961378,
+      "extent": 14,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.220174",
+      "space_id": "kernel-modules",
+      "address": 961392,
+      "extent": 120,
+      "purpose": "code",
+      "owner": "alloc::vec",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400273",
+      "space_id": "kernel-modules",
+      "address": 961512,
+      "extent": 8,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.220190",
+      "space_id": "kernel-modules",
+      "address": 961520,
+      "extent": 2119,
+      "purpose": "code",
+      "owner": "aml",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400274",
+      "space_id": "kernel-modules",
+      "address": 963639,
+      "extent": 9,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.220456",
+      "space_id": "kernel-modules",
+      "address": 963648,
+      "extent": 39,
+      "purpose": "code",
+      "owner": "core::fmt",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400275",
+      "space_id": "kernel-modules",
+      "address": 963687,
+      "extent": 9,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.220462",
+      "space_id": "kernel-modules",
+      "address": 963696,
+      "extent": 37,
+      "purpose": "code",
+      "owner": "aml::value",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400276",
+      "space_id": "kernel-modules",
+      "address": 963733,
+      "extent": 11,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.220468",
+      "space_id": "kernel-modules",
+      "address": 963744,
+      "extent": 583,
+      "purpose": "code",
+      "owner": "aml::namespace",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400277",
+      "space_id": "kernel-modules",
+      "address": 964327,
+      "extent": 9,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.220542",
+      "space_id": "kernel-modules",
+      "address": 964336,
+      "extent": 198,
+      "purpose": "code",
+      "owner": "core::ptr",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400278",
+      "space_id": "kernel-modules",
+      "address": 964534,
+      "extent": 10,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.220568",
+      "space_id": "kernel-modules",
+      "address": 964544,
+      "extent": 887,
+      "purpose": "code",
+      "owner": "aml::value",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400279",
+      "space_id": "kernel-modules",
+      "address": 965431,
+      "extent": 9,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.220680",
+      "space_id": "kernel-modules",
+      "address": 965440,
+      "extent": 3758,
+      "purpose": "code",
+      "owner": "aml::namespace",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400280",
+      "space_id": "kernel-modules",
+      "address": 969198,
+      "extent": 2,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.221150",
+      "space_id": "kernel-modules",
+      "address": 969200,
+      "extent": 15887,
+      "purpose": "code",
+      "owner": "aml::parser",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400281",
+      "space_id": "kernel-modules",
+      "address": 985087,
+      "extent": 1,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.223136",
+      "space_id": "kernel-modules",
+      "address": 985088,
+      "extent": 269,
+      "purpose": "code",
+      "owner": "core::ptr",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400282",
+      "space_id": "kernel-modules",
+      "address": 985357,
+      "extent": 3,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.223170",
+      "space_id": "kernel-modules",
+      "address": 985360,
+      "extent": 1394,
+      "purpose": "code",
+      "owner": "aml::namespace",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400283",
+      "space_id": "kernel-modules",
+      "address": 986754,
+      "extent": 14,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.223346",
+      "space_id": "kernel-modules",
+      "address": 986768,
+      "extent": 2412,
+      "purpose": "code",
+      "owner": "alloc::collections",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400284",
+      "space_id": "kernel-modules",
+      "address": 989180,
+      "extent": 4,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.223648",
+      "space_id": "kernel-modules",
+      "address": 989184,
+      "extent": 2004,
+      "purpose": "code",
+      "owner": "core::ptr",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400285",
+      "space_id": "kernel-modules",
+      "address": 991188,
+      "extent": 12,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.223900",
+      "space_id": "kernel-modules",
+      "address": 991200,
+      "extent": 3308,
+      "purpose": "code",
+      "owner": "alloc::collections",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400286",
+      "space_id": "kernel-modules",
+      "address": 994508,
+      "extent": 4,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.224314",
+      "space_id": "kernel-modules",
+      "address": 994512,
+      "extent": 1804,
+      "purpose": "code",
+      "owner": "aml::parser",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400287",
+      "space_id": "kernel-modules",
+      "address": 996316,
+      "extent": 4,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.224540",
+      "space_id": "kernel-modules",
+      "address": 996320,
+      "extent": 4494,
+      "purpose": "code",
+      "owner": "aml::namespace",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400288",
+      "space_id": "kernel-modules",
+      "address": 1000814,
+      "extent": 2,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.225102",
+      "space_id": "kernel-modules",
+      "address": 1000816,
+      "extent": 317,
+      "purpose": "code",
+      "owner": "aml::parser",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400289",
+      "space_id": "kernel-modules",
+      "address": 1001133,
+      "extent": 3,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.225142",
+      "space_id": "kernel-modules",
+      "address": 1001136,
+      "extent": 777,
+      "purpose": "code",
+      "owner": "aml::namespace",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400290",
+      "space_id": "kernel-modules",
+      "address": 1001913,
+      "extent": 7,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.225240",
+      "space_id": "kernel-modules",
+      "address": 1001920,
+      "extent": 735,
+      "purpose": "code",
+      "owner": "aml::parser",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400291",
+      "space_id": "kernel-modules",
+      "address": 1002655,
+      "extent": 1,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.225332",
+      "space_id": "kernel-modules",
+      "address": 1002656,
+      "extent": 318,
+      "purpose": "code",
+      "owner": "aml::value",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400292",
+      "space_id": "kernel-modules",
+      "address": 1002974,
+      "extent": 2,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.225372",
+      "space_id": "kernel-modules",
+      "address": 1002976,
+      "extent": 257,
+      "purpose": "code",
+      "owner": "core::ptr",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400293",
+      "space_id": "kernel-modules",
+      "address": 1003233,
+      "extent": 15,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.225406",
+      "space_id": "kernel-modules",
+      "address": 1003248,
+      "extent": 44868,
+      "purpose": "code",
+      "owner": "aml::parser",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400294",
+      "space_id": "kernel-modules",
+      "address": 1048116,
+      "extent": 12,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.231016",
+      "space_id": "kernel-modules",
+      "address": 1048128,
+      "extent": 2939,
+      "purpose": "code",
+      "owner": "aml",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400295",
+      "space_id": "kernel-modules",
+      "address": 1051067,
+      "extent": 5,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.231384",
+      "space_id": "kernel-modules",
+      "address": 1051072,
+      "extent": 1436,
+      "purpose": "code",
+      "owner": "aml::parser",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400296",
+      "space_id": "kernel-modules",
+      "address": 1052508,
+      "extent": 4,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.231564",
+      "space_id": "kernel-modules",
+      "address": 1052512,
+      "extent": 1181,
+      "purpose": "code",
+      "owner": "aml::value",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400297",
+      "space_id": "kernel-modules",
+      "address": 1053693,
+      "extent": 3,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.231712",
+      "space_id": "kernel-modules",
+      "address": 1053696,
+      "extent": 38757,
+      "purpose": "code",
+      "owner": "aml::parser",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400298",
+      "space_id": "kernel-modules",
+      "address": 1092453,
+      "extent": 11,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.236558",
+      "space_id": "kernel-modules",
+      "address": 1092464,
+      "extent": 99,
+      "purpose": "code",
+      "owner": "alloc::raw_vec",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400299",
+      "space_id": "kernel-modules",
+      "address": 1092563,
+      "extent": 13,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.236572",
+      "space_id": "kernel-modules",
+      "address": 1092576,
+      "extent": 238,
+      "purpose": "code",
+      "owner": "core::ptr",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400300",
+      "space_id": "kernel-modules",
+      "address": 1092814,
+      "extent": 2,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.236602",
+      "space_id": "kernel-modules",
+      "address": 1092816,
+      "extent": 517,
+      "purpose": "code",
+      "owner": "alloc::vec",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400301",
+      "space_id": "kernel-modules",
+      "address": 1093333,
+      "extent": 11,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.236668",
+      "space_id": "kernel-modules",
+      "address": 1093344,
+      "extent": 3450,
+      "purpose": "code",
+      "owner": "core::fmt",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400302",
+      "space_id": "kernel-modules",
+      "address": 1096794,
+      "extent": 6,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.237100",
+      "space_id": "kernel-modules",
+      "address": 1096800,
+      "extent": 565,
+      "purpose": "code",
+      "owner": "alloc::sync",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400303",
+      "space_id": "kernel-modules",
+      "address": 1097365,
+      "extent": 11,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.237172",
+      "space_id": "kernel-modules",
+      "address": 1097376,
+      "extent": 616,
+      "purpose": "code",
+      "owner": "core::fmt",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400304",
+      "space_id": "kernel-modules",
+      "address": 1097992,
+      "extent": 8,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.237250",
+      "space_id": "kernel-modules",
+      "address": 1098000,
+      "extent": 375,
+      "purpose": "code",
+      "owner": "aml::value",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400305",
+      "space_id": "kernel-modules",
+      "address": 1098375,
+      "extent": 9,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.237298",
+      "space_id": "kernel-modules",
+      "address": 1098384,
+      "extent": 183,
+      "purpose": "code",
+      "owner": "aml::namespace",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400306",
+      "space_id": "kernel-modules",
+      "address": 1098567,
+      "extent": 9,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.237322",
+      "space_id": "kernel-modules",
+      "address": 1098576,
+      "extent": 397,
+      "purpose": "code",
+      "owner": "core::fmt",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400307",
+      "space_id": "kernel-modules",
+      "address": 1098973,
+      "extent": 3,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.237372",
+      "space_id": "kernel-modules",
+      "address": 1098976,
+      "extent": 446,
+      "purpose": "code",
+      "owner": "aml::value",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400308",
+      "space_id": "kernel-modules",
+      "address": 1099422,
+      "extent": 2,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.237428",
+      "space_id": "kernel-modules",
+      "address": 1099424,
+      "extent": 4741,
+      "purpose": "code",
+      "owner": "aml::parser",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400309",
+      "space_id": "kernel-modules",
+      "address": 1104165,
+      "extent": 11,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.238022",
+      "space_id": "kernel-modules",
+      "address": 1104176,
+      "extent": 686,
+      "purpose": "code",
+      "owner": "aml",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400310",
+      "space_id": "kernel-modules",
+      "address": 1104862,
+      "extent": 2,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.238108",
+      "space_id": "kernel-modules",
+      "address": 1104864,
+      "extent": 58,
+      "purpose": "code",
+      "owner": "core::str",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400311",
+      "space_id": "kernel-modules",
+      "address": 1104922,
+      "extent": 6,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.238116",
+      "space_id": "kernel-modules",
+      "address": 1104928,
+      "extent": 107,
+      "purpose": "code",
+      "owner": "alloc::slice",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400312",
+      "space_id": "kernel-modules",
+      "address": 1105035,
+      "extent": 5,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.238130",
+      "space_id": "kernel-modules",
+      "address": 1105040,
+      "extent": 1083,
+      "purpose": "code",
+      "owner": "aml::value",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400313",
+      "space_id": "kernel-modules",
+      "address": 1106123,
+      "extent": 5,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.238266",
+      "space_id": "kernel-modules",
+      "address": 1106128,
+      "extent": 351,
+      "purpose": "code",
+      "owner": "aml::parser",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400314",
+      "space_id": "kernel-modules",
+      "address": 1106479,
+      "extent": 1,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.238310",
+      "space_id": "kernel-modules",
+      "address": 1106480,
+      "extent": 2840,
+      "purpose": "code",
+      "owner": "aml::value",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400315",
+      "space_id": "kernel-modules",
+      "address": 1109320,
+      "extent": 8,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.238666",
+      "space_id": "kernel-modules",
+      "address": 1109328,
+      "extent": 119,
+      "purpose": "code",
+      "owner": "bit_field",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400316",
+      "space_id": "kernel-modules",
+      "address": 1109447,
+      "extent": 9,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.238682",
+      "space_id": "kernel-modules",
+      "address": 1109456,
+      "extent": 2881,
+      "purpose": "code",
+      "owner": "aml",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400317",
+      "space_id": "kernel-modules",
+      "address": 1112337,
+      "extent": 15,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.239044",
+      "space_id": "kernel-modules",
+      "address": 1112352,
+      "extent": 263,
+      "purpose": "code",
+      "owner": "core::ops",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400318",
+      "space_id": "kernel-modules",
+      "address": 1112615,
+      "extent": 9,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.239078",
+      "space_id": "kernel-modules",
+      "address": 1112624,
+      "extent": 1785,
+      "purpose": "code",
+      "owner": "bitvec::slice",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400319",
+      "space_id": "kernel-modules",
+      "address": 1114409,
+      "extent": 7,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.239302",
+      "space_id": "kernel-modules",
+      "address": 1114416,
+      "extent": 230,
+      "purpose": "code",
+      "owner": "core::ops",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400320",
+      "space_id": "kernel-modules",
+      "address": 1114646,
+      "extent": 10,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.239332",
+      "space_id": "kernel-modules",
+      "address": 1114656,
+      "extent": 179,
+      "purpose": "code",
+      "owner": "core::fmt",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400321",
+      "space_id": "kernel-modules",
+      "address": 1114835,
+      "extent": 13,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.239356",
+      "space_id": "kernel-modules",
+      "address": 1114848,
+      "extent": 2228,
+      "purpose": "code",
+      "owner": "aml::parser",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400322",
+      "space_id": "kernel-modules",
+      "address": 1117076,
+      "extent": 12,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.239636",
+      "space_id": "kernel-modules",
+      "address": 1117088,
+      "extent": 2595,
+      "purpose": "code",
+      "owner": "alloc::collections",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400323",
+      "space_id": "kernel-modules",
+      "address": 1119683,
+      "extent": 13,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.239962",
+      "space_id": "kernel-modules",
+      "address": 1119696,
+      "extent": 1684,
+      "purpose": "code",
+      "owner": "aml::parser",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400324",
+      "space_id": "kernel-modules",
+      "address": 1121380,
+      "extent": 12,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.240174",
+      "space_id": "kernel-modules",
+      "address": 1121392,
+      "extent": 99,
+      "purpose": "code",
+      "owner": "alloc::raw_vec",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400325",
+      "space_id": "kernel-modules",
+      "address": 1121491,
+      "extent": 13,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.240188",
+      "space_id": "kernel-modules",
+      "address": 1121504,
+      "extent": 1200,
+      "purpose": "code",
+      "owner": "alloc::collections",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.240338",
+      "space_id": "kernel-modules",
+      "address": 1122704,
+      "extent": 597,
+      "purpose": "code",
+      "owner": "aml",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400326",
+      "space_id": "kernel-modules",
+      "address": 1123301,
+      "extent": 11,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.240414",
+      "space_id": "kernel-modules",
+      "address": 1123312,
+      "extent": 3098,
+      "purpose": "code",
+      "owner": "alloc::collections",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400327",
+      "space_id": "kernel-modules",
+      "address": 1126410,
+      "extent": 6,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.240802",
+      "space_id": "kernel-modules",
+      "address": 1126416,
+      "extent": 2254,
+      "purpose": "code",
+      "owner": "aml",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400328",
+      "space_id": "kernel-modules",
+      "address": 1128670,
+      "extent": 2,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.241084",
+      "space_id": "kernel-modules",
+      "address": 1128672,
+      "extent": 1536,
+      "purpose": "code",
+      "owner": "aml::namespace",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.241276",
+      "space_id": "kernel-modules",
+      "address": 1130208,
+      "extent": 1127,
+      "purpose": "code",
+      "owner": "core::ptr",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400329",
+      "space_id": "kernel-modules",
+      "address": 1131335,
+      "extent": 9,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.241418",
+      "space_id": "kernel-modules",
+      "address": 1131344,
+      "extent": 1245,
+      "purpose": "code",
+      "owner": "aml",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.241573",
+      "space_id": "kernel-modules",
+      "address": 1132589,
+      "extent": 241,
+      "purpose": "code",
+      "owner": "core::panicking",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400330",
+      "space_id": "kernel-modules",
+      "address": 1132830,
+      "extent": 2,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.241604",
+      "space_id": "kernel-modules",
+      "address": 1132832,
+      "extent": 80,
+      "purpose": "code",
+      "owner": "core::fmt",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.241614",
+      "space_id": "kernel-modules",
+      "address": 1132912,
+      "extent": 43,
+      "purpose": "code",
+      "owner": "core::panicking",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400331",
+      "space_id": "kernel-modules",
+      "address": 1132955,
+      "extent": 5,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.241620",
+      "space_id": "kernel-modules",
+      "address": 1132960,
+      "extent": 3881,
+      "purpose": "code",
+      "owner": "core::fmt",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.242105",
+      "space_id": "kernel-modules",
+      "address": 1136841,
+      "extent": 104,
+      "purpose": "code",
+      "owner": "core::panicking",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400332",
+      "space_id": "kernel-modules",
+      "address": 1136945,
+      "extent": 15,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.242120",
+      "space_id": "kernel-modules",
+      "address": 1136960,
+      "extent": 257,
+      "purpose": "code",
+      "owner": "core::fmt",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400333",
+      "space_id": "kernel-modules",
+      "address": 1137217,
+      "extent": 15,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.242154",
+      "space_id": "kernel-modules",
+      "address": 1137232,
+      "extent": 1157,
+      "purpose": "code",
+      "owner": "core::char",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400334",
+      "space_id": "kernel-modules",
+      "address": 1138389,
+      "extent": 11,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.242300",
+      "space_id": "kernel-modules",
+      "address": 1138400,
+      "extent": 254,
+      "purpose": "code",
+      "owner": "core::unicode",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400335",
+      "space_id": "kernel-modules",
+      "address": 1138654,
+      "extent": 2,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.242332",
+      "space_id": "kernel-modules",
+      "address": 1138656,
+      "extent": 223,
+      "purpose": "code",
+      "owner": "core::slice",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400336",
+      "space_id": "kernel-modules",
+      "address": 1138879,
+      "extent": 1,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.242360",
+      "space_id": "kernel-modules",
+      "address": 1138880,
+      "extent": 21,
+      "purpose": "code",
+      "owner": "core::option",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400337",
+      "space_id": "kernel-modules",
+      "address": 1138901,
+      "extent": 11,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.242364",
+      "space_id": "kernel-modules",
+      "address": 1138912,
+      "extent": 14,
+      "purpose": "code",
+      "owner": "core::panicking",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400338",
+      "space_id": "kernel-modules",
+      "address": 1138926,
+      "extent": 2,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.242366",
+      "space_id": "kernel-modules",
+      "address": 1138928,
+      "extent": 499,
+      "purpose": "code",
+      "owner": "core::str",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.242428",
+      "space_id": "kernel-modules",
+      "address": 1139427,
+      "extent": 60,
+      "purpose": "code",
+      "owner": "core::panicking",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400339",
+      "space_id": "kernel-modules",
+      "address": 1139487,
+      "extent": 1,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.242436",
+      "space_id": "kernel-modules",
+      "address": 1139488,
+      "extent": 391,
+      "purpose": "code",
+      "owner": "core::fmt",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400340",
+      "space_id": "kernel-modules",
+      "address": 1139879,
+      "extent": 9,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.242486",
+      "space_id": "kernel-modules",
+      "address": 1139888,
+      "extent": 2185,
+      "purpose": "code",
+      "owner": "core::num",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400341",
+      "space_id": "kernel-modules",
+      "address": 1142073,
+      "extent": 7,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.242760",
+      "space_id": "kernel-modules",
+      "address": 1142080,
+      "extent": 533,
+      "purpose": "code",
+      "owner": "core::fmt",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400342",
+      "space_id": "kernel-modules",
+      "address": 1142613,
+      "extent": 11,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.242828",
+      "space_id": "kernel-modules",
+      "address": 1142624,
+      "extent": 1325,
+      "purpose": "code",
+      "owner": "core::str",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400343",
+      "space_id": "kernel-modules",
+      "address": 1143949,
+      "extent": 3,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.242994",
+      "space_id": "kernel-modules",
+      "address": 1143952,
+      "extent": 240,
+      "purpose": "code",
+      "owner": "core::fmt",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.243024",
+      "space_id": "kernel-modules",
+      "address": 1144192,
+      "extent": 914,
+      "purpose": "code",
+      "owner": "core::str",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400344",
+      "space_id": "kernel-modules",
+      "address": 1145106,
+      "extent": 14,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.243140",
+      "space_id": "kernel-modules",
+      "address": 1145120,
+      "extent": 144,
+      "purpose": "code",
+      "owner": "core::fmt",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.243158",
+      "space_id": "kernel-modules",
+      "address": 1145264,
+      "extent": 422,
+      "purpose": "code",
+      "owner": "core::ops",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400345",
+      "space_id": "kernel-modules",
+      "address": 1145686,
+      "extent": 10,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.243212",
+      "space_id": "kernel-modules",
+      "address": 1145696,
+      "extent": 50,
+      "purpose": "code",
+      "owner": "core::option",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400346",
+      "space_id": "kernel-modules",
+      "address": 1145746,
+      "extent": 14,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.243220",
+      "space_id": "kernel-modules",
+      "address": 1145760,
+      "extent": 82,
+      "purpose": "code",
+      "owner": "core::result",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400347",
+      "space_id": "kernel-modules",
+      "address": 1145842,
+      "extent": 14,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.243232",
+      "space_id": "kernel-modules",
+      "address": 1145856,
+      "extent": 99,
+      "purpose": "code",
+      "owner": "core::fmt",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400348",
+      "space_id": "kernel-modules",
+      "address": 1145955,
+      "extent": 13,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.243246",
+      "space_id": "kernel-modules",
+      "address": 1145968,
+      "extent": 278,
+      "purpose": "code",
+      "owner": "core::slice",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400349",
+      "space_id": "kernel-modules",
+      "address": 1146246,
+      "extent": 10,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.243282",
+      "space_id": "kernel-modules",
+      "address": 1146256,
+      "extent": 53,
+      "purpose": "code",
+      "owner": "core::panicking",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400350",
+      "space_id": "kernel-modules",
+      "address": 1146309,
+      "extent": 11,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.243290",
+      "space_id": "kernel-modules",
+      "address": 1146320,
+      "extent": 303,
+      "purpose": "code",
+      "owner": "core::num",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400351",
+      "space_id": "kernel-modules",
+      "address": 1146623,
+      "extent": 1,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.243328",
+      "space_id": "kernel-modules",
+      "address": 1146624,
+      "extent": 1088,
+      "purpose": "code",
+      "owner": "core::unicode",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.243464",
+      "space_id": "kernel-modules",
+      "address": 1147712,
+      "extent": 25,
+      "purpose": "code",
+      "owner": "core::slice",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400352",
+      "space_id": "kernel-modules",
+      "address": 1147737,
+      "extent": 7,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.243468",
+      "space_id": "kernel-modules",
+      "address": 1147744,
+      "extent": 12489,
+      "purpose": "code",
+      "owner": "core::num",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400353",
+      "space_id": "kernel-modules",
+      "address": 1160233,
+      "extent": 7,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.245030",
+      "space_id": "kernel-modules",
+      "address": 1160240,
+      "extent": 69,
+      "purpose": "code",
+      "owner": "core::slice",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400354",
+      "space_id": "kernel-modules",
+      "address": 1160309,
+      "extent": 11,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.245040",
+      "space_id": "kernel-modules",
+      "address": 1160320,
+      "extent": 513,
+      "purpose": "code",
+      "owner": "core::fmt",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400355",
+      "space_id": "kernel-modules",
+      "address": 1160833,
+      "extent": 15,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.245106",
+      "space_id": "kernel-modules",
+      "address": 1160848,
+      "extent": 398,
+      "purpose": "code",
+      "owner": "core::str",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400356",
+      "space_id": "kernel-modules",
+      "address": 1161246,
+      "extent": 2,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.245156",
+      "space_id": "kernel-modules",
+      "address": 1161248,
+      "extent": 3167,
+      "purpose": "code",
+      "owner": "core::fmt",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400357",
+      "space_id": "kernel-modules",
+      "address": 1164415,
+      "extent": 1,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.245552",
+      "space_id": "kernel-modules",
+      "address": 1164416,
+      "extent": 3669,
+      "purpose": "code",
+      "owner": "core::num",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400358",
+      "space_id": "kernel-modules",
+      "address": 1168085,
+      "extent": 11,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.246012",
+      "space_id": "kernel-modules",
+      "address": 1168096,
+      "extent": 3338,
+      "purpose": "code",
+      "owner": "core::fmt",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400359",
+      "space_id": "kernel-modules",
+      "address": 1171434,
+      "extent": 6,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.246430",
+      "space_id": "kernel-modules",
+      "address": 1171440,
+      "extent": 179,
+      "purpose": "code",
+      "owner": "core::num",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400360",
+      "space_id": "kernel-modules",
+      "address": 1171619,
+      "extent": 13,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.246454",
+      "space_id": "kernel-modules",
+      "address": 1171632,
+      "extent": 496,
+      "purpose": "code",
+      "owner": "core::fmt",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.246516",
+      "space_id": "kernel-modules",
+      "address": 1172128,
+      "extent": 188,
+      "purpose": "code",
+      "owner": "uart_16550::port",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400361",
+      "space_id": "kernel-modules",
+      "address": 1172316,
+      "extent": 4,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.246540",
+      "space_id": "kernel-modules",
+      "address": 1172320,
+      "extent": 572,
+      "purpose": "code",
+      "owner": "x86_64::addr",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400362",
+      "space_id": "kernel-modules",
+      "address": 1172892,
+      "extent": 4,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.246612",
+      "space_id": "kernel-modules",
+      "address": 1172896,
+      "extent": 99,
+      "purpose": "code",
+      "owner": "core::fmt",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400363",
+      "space_id": "kernel-modules",
+      "address": 1172995,
+      "extent": 13,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.246626",
+      "space_id": "kernel-modules",
+      "address": 1173008,
+      "extent": 512,
+      "purpose": "code",
+      "owner": "x86_64::registers",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.246690",
+      "space_id": "kernel-modules",
+      "address": 1173520,
+      "extent": 854,
+      "purpose": "code",
+      "owner": "core::fmt",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400364",
+      "space_id": "kernel-modules",
+      "address": 1174374,
+      "extent": 10,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.246798",
+      "space_id": "kernel-modules",
+      "address": 1174384,
+      "extent": 283,
+      "purpose": "code",
+      "owner": "(unmangled)",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400365",
+      "space_id": "kernel-modules",
+      "address": 1174667,
+      "extent": 5,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.246834",
+      "space_id": "kernel-modules",
+      "address": 1174672,
+      "extent": 382,
+      "purpose": "code",
+      "owner": "compiler_builtins::mem",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400366",
+      "space_id": "kernel-modules",
+      "address": 1175054,
+      "extent": 2,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.246882",
+      "space_id": "kernel-modules",
+      "address": 1175056,
+      "extent": 3316,
+      "purpose": "code",
+      "owner": "compiler_builtins::float",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400367",
+      "space_id": "kernel-modules",
+      "address": 1178372,
+      "extent": 12,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.247298",
+      "space_id": "kernel-modules",
+      "address": 1178384,
+      "extent": 2615,
+      "purpose": "code",
+      "owner": "compiler_builtins",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400368",
+      "space_id": "kernel-modules",
+      "address": 1180999,
+      "extent": 18281,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.249910",
+      "space_id": "kernel-modules",
+      "address": 1199280,
+      "extent": 272,
+      "purpose": "code",
+      "owner": "mesa_kernel::shim (C ABI)",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.400369",
+      "space_id": "kernel-modules",
+      "address": 1199552,
+      "extent": 59659,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.500000",
+      "space_id": "kernel-modules",
+      "address": 1259211,
+      "extent": 7070642,
+      "purpose": "blob",
+      "owner": "kernel",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.402033",
+      "space_id": "kernel-modules",
+      "address": 8329853,
+      "extent": 474314,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.1200520",
+      "space_id": "kernel-modules",
+      "address": 8804167,
+      "extent": 1808,
+      "purpose": "code",
+      "owner": "mesa_kernel::drivers",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.402149",
+      "space_id": "kernel-modules",
+      "address": 8805975,
+      "extent": 20913,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.1203361",
+      "space_id": "kernel-modules",
+      "address": 8826888,
+      "extent": 192,
+      "purpose": "code",
+      "owner": "mesa_kernel::shim (C ABI)",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.402155",
+      "space_id": "kernel-modules",
+      "address": 8827080,
+      "extent": 8008,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.1204386",
+      "space_id": "kernel-modules",
+      "address": 8835088,
+      "extent": 1955,
+      "purpose": "code",
+      "owner": "core::unicode",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.402157",
+      "space_id": "kernel-modules",
+      "address": 8837043,
+      "extent": 4173,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.1205152",
+      "space_id": "kernel-modules",
+      "address": 8841216,
+      "extent": 3920,
+      "purpose": "code",
+      "owner": "core::unicode",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.402159",
+      "space_id": "kernel-modules",
+      "address": 8845136,
+      "extent": 1536,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.1205834",
+      "space_id": "kernel-modules",
+      "address": 8846672,
+      "extent": 12988,
+      "purpose": "code",
+      "owner": "core::num",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.402163",
+      "space_id": "kernel-modules",
+      "address": 8859660,
+      "extent": 412,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.1207509",
+      "space_id": "kernel-modules",
+      "address": 8860072,
+      "extent": 256,
+      "purpose": "code",
+      "owner": "libm::math",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.402164",
+      "space_id": "kernel-modules",
+      "address": 8860328,
+      "extent": 1088,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.1207677",
+      "space_id": "kernel-modules",
+      "address": 8861416,
+      "extent": 256,
+      "purpose": "code",
+      "owner": "core::unicode",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.402165",
+      "space_id": "kernel-modules",
+      "address": 8861672,
+      "extent": 22856,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.1210566",
+      "space_id": "kernel-modules",
+      "address": 8884528,
+      "extent": 32,
+      "purpose": "code",
+      "owner": "mesa_kernel::arch",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.402169",
+      "space_id": "kernel-modules",
+      "address": 8884560,
+      "extent": 3760,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.1211040",
+      "space_id": "kernel-modules",
+      "address": 8888320,
+      "extent": 12,
+      "purpose": "code",
+      "owner": "mesa_kernel::net",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.1211041",
+      "space_id": "kernel-modules",
+      "address": 8888332,
+      "extent": 524288,
+      "purpose": "code",
+      "owner": "mesa_kernel::memory",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.402298",
+      "space_id": "kernel-modules",
+      "address": 9412620,
+      "extent": 4,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.1276578",
+      "space_id": "kernel-modules",
+      "address": 9412624,
+      "extent": 32,
+      "purpose": "code",
+      "owner": "mesa_kernel::REDIRECT_BUFFER",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.1276582",
+      "space_id": "kernel-modules",
+      "address": 9412656,
+      "extent": 80,
+      "purpose": "code",
+      "owner": "mesa_kernel::fs",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.1276592",
+      "space_id": "kernel-modules",
+      "address": 9412736,
+      "extent": 56,
+      "purpose": "code",
+      "owner": "mesa_kernel::log",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.1276599",
+      "space_id": "kernel-modules",
+      "address": 9412792,
+      "extent": 2,
+      "purpose": "code",
+      "owner": "mesa_kernel::net",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.402299",
+      "space_id": "kernel-modules",
+      "address": 9412794,
+      "extent": 6,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.1276600",
+      "space_id": "kernel-modules",
+      "address": 9412800,
+      "extent": 32,
+      "purpose": "code",
+      "owner": "mesa_kernel::pci",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.1276604",
+      "space_id": "kernel-modules",
+      "address": 9412832,
+      "extent": 5896,
+      "purpose": "code",
+      "owner": "mesa_kernel::smp",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.1277341",
+      "space_id": "kernel-modules",
+      "address": 9418728,
+      "extent": 984,
+      "purpose": "code",
+      "owner": "mesa_kernel::acpi",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.1277464",
+      "space_id": "kernel-modules",
+      "address": 9419712,
+      "extent": 96,
+      "purpose": "code",
+      "owner": "mesa_kernel::users",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.1277476",
+      "space_id": "kernel-modules",
+      "address": 9419808,
+      "extent": 40,
+      "purpose": "code",
+      "owner": "mesa_kernel::config",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.1277481",
+      "space_id": "kernel-modules",
+      "address": 9419848,
+      "extent": 48,
+      "purpose": "code",
+      "owner": "mesa_kernel::security",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.1277487",
+      "space_id": "kernel-modules",
+      "address": 9419896,
+      "extent": 160,
+      "purpose": "code",
+      "owner": "mesa_kernel::scheduler",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.1277507",
+      "space_id": "kernel-modules",
+      "address": 9420056,
+      "extent": 256,
+      "purpose": "code",
+      "owner": "mesa_kernel::linux_compat",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.1277539",
+      "space_id": "kernel-modules",
+      "address": 9420312,
+      "extent": 64,
+      "purpose": "code",
+      "owner": "mesa_kernel::net",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.1277547",
+      "space_id": "kernel-modules",
+      "address": 9420376,
+      "extent": 272,
+      "purpose": "code",
+      "owner": "mesa_kernel::shim",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.1277581",
+      "space_id": "kernel-modules",
+      "address": 9420648,
+      "extent": 32,
+      "purpose": "code",
+      "owner": "mesa_kernel::linux",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.1277585",
+      "space_id": "kernel-modules",
+      "address": 9420680,
+      "extent": 144,
+      "purpose": "code",
+      "owner": "mesa_kernel::drivers",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.1277603",
+      "space_id": "kernel-modules",
+      "address": 9420824,
+      "extent": 104,
+      "purpose": "code",
+      "owner": "mesa_kernel::arch",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.1277616",
+      "space_id": "kernel-modules",
+      "address": 9420928,
+      "extent": 160,
+      "purpose": "code",
+      "owner": "mesa_kernel::drivers",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.1277636",
+      "space_id": "kernel-modules",
+      "address": 9421088,
+      "extent": 8,
+      "purpose": "code",
+      "owner": "mesa_kernel::linux_compat",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.1277637",
+      "space_id": "kernel-modules",
+      "address": 9421096,
+      "extent": 12,
+      "purpose": "code",
+      "owner": "mesa_kernel::drivers",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.402300",
+      "space_id": "kernel-modules",
+      "address": 9421108,
+      "extent": 4,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.1277639",
+      "space_id": "kernel-modules",
+      "address": 9421112,
+      "extent": 392,
+      "purpose": "code",
+      "owner": "mesa_kernel::arch",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.402301",
+      "space_id": "kernel-modules",
+      "address": 9421504,
+      "extent": 3392,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.1278112",
+      "space_id": "kernel-modules",
+      "address": 9424896,
+      "extent": 1024,
+      "purpose": "code",
+      "owner": "mesa_kernel::shim",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.1278240",
+      "space_id": "kernel-modules",
+      "address": 9425920,
+      "extent": 61440,
+      "purpose": "code",
+      "owner": "mesa_kernel::arch",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.1285920",
+      "space_id": "kernel-modules",
+      "address": 9487360,
+      "extent": 12,
+      "purpose": "code",
+      "owner": "mesa_kernel::PIPE_STDIN",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.1285921",
+      "space_id": "kernel-modules",
+      "address": 9487372,
+      "extent": 12,
+      "purpose": "code",
+      "owner": "mesa_kernel::PIPE_STDOUT",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.1285923",
+      "space_id": "kernel-modules",
+      "address": 9487384,
+      "extent": 2,
+      "purpose": "code",
+      "owner": "mesa_kernel::REDIRECT_ACTIVE",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.1285924",
+      "space_id": "kernel-modules",
+      "address": 9487386,
+      "extent": 2,
+      "purpose": "code",
+      "owner": "mesa_kernel::fs",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.1285925",
+      "space_id": "kernel-modules",
+      "address": 9487388,
+      "extent": 1310721,
+      "purpose": "code",
+      "owner": "mesa_kernel::smp",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.402636",
+      "space_id": "kernel-modules",
+      "address": 10798109,
+      "extent": 3,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.1449764",
+      "space_id": "kernel-modules",
+      "address": 10798112,
+      "extent": 66312,
+      "purpose": "code",
+      "owner": "mesa_kernel::pipe",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.1458053",
+      "space_id": "kernel-modules",
+      "address": 10864424,
+      "extent": 18,
+      "purpose": "code",
+      "owner": "mesa_kernel::users",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.402652",
+      "space_id": "kernel-modules",
+      "address": 10864442,
+      "extent": 6,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.1458056",
+      "space_id": "kernel-modules",
+      "address": 10864448,
+      "extent": 32,
+      "purpose": "code",
+      "owner": "mesa_kernel::security",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.1458060",
+      "space_id": "kernel-modules",
+      "address": 10864480,
+      "extent": 1,
+      "purpose": "code",
+      "owner": "mesa_kernel::scheduler",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.402653",
+      "space_id": "kernel-modules",
+      "address": 10864481,
+      "extent": 7,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.1458061",
+      "space_id": "kernel-modules",
+      "address": 10864488,
+      "extent": 2096,
+      "purpose": "code",
+      "owner": "mesa_kernel::linux_compat",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.1458323",
+      "space_id": "kernel-modules",
+      "address": 10866584,
+      "extent": 37,
+      "purpose": "code",
+      "owner": "mesa_kernel::net",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.402654",
+      "space_id": "kernel-modules",
+      "address": 10866621,
+      "extent": 3,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.1458328",
+      "space_id": "kernel-modules",
+      "address": 10866624,
+      "extent": 288,
+      "purpose": "code",
+      "owner": "mesa_kernel::shim",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.1458364",
+      "space_id": "kernel-modules",
+      "address": 10866912,
+      "extent": 104,
+      "purpose": "code",
+      "owner": "mesa_kernel::memory",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.1458377",
+      "space_id": "kernel-modules",
+      "address": 10867016,
+      "extent": 58,
+      "purpose": "code",
+      "owner": "mesa_kernel::drivers",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.1458384",
+      "space_id": "kernel-modules",
+      "address": 10867074,
+      "extent": 14,
+      "purpose": "code",
+      "owner": "mesa_kernel::arch",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.1458386",
+      "space_id": "kernel-modules",
+      "address": 10867088,
+      "extent": 4260,
+      "purpose": "code",
+      "owner": "mesa_kernel::drivers",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.402655",
+      "space_id": "kernel-modules",
+      "address": 10871348,
+      "extent": 4,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.1458919",
+      "space_id": "kernel-modules",
+      "address": 10871352,
+      "extent": 4248,
+      "purpose": "code",
+      "owner": "mesa_kernel::arch",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.1459450",
+      "space_id": "kernel-modules",
+      "address": 10875600,
+      "extent": 224,
+      "purpose": "code",
+      "owner": "mesa_kernel::shim",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.1459478",
+      "space_id": "kernel-modules",
+      "address": 10875824,
+      "extent": 8,
+      "purpose": "code",
+      "owner": "(unmangled)",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel-modules.402656",
+      "space_id": "kernel-modules",
+      "address": 10875832,
+      "extent": 3144,
+      "purpose": "unattributed",
+      "owner": "unowned",
+      "location": "kernel-image",
+      "state": "stored"
     },
     {
       "id": "initrd.1",
@@ -729,8 +7941,8 @@
       "state": "stored"
     },
     {
-      "id": "user.7000",
-      "space_id": "user",
+      "id": "user:head.elf.7000",
+      "space_id": "user:head.elf",
       "address": 0,
       "extent": 4194304,
       "purpose": "free",
@@ -739,48 +7951,38 @@
       "state": "unmapped"
     },
     {
-      "id": "user.5000",
-      "space_id": "user",
+      "id": "user:head.elf.5000",
+      "space_id": "user:head.elf",
       "address": 4194304,
-      "extent": 480,
+      "extent": 4376,
       "purpose": "text",
-      "owner": "linux.elf",
+      "owner": "head.elf",
       "location": "user-space",
       "state": "live"
     },
     {
-      "id": "user.5500",
-      "space_id": "user",
-      "address": 4194784,
-      "extent": 512,
-      "purpose": "bss",
-      "owner": "linux.elf",
-      "location": "user-space",
-      "state": "zero"
-    },
-    {
-      "id": "user.7024",
-      "space_id": "user",
-      "address": 4195296,
-      "extent": 2096160,
+      "id": "user:head.elf.8025",
+      "space_id": "user:head.elf",
+      "address": 4198680,
+      "extent": 2092776,
       "purpose": "free",
       "owner": "unowned",
       "location": "user-space",
       "state": "unmapped"
     },
     {
-      "id": "user.6000",
-      "space_id": "user",
+      "id": "user:head.elf.6000",
+      "space_id": "user:head.elf",
       "address": 6291456,
       "extent": 4096,
       "purpose": "heap",
-      "owner": "linux.elf",
+      "owner": "head.elf",
       "location": "user-space",
       "state": "reserved"
     },
     {
-      "id": "user.7537",
-      "space_id": "user",
+      "id": "user:head.elf.8537",
+      "space_id": "user:head.elf",
       "address": 6295552,
       "extent": 27258880,
       "purpose": "free",
@@ -789,8 +7991,8 @@
       "state": "unmapped"
     },
     {
-      "id": "user.6001",
-      "space_id": "user",
+      "id": "user:head.elf.6200",
+      "space_id": "user:head.elf",
       "address": 33554432,
       "extent": 100597760,
       "purpose": "mmap",
@@ -799,12 +8001,82 @@
       "state": "free"
     },
     {
-      "id": "user.6002",
-      "space_id": "user",
+      "id": "user:head.elf.6400",
+      "space_id": "user:head.elf",
       "address": 134152192,
       "extent": 65536,
       "purpose": "stack",
-      "owner": "linux.elf",
+      "owner": "head.elf",
+      "location": "user-space",
+      "state": "live"
+    },
+    {
+      "id": "user:xclock.elf.7001",
+      "space_id": "user:xclock.elf",
+      "address": 0,
+      "extent": 4194304,
+      "purpose": "free",
+      "owner": "unowned",
+      "location": "user-space",
+      "state": "unmapped"
+    },
+    {
+      "id": "user:xclock.elf.5100",
+      "space_id": "user:xclock.elf",
+      "address": 4194304,
+      "extent": 4432,
+      "purpose": "text",
+      "owner": "xclock.elf",
+      "location": "user-space",
+      "state": "live"
+    },
+    {
+      "id": "user:xclock.elf.8026",
+      "space_id": "user:xclock.elf",
+      "address": 4198736,
+      "extent": 2092720,
+      "purpose": "free",
+      "owner": "unowned",
+      "location": "user-space",
+      "state": "unmapped"
+    },
+    {
+      "id": "user:xclock.elf.6100",
+      "space_id": "user:xclock.elf",
+      "address": 6291456,
+      "extent": 4096,
+      "purpose": "heap",
+      "owner": "xclock.elf",
+      "location": "user-space",
+      "state": "reserved"
+    },
+    {
+      "id": "user:xclock.elf.8538",
+      "space_id": "user:xclock.elf",
+      "address": 6295552,
+      "extent": 27258880,
+      "purpose": "free",
+      "owner": "unowned",
+      "location": "user-space",
+      "state": "unmapped"
+    },
+    {
+      "id": "user:xclock.elf.6300",
+      "space_id": "user:xclock.elf",
+      "address": 33554432,
+      "extent": 100597760,
+      "purpose": "mmap",
+      "owner": "unowned",
+      "location": "user-space",
+      "state": "free"
+    },
+    {
+      "id": "user:xclock.elf.6500",
+      "space_id": "user:xclock.elf",
+      "address": 134152192,
+      "extent": 65536,
+      "purpose": "stack",
+      "owner": "xclock.elf",
       "location": "user-space",
       "state": "live"
     }
@@ -987,20 +8259,38 @@
     {
       "id": "rel.29",
       "kind": "loads-to",
-      "from_region_id": "initrd.4004",
-      "to_region_id": "user.5000"
+      "from_region_id": "initrd.4023",
+      "to_region_id": "user:head.elf.5000"
     },
     {
       "id": "rel.30",
       "kind": "loads-to",
-      "from_region_id": "initrd.4004",
-      "to_region_id": "user.5500"
+      "from_region_id": "initrd.4023",
+      "to_region_id": "user:head.elf.6000"
     },
     {
       "id": "rel.31",
       "kind": "loads-to",
-      "from_region_id": "initrd.4004",
-      "to_region_id": "user.6002"
+      "from_region_id": "initrd.4023",
+      "to_region_id": "user:head.elf.6400"
+    },
+    {
+      "id": "rel.32",
+      "kind": "loads-to",
+      "from_region_id": "initrd.4026",
+      "to_region_id": "user:xclock.elf.5100"
+    },
+    {
+      "id": "rel.33",
+      "kind": "loads-to",
+      "from_region_id": "initrd.4026",
+      "to_region_id": "user:xclock.elf.6100"
+    },
+    {
+      "id": "rel.34",
+      "kind": "loads-to",
+      "from_region_id": "initrd.4026",
+      "to_region_id": "user:xclock.elf.6500"
     }
   ]
 }
