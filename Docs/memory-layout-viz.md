@@ -38,8 +38,9 @@ the original design note is
 # emit the layout (uses the committed kernel ELF and the injection tree)
 python3 scripts/memory-layout.py --inyect-dir inyect
 
-# check it against the interchange contract before handing it to a consumer
-python3 scripts/memory-layout-check.py
+# check both artifacts against the interchange contract before the handoff
+python3 scripts/memory-layout-check.py build/memory-layout.json
+python3 scripts/memory-layout-check.py build/memory-layout.rows.json
 
 # look at it now, without waiting for the shared renderer
 python3 scripts/memory-layout-preview.py --open
@@ -56,6 +57,7 @@ against an x86_64 target the same as it runs on the build machine.
 | `--inyect-dir DIR` | pack an initrd from an injection tree instead of reading one |
 | `--program NAME` | which embedded ELF's loaded address space to draw |
 | `--revision REV` | record this revision instead of asking git |
+| `--shape columnar\|row\|both` | which serialization to write (default both) |
 | `-o PATH` | where to write (default `build/memory-layout.json`) |
 
 `output/initrd.bin` is a build output and `*.bin` is gitignored, so a fresh
@@ -63,6 +65,35 @@ clone has no initrd to read. `--inyect-dir inyect` packs one in memory using
 `tools/inject_to_iso.py` — the build's own packer, so the container described
 is the one the build would have produced. Without either, the initrd space is
 omitted rather than invented.
+
+## Two serializations of one document
+
+The two consumers read the same schema name two different ways.
+
+| | columnar | row |
+|---|---|---|
+| file | `build/memory-layout.json` | `build/memory-layout.rows.json` |
+| read by | sw-mlpl | demo-extensions' bounded Rust parser |
+| shape | `region_*` arrays, index-aligned | a `regions` array of objects |
+| region id | integer | string, `"<space>.<id>"` |
+| provenance | `producer`, `revision` | plus `generated_at`, `source_description` |
+
+sw-mlpl's contract is columnar because `parse_json` ingests homogeneous
+arrays and an array-of-objects would need a language feature MLPL does not
+have. demo-extensions' parser reads rows with `deny_unknown_fields`. Neither
+is wrong, and reconciling them is not this repository's call to make — so
+MesaOS emits both rather than being the reason either consumer waits. It is
+one model serialized twice, not two documents.
+
+The row form is lossy on purpose: its schema is `additionalProperties:
+false`, so `region_perm` and `space_base` have nowhere to go, and an absent
+owner is spelled `unowned` because every text field must be non-empty. **The
+columnar artifact is the complete one.** The row artifact has been verified by
+running demo-extensions' own `mlpl_system_layout::Layout::parse` against it.
+
+Its `generated_at` is the HEAD commit's date rather than wall-clock time:
+wall-clock would make every regeneration produce different bytes and turn a
+checksum a consumer pins into a moving target.
 
 ## What gets emitted
 
@@ -203,7 +234,8 @@ the hard way, run before the handoff instead:
 - every relationship endpoint is a region id that exists
 - the provenance revision is not `-dirty`, so a consumer can pin it
 
-It exits non-zero on any failure, and reports the sha256 a consumer pins.
+It takes either serialization, telling them apart by their own shape, and
+exits non-zero on any failure, reporting the sha256 a consumer pins.
 
 A revision is `-dirty` only when one of the layout's own inputs is
 uncommitted. Unrelated edits elsewhere in the tree do not make a layout

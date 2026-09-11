@@ -743,6 +743,104 @@ def relationships(entries: list[dict], program: dict | None, ids: Ids,
     return {"rel_kind": kind, "rel_from": source, "rel_to": target}
 
 
+# --------------------------------------------------------------------------
+# the row shape
+#
+# The two consumers read the same schema name two different ways. sw-mlpl's
+# contract is columnar because `parse_json` ingests homogeneous arrays and an
+# array-of-objects would need a language feature MLPL does not have;
+# demo-extensions' bounded Rust parser reads rows, with string ids and a
+# four-field provenance. Neither is wrong and reconciling them is not this
+# repository's call to make.
+#
+# What this repository can do is refuse to be the reason either one waits. The
+# model is the same either way -- spaces, regions, relationships -- so the row
+# shape below is a second serialization of one document, not a second document.
+#
+# The row form is lossy on purpose: its schema is `additionalProperties:
+# false`, so `region_perm` and `space_base` have nowhere to go. The columnar
+# artifact remains the complete one.
+# --------------------------------------------------------------------------
+
+#: The row schema requires every text field to be non-empty, so the absence of
+#: an owner has to be spelled rather than left blank.
+UNOWNED = "unowned"
+
+
+def as_rows(document: dict, generated_at: str) -> dict:
+    """The same layout as rows, conforming to demo-extensions'
+    `system-layout-v1.schema.json`."""
+    spaces = []
+    for i, space in enumerate(document["spaces"]):
+        extent = document["space_capacity"][i]
+        block = document["space_block"][i]
+        entry = {"id": space, "address_unit": "byte", "extent": extent}
+        # The parser rejects a block size the extent is not a multiple of --
+        # a granule that does not divide the space is not a granule.
+        if extent % block == 0:
+            entry["block_size"] = block
+        spaces.append(entry)
+
+    regions = []
+    for i in range(len(document["region_id"])):
+        regions.append({
+            # Ids are strings here and integers in the columnar form. Both are
+            # stable and both derive from the same producer-assigned number.
+            "id": f"{document['region_space'][i]}.{document['region_id'][i]}",
+            "space_id": document["region_space"][i],
+            "address": document["region_start"][i],
+            "extent": document["region_length"][i],
+            "purpose": document["region_kind"][i],
+            "owner": document["region_owner"][i] or UNOWNED,
+            "location": document["region_location"][i] or "unplaced",
+            "state": document["region_state"][i] or "unknown",
+        })
+
+    by_number = {document["region_id"][i]: regions[i]["id"]
+                 for i in range(len(regions))}
+    relationships = []
+    for i, kind in enumerate(document["rel_kind"]):
+        source = by_number[document["rel_from"][i]]
+        target = by_number[document["rel_to"][i]]
+        if source == target:  # the parser rejects a self-edge, rightly
+            continue
+        relationships.append({"id": f"rel.{i}", "kind": kind,
+                              "from_region_id": source, "to_region_id": target})
+
+    provenance = document["provenance"]
+    return {
+        "schema": document["schema"],
+        "version": document["version"],
+        "provenance": {
+            "producer": provenance["producer"],
+            "producer_revision": provenance["revision"],
+            "generated_at": generated_at,
+            "source_description":
+                "Linked kernel ELF, embedded initrd container, and the nominal "
+                "user address space of a loaded program",
+        },
+        "spaces": spaces,
+        "regions": regions,
+        "relationships": relationships,
+    }
+
+
+def committed_at() -> str:
+    """The HEAD commit's date, as the `generated_at` the row schema requires.
+
+    Wall-clock time would make every regeneration produce different bytes and
+    turn a checksum a consumer pins into a moving target. The commit date is
+    what the artifact actually describes the state of.
+    """
+    try:
+        result = subprocess.run(
+            ["git", "show", "-s", "--format=%cd", "--date=iso-strict", "HEAD"],
+            cwd=ROOT, capture_output=True, text=True, check=True)
+        return result.stdout.strip()
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        return "unknown"
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--kernel", type=Path, default=DEFAULT_KERNEL,
@@ -760,6 +858,11 @@ def main() -> int:
     parser.add_argument("--revision", default=None,
                         help="record this as the producer revision instead of "
                              "asking git (for a reproducible artifact)")
+    parser.add_argument("--shape", choices=("columnar", "row", "both"),
+                        default="both",
+                        help="which serialization to write: columnar for "
+                             "sw-mlpl, row for demo-extensions' bounded "
+                             "parser, or both (default)")
     args = parser.parse_args()
 
     if not args.kernel.exists():
@@ -789,17 +892,31 @@ def main() -> int:
         return 1
 
     args.output.parent.mkdir(parents=True, exist_ok=True)
-    args.output.write_text(json.dumps(document, indent=2) + "\n")
+    written = []
+    if args.shape in ("columnar", "both"):
+        args.output.write_text(json.dumps(document, indent=2) + "\n")
+        written.append(args.output)
+    if args.shape in ("row", "both"):
+        rows = args.output.with_suffix(".rows.json")
+        rows.write_text(json.dumps(as_rows(document, committed_at()),
+                                   indent=2) + "\n")
+        written.append(rows)
 
     kinds: dict[str, int] = {}
     for kind in document["region_kind"]:
         kinds[kind] = kinds.get(kind, 0) + 1
-    print(f"memory-layout: {args.output}")
     print(f"  spaces:  {', '.join(document['spaces'])}")
     print(f"  regions: {len(document['region_id'])} "
           f"({', '.join(f'{n}x {k}' for k, n in sorted(kinds.items()))})")
     print(f"  edges:   {len(document['rel_kind'])}")
-    print(f"  sha256:  {hashlib.sha256(args.output.read_bytes()).hexdigest()}")
+    # The kind vocabulary, so relaying it to whoever owns the consumer's
+    # palette is a matter of reading the last run: a kind with no palette row
+    # draws as nothing.
+    print(f"  kinds:   {' '.join(sorted(kinds))}")
+    for path in written:
+        shape = "row     " if path.name.endswith(".rows.json") else "columnar"
+        print(f"  {shape} {path}")
+        print(f"           sha256 {hashlib.sha256(path.read_bytes()).hexdigest()}")
     return 0
 
 
