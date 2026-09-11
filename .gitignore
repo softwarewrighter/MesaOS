@@ -7,3 +7,6 @@ target/
 .DS_Store
 Thumbs.db
 .vscode/
+
+# Generated 3D memory-layout preview (regenerate: scripts/memory-layout-preview.py)
+build/memory-layout.html
