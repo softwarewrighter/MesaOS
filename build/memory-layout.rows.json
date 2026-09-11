@@ -1,0 +1,1006 @@
+{
+  "schema": "sw-ml-study.system-layout",
+  "version": 1,
+  "provenance": {
+    "producer": "MesaOS",
+    "producer_revision": "a8642202e",
+    "generated_at": "2026-09-11T13:39:39-07:00",
+    "source_description": "Linked kernel ELF, embedded initrd container, and the nominal user address space of a loaded program"
+  },
+  "spaces": [
+    {
+      "id": "kernel",
+      "address_unit": "byte",
+      "extent": 10878976,
+      "block_size": 4096
+    },
+    {
+      "id": "initrd",
+      "address_unit": "byte",
+      "extent": 7089082,
+      "block_size": 1
+    },
+    {
+      "id": "user",
+      "address_unit": "byte",
+      "extent": 134217728,
+      "block_size": 4096
+    }
+  ],
+  "regions": [
+    {
+      "id": "kernel.1001",
+      "space_id": "kernel",
+      "address": 0,
+      "extent": 1180999,
+      "purpose": "text",
+      "owner": "kernel",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel.2002",
+      "space_id": "kernel",
+      "address": 1180999,
+      "extent": 2745,
+      "purpose": "padding",
+      "owner": "kernel",
+      "location": "kernel-image",
+      "state": "reserved"
+    },
+    {
+      "id": "kernel.1002",
+      "space_id": "kernel",
+      "address": 1183744,
+      "extent": 7700784,
+      "purpose": "rodata",
+      "owner": "kernel",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel.1003",
+      "space_id": "kernel",
+      "address": 8884528,
+      "extent": 16,
+      "purpose": "limine_requests_end",
+      "owner": "kernel",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel.1004",
+      "space_id": "kernel",
+      "address": 8884544,
+      "extent": 16,
+      "purpose": "limine_requests_start",
+      "owner": "kernel",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel.2005",
+      "space_id": "kernel",
+      "address": 8884560,
+      "extent": 3760,
+      "purpose": "padding",
+      "owner": "kernel",
+      "location": "kernel-image",
+      "state": "reserved"
+    },
+    {
+      "id": "kernel.1005",
+      "space_id": "kernel",
+      "address": 8888320,
+      "extent": 532788,
+      "purpose": "data",
+      "owner": "kernel",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel.2006",
+      "space_id": "kernel",
+      "address": 9421108,
+      "extent": 4,
+      "purpose": "padding",
+      "owner": "kernel",
+      "location": "kernel-image",
+      "state": "reserved"
+    },
+    {
+      "id": "kernel.1006",
+      "space_id": "kernel",
+      "address": 9421112,
+      "extent": 392,
+      "purpose": "limine_requests",
+      "owner": "kernel",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel.2007",
+      "space_id": "kernel",
+      "address": 9421504,
+      "extent": 3392,
+      "purpose": "padding",
+      "owner": "kernel",
+      "location": "kernel-image",
+      "state": "reserved"
+    },
+    {
+      "id": "kernel.1007",
+      "space_id": "kernel",
+      "address": 9424896,
+      "extent": 1450936,
+      "purpose": "bss",
+      "owner": "kernel",
+      "location": "kernel-image",
+      "state": "zero"
+    },
+    {
+      "id": "kernel.1008",
+      "space_id": "kernel",
+      "address": 10875832,
+      "extent": 272,
+      "purpose": "got",
+      "owner": "kernel",
+      "location": "kernel-image",
+      "state": "stored"
+    },
+    {
+      "id": "kernel.2012",
+      "space_id": "kernel",
+      "address": 10876104,
+      "extent": 2872,
+      "purpose": "padding",
+      "owner": "kernel",
+      "location": "kernel-image",
+      "state": "reserved"
+    },
+    {
+      "id": "initrd.1",
+      "space_id": "initrd",
+      "address": 0,
+      "extent": 4,
+      "purpose": "header",
+      "owner": "kernel",
+      "location": "initrd",
+      "state": "stored"
+    },
+    {
+      "id": "initrd.3000",
+      "space_id": "initrd",
+      "address": 4,
+      "extent": 30,
+      "purpose": "catalog",
+      "owner": "README.md",
+      "location": "initrd",
+      "state": "stored"
+    },
+    {
+      "id": "initrd.4000",
+      "space_id": "initrd",
+      "address": 34,
+      "extent": 1318,
+      "purpose": "file",
+      "owner": "README.md",
+      "location": "initrd",
+      "state": "stored"
+    },
+    {
+      "id": "initrd.3001",
+      "space_id": "initrd",
+      "address": 1352,
+      "extent": 58,
+      "purpose": "catalog",
+      "owner": "Hola desde MesaOS.txt",
+      "location": "initrd",
+      "state": "stored"
+    },
+    {
+      "id": "initrd.4001",
+      "space_id": "initrd",
+      "address": 1410,
+      "extent": 18,
+      "purpose": "file",
+      "owner": "Hola desde MesaOS.txt",
+      "location": "initrd",
+      "state": "stored"
+    },
+    {
+      "id": "initrd.3002",
+      "space_id": "initrd",
+      "address": 1428,
+      "extent": 34,
+      "purpose": "catalog",
+      "owner": "linker.ld",
+      "location": "initrd",
+      "state": "stored"
+    },
+    {
+      "id": "initrd.4002",
+      "space_id": "initrd",
+      "address": 1462,
+      "extent": 442,
+      "purpose": "file",
+      "owner": "linker.ld",
+      "location": "initrd",
+      "state": "stored"
+    },
+    {
+      "id": "initrd.3003",
+      "space_id": "initrd",
+      "address": 1904,
+      "extent": 30,
+      "purpose": "catalog",
+      "owner": "linux.c",
+      "location": "initrd",
+      "state": "stored"
+    },
+    {
+      "id": "initrd.4003",
+      "space_id": "initrd",
+      "address": 1934,
+      "extent": 1507,
+      "purpose": "file",
+      "owner": "linux.c",
+      "location": "initrd",
+      "state": "stored"
+    },
+    {
+      "id": "initrd.3004",
+      "space_id": "initrd",
+      "address": 3441,
+      "extent": 34,
+      "purpose": "catalog",
+      "owner": "linux.elf",
+      "location": "initrd",
+      "state": "stored"
+    },
+    {
+      "id": "initrd.4004",
+      "space_id": "initrd",
+      "address": 3475,
+      "extent": 5600,
+      "purpose": "image",
+      "owner": "linux.elf",
+      "location": "initrd",
+      "state": "stored"
+    },
+    {
+      "id": "initrd.3005",
+      "space_id": "initrd",
+      "address": 9075,
+      "extent": 38,
+      "purpose": "catalog",
+      "owner": "linux10.elf",
+      "location": "initrd",
+      "state": "stored"
+    },
+    {
+      "id": "initrd.4005",
+      "space_id": "initrd",
+      "address": 9113,
+      "extent": 11856,
+      "purpose": "image",
+      "owner": "linux10.elf",
+      "location": "initrd",
+      "state": "stored"
+    },
+    {
+      "id": "initrd.3006",
+      "space_id": "initrd",
+      "address": 20969,
+      "extent": 38,
+      "purpose": "catalog",
+      "owner": "linux11.elf",
+      "location": "initrd",
+      "state": "stored"
+    },
+    {
+      "id": "initrd.4006",
+      "space_id": "initrd",
+      "address": 21007,
+      "extent": 9888,
+      "purpose": "image",
+      "owner": "linux11.elf",
+      "location": "initrd",
+      "state": "stored"
+    },
+    {
+      "id": "initrd.3007",
+      "space_id": "initrd",
+      "address": 30895,
+      "extent": 38,
+      "purpose": "catalog",
+      "owner": "linux12.elf",
+      "location": "initrd",
+      "state": "stored"
+    },
+    {
+      "id": "initrd.4007",
+      "space_id": "initrd",
+      "address": 30933,
+      "extent": 10272,
+      "purpose": "image",
+      "owner": "linux12.elf",
+      "location": "initrd",
+      "state": "stored"
+    },
+    {
+      "id": "initrd.3008",
+      "space_id": "initrd",
+      "address": 41205,
+      "extent": 36,
+      "purpose": "catalog",
+      "owner": "linux2.elf",
+      "location": "initrd",
+      "state": "stored"
+    },
+    {
+      "id": "initrd.4008",
+      "space_id": "initrd",
+      "address": 41241,
+      "extent": 5424,
+      "purpose": "image",
+      "owner": "linux2.elf",
+      "location": "initrd",
+      "state": "stored"
+    },
+    {
+      "id": "initrd.3009",
+      "space_id": "initrd",
+      "address": 46665,
+      "extent": 36,
+      "purpose": "catalog",
+      "owner": "linux3.elf",
+      "location": "initrd",
+      "state": "stored"
+    },
+    {
+      "id": "initrd.4009",
+      "space_id": "initrd",
+      "address": 46701,
+      "extent": 5288,
+      "purpose": "image",
+      "owner": "linux3.elf",
+      "location": "initrd",
+      "state": "stored"
+    },
+    {
+      "id": "initrd.3010",
+      "space_id": "initrd",
+      "address": 51989,
+      "extent": 36,
+      "purpose": "catalog",
+      "owner": "linux4.elf",
+      "location": "initrd",
+      "state": "stored"
+    },
+    {
+      "id": "initrd.4010",
+      "space_id": "initrd",
+      "address": 52025,
+      "extent": 5336,
+      "purpose": "image",
+      "owner": "linux4.elf",
+      "location": "initrd",
+      "state": "stored"
+    },
+    {
+      "id": "initrd.3011",
+      "space_id": "initrd",
+      "address": 57361,
+      "extent": 36,
+      "purpose": "catalog",
+      "owner": "linux5.elf",
+      "location": "initrd",
+      "state": "stored"
+    },
+    {
+      "id": "initrd.4011",
+      "space_id": "initrd",
+      "address": 57397,
+      "extent": 5264,
+      "purpose": "image",
+      "owner": "linux5.elf",
+      "location": "initrd",
+      "state": "stored"
+    },
+    {
+      "id": "initrd.3012",
+      "space_id": "initrd",
+      "address": 62661,
+      "extent": 36,
+      "purpose": "catalog",
+      "owner": "linux6.elf",
+      "location": "initrd",
+      "state": "stored"
+    },
+    {
+      "id": "initrd.4012",
+      "space_id": "initrd",
+      "address": 62697,
+      "extent": 6416,
+      "purpose": "image",
+      "owner": "linux6.elf",
+      "location": "initrd",
+      "state": "stored"
+    },
+    {
+      "id": "initrd.3013",
+      "space_id": "initrd",
+      "address": 69113,
+      "extent": 36,
+      "purpose": "catalog",
+      "owner": "linux7.elf",
+      "location": "initrd",
+      "state": "stored"
+    },
+    {
+      "id": "initrd.4013",
+      "space_id": "initrd",
+      "address": 69149,
+      "extent": 6760,
+      "purpose": "image",
+      "owner": "linux7.elf",
+      "location": "initrd",
+      "state": "stored"
+    },
+    {
+      "id": "initrd.3014",
+      "space_id": "initrd",
+      "address": 75909,
+      "extent": 36,
+      "purpose": "catalog",
+      "owner": "linux8.elf",
+      "location": "initrd",
+      "state": "stored"
+    },
+    {
+      "id": "initrd.4014",
+      "space_id": "initrd",
+      "address": 75945,
+      "extent": 8784,
+      "purpose": "image",
+      "owner": "linux8.elf",
+      "location": "initrd",
+      "state": "stored"
+    },
+    {
+      "id": "initrd.3015",
+      "space_id": "initrd",
+      "address": 84729,
+      "extent": 36,
+      "purpose": "catalog",
+      "owner": "linux9.elf",
+      "location": "initrd",
+      "state": "stored"
+    },
+    {
+      "id": "initrd.4015",
+      "space_id": "initrd",
+      "address": 84765,
+      "extent": 11416,
+      "purpose": "image",
+      "owner": "linux9.elf",
+      "location": "initrd",
+      "state": "stored"
+    },
+    {
+      "id": "initrd.3016",
+      "space_id": "initrd",
+      "address": 96181,
+      "extent": 38,
+      "purpose": "catalog",
+      "owner": "miscript.sh",
+      "location": "initrd",
+      "state": "stored"
+    },
+    {
+      "id": "initrd.4016",
+      "space_id": "initrd",
+      "address": 96219,
+      "extent": 208,
+      "purpose": "file",
+      "owner": "miscript.sh",
+      "location": "initrd",
+      "state": "stored"
+    },
+    {
+      "id": "initrd.3017",
+      "space_id": "initrd",
+      "address": 96427,
+      "extent": 38,
+      "purpose": "catalog",
+      "owner": "modload.elf",
+      "location": "initrd",
+      "state": "stored"
+    },
+    {
+      "id": "initrd.4017",
+      "space_id": "initrd",
+      "address": 96465,
+      "extent": 6152,
+      "purpose": "image",
+      "owner": "modload.elf",
+      "location": "initrd",
+      "state": "stored"
+    },
+    {
+      "id": "initrd.3018",
+      "space_id": "initrd",
+      "address": 102617,
+      "extent": 32,
+      "purpose": "catalog",
+      "owner": "rtw88.ko",
+      "location": "initrd",
+      "state": "stored"
+    },
+    {
+      "id": "initrd.4018",
+      "space_id": "initrd",
+      "address": 102649,
+      "extent": 675728,
+      "purpose": "module",
+      "owner": "rtw88.ko",
+      "location": "initrd",
+      "state": "stored"
+    },
+    {
+      "id": "initrd.3019",
+      "space_id": "initrd",
+      "address": 778377,
+      "extent": 38,
+      "purpose": "catalog",
+      "owner": "test_mod.ko",
+      "location": "initrd",
+      "state": "stored"
+    },
+    {
+      "id": "initrd.4019",
+      "space_id": "initrd",
+      "address": 778415,
+      "extent": 2320,
+      "purpose": "module",
+      "owner": "test_mod.ko",
+      "location": "initrd",
+      "state": "stored"
+    },
+    {
+      "id": "initrd.3020",
+      "space_id": "initrd",
+      "address": 780735,
+      "extent": 38,
+      "purpose": "catalog",
+      "owner": "xhci-hcd.ko",
+      "location": "initrd",
+      "state": "stored"
+    },
+    {
+      "id": "initrd.4020",
+      "space_id": "initrd",
+      "address": 780773,
+      "extent": 6021800,
+      "purpose": "module",
+      "owner": "xhci-hcd.ko",
+      "location": "initrd",
+      "state": "stored"
+    },
+    {
+      "id": "initrd.3021",
+      "space_id": "initrd",
+      "address": 6802573,
+      "extent": 38,
+      "purpose": "catalog",
+      "owner": "xhci-pci.ko",
+      "location": "initrd",
+      "state": "stored"
+    },
+    {
+      "id": "initrd.4021",
+      "space_id": "initrd",
+      "address": 6802611,
+      "extent": 267872,
+      "purpose": "module",
+      "owner": "xhci-pci.ko",
+      "location": "initrd",
+      "state": "stored"
+    },
+    {
+      "id": "initrd.3022",
+      "space_id": "initrd",
+      "address": 7070483,
+      "extent": 42,
+      "purpose": "catalog",
+      "owner": "miconfig.conf",
+      "location": "initrd",
+      "state": "stored"
+    },
+    {
+      "id": "initrd.4022",
+      "space_id": "initrd",
+      "address": 7070525,
+      "extent": 117,
+      "purpose": "file",
+      "owner": "miconfig.conf",
+      "location": "initrd",
+      "state": "stored"
+    },
+    {
+      "id": "initrd.3023",
+      "space_id": "initrd",
+      "address": 7070642,
+      "extent": 45,
+      "purpose": "catalog",
+      "owner": "head.elf",
+      "location": "initrd",
+      "state": "stored"
+    },
+    {
+      "id": "initrd.4023",
+      "space_id": "initrd",
+      "address": 7070687,
+      "extent": 8824,
+      "purpose": "image",
+      "owner": "head.elf",
+      "location": "initrd",
+      "state": "stored"
+    },
+    {
+      "id": "initrd.3024",
+      "space_id": "initrd",
+      "address": 7079511,
+      "extent": 43,
+      "purpose": "catalog",
+      "owner": "head.sh",
+      "location": "initrd",
+      "state": "stored"
+    },
+    {
+      "id": "initrd.4024",
+      "space_id": "initrd",
+      "address": 7079554,
+      "extent": 220,
+      "purpose": "file",
+      "owner": "head.sh",
+      "location": "initrd",
+      "state": "stored"
+    },
+    {
+      "id": "initrd.3025",
+      "space_id": "initrd",
+      "address": 7079774,
+      "extent": 47,
+      "purpose": "catalog",
+      "owner": "input.txt",
+      "location": "initrd",
+      "state": "stored"
+    },
+    {
+      "id": "initrd.4025",
+      "space_id": "initrd",
+      "address": 7079821,
+      "extent": 228,
+      "purpose": "file",
+      "owner": "input.txt",
+      "location": "initrd",
+      "state": "stored"
+    },
+    {
+      "id": "initrd.3026",
+      "space_id": "initrd",
+      "address": 7080049,
+      "extent": 51,
+      "purpose": "catalog",
+      "owner": "xclock.elf",
+      "location": "initrd",
+      "state": "stored"
+    },
+    {
+      "id": "initrd.4026",
+      "space_id": "initrd",
+      "address": 7080100,
+      "extent": 8880,
+      "purpose": "image",
+      "owner": "xclock.elf",
+      "location": "initrd",
+      "state": "stored"
+    },
+    {
+      "id": "initrd.3027",
+      "space_id": "initrd",
+      "address": 7088980,
+      "extent": 49,
+      "purpose": "catalog",
+      "owner": "xclock.sh",
+      "location": "initrd",
+      "state": "stored"
+    },
+    {
+      "id": "initrd.4027",
+      "space_id": "initrd",
+      "address": 7089029,
+      "extent": 53,
+      "purpose": "file",
+      "owner": "xclock.sh",
+      "location": "initrd",
+      "state": "stored"
+    },
+    {
+      "id": "user.7000",
+      "space_id": "user",
+      "address": 0,
+      "extent": 4194304,
+      "purpose": "free",
+      "owner": "unowned",
+      "location": "user-space",
+      "state": "unmapped"
+    },
+    {
+      "id": "user.5000",
+      "space_id": "user",
+      "address": 4194304,
+      "extent": 480,
+      "purpose": "text",
+      "owner": "linux.elf",
+      "location": "user-space",
+      "state": "live"
+    },
+    {
+      "id": "user.5500",
+      "space_id": "user",
+      "address": 4194784,
+      "extent": 512,
+      "purpose": "bss",
+      "owner": "linux.elf",
+      "location": "user-space",
+      "state": "zero"
+    },
+    {
+      "id": "user.7024",
+      "space_id": "user",
+      "address": 4195296,
+      "extent": 2096160,
+      "purpose": "free",
+      "owner": "unowned",
+      "location": "user-space",
+      "state": "unmapped"
+    },
+    {
+      "id": "user.6000",
+      "space_id": "user",
+      "address": 6291456,
+      "extent": 4096,
+      "purpose": "heap",
+      "owner": "linux.elf",
+      "location": "user-space",
+      "state": "reserved"
+    },
+    {
+      "id": "user.7537",
+      "space_id": "user",
+      "address": 6295552,
+      "extent": 27258880,
+      "purpose": "free",
+      "owner": "unowned",
+      "location": "user-space",
+      "state": "unmapped"
+    },
+    {
+      "id": "user.6001",
+      "space_id": "user",
+      "address": 33554432,
+      "extent": 100597760,
+      "purpose": "mmap",
+      "owner": "unowned",
+      "location": "user-space",
+      "state": "free"
+    },
+    {
+      "id": "user.6002",
+      "space_id": "user",
+      "address": 134152192,
+      "extent": 65536,
+      "purpose": "stack",
+      "owner": "linux.elf",
+      "location": "user-space",
+      "state": "live"
+    }
+  ],
+  "relationships": [
+    {
+      "id": "rel.0",
+      "kind": "embeds",
+      "from_region_id": "kernel.1002",
+      "to_region_id": "initrd.1"
+    },
+    {
+      "id": "rel.1",
+      "kind": "describes",
+      "from_region_id": "initrd.3000",
+      "to_region_id": "initrd.4000"
+    },
+    {
+      "id": "rel.2",
+      "kind": "describes",
+      "from_region_id": "initrd.3001",
+      "to_region_id": "initrd.4001"
+    },
+    {
+      "id": "rel.3",
+      "kind": "describes",
+      "from_region_id": "initrd.3002",
+      "to_region_id": "initrd.4002"
+    },
+    {
+      "id": "rel.4",
+      "kind": "describes",
+      "from_region_id": "initrd.3003",
+      "to_region_id": "initrd.4003"
+    },
+    {
+      "id": "rel.5",
+      "kind": "describes",
+      "from_region_id": "initrd.3004",
+      "to_region_id": "initrd.4004"
+    },
+    {
+      "id": "rel.6",
+      "kind": "describes",
+      "from_region_id": "initrd.3005",
+      "to_region_id": "initrd.4005"
+    },
+    {
+      "id": "rel.7",
+      "kind": "describes",
+      "from_region_id": "initrd.3006",
+      "to_region_id": "initrd.4006"
+    },
+    {
+      "id": "rel.8",
+      "kind": "describes",
+      "from_region_id": "initrd.3007",
+      "to_region_id": "initrd.4007"
+    },
+    {
+      "id": "rel.9",
+      "kind": "describes",
+      "from_region_id": "initrd.3008",
+      "to_region_id": "initrd.4008"
+    },
+    {
+      "id": "rel.10",
+      "kind": "describes",
+      "from_region_id": "initrd.3009",
+      "to_region_id": "initrd.4009"
+    },
+    {
+      "id": "rel.11",
+      "kind": "describes",
+      "from_region_id": "initrd.3010",
+      "to_region_id": "initrd.4010"
+    },
+    {
+      "id": "rel.12",
+      "kind": "describes",
+      "from_region_id": "initrd.3011",
+      "to_region_id": "initrd.4011"
+    },
+    {
+      "id": "rel.13",
+      "kind": "describes",
+      "from_region_id": "initrd.3012",
+      "to_region_id": "initrd.4012"
+    },
+    {
+      "id": "rel.14",
+      "kind": "describes",
+      "from_region_id": "initrd.3013",
+      "to_region_id": "initrd.4013"
+    },
+    {
+      "id": "rel.15",
+      "kind": "describes",
+      "from_region_id": "initrd.3014",
+      "to_region_id": "initrd.4014"
+    },
+    {
+      "id": "rel.16",
+      "kind": "describes",
+      "from_region_id": "initrd.3015",
+      "to_region_id": "initrd.4015"
+    },
+    {
+      "id": "rel.17",
+      "kind": "describes",
+      "from_region_id": "initrd.3016",
+      "to_region_id": "initrd.4016"
+    },
+    {
+      "id": "rel.18",
+      "kind": "describes",
+      "from_region_id": "initrd.3017",
+      "to_region_id": "initrd.4017"
+    },
+    {
+      "id": "rel.19",
+      "kind": "describes",
+      "from_region_id": "initrd.3018",
+      "to_region_id": "initrd.4018"
+    },
+    {
+      "id": "rel.20",
+      "kind": "describes",
+      "from_region_id": "initrd.3019",
+      "to_region_id": "initrd.4019"
+    },
+    {
+      "id": "rel.21",
+      "kind": "describes",
+      "from_region_id": "initrd.3020",
+      "to_region_id": "initrd.4020"
+    },
+    {
+      "id": "rel.22",
+      "kind": "describes",
+      "from_region_id": "initrd.3021",
+      "to_region_id": "initrd.4021"
+    },
+    {
+      "id": "rel.23",
+      "kind": "describes",
+      "from_region_id": "initrd.3022",
+      "to_region_id": "initrd.4022"
+    },
+    {
+      "id": "rel.24",
+      "kind": "describes",
+      "from_region_id": "initrd.3023",
+      "to_region_id": "initrd.4023"
+    },
+    {
+      "id": "rel.25",
+      "kind": "describes",
+      "from_region_id": "initrd.3024",
+      "to_region_id": "initrd.4024"
+    },
+    {
+      "id": "rel.26",
+      "kind": "describes",
+      "from_region_id": "initrd.3025",
+      "to_region_id": "initrd.4025"
+    },
+    {
+      "id": "rel.27",
+      "kind": "describes",
+      "from_region_id": "initrd.3026",
+      "to_region_id": "initrd.4026"
+    },
+    {
+      "id": "rel.28",
+      "kind": "describes",
+      "from_region_id": "initrd.3027",
+      "to_region_id": "initrd.4027"
+    },
+    {
+      "id": "rel.29",
+      "kind": "loads-to",
+      "from_region_id": "initrd.4004",
+      "to_region_id": "user.5000"
+    },
+    {
+      "id": "rel.30",
+      "kind": "loads-to",
+      "from_region_id": "initrd.4004",
+      "to_region_id": "user.5500"
+    },
+    {
+      "id": "rel.31",
+      "kind": "loads-to",
+      "from_region_id": "initrd.4004",
+      "to_region_id": "user.6002"
+    }
+  ]
+}
