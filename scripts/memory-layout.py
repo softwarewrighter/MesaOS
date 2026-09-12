@@ -702,6 +702,9 @@ def pack_initrd(inyect_dir: Path) -> bytes:
     import importlib.util
     import tempfile
 
+    # Importing the packer would otherwise drop a __pycache__ beside it.
+    # Reading a repository should not write to it.
+    bytecode, sys.dont_write_bytecode = sys.dont_write_bytecode, True
     packer_path = ROOT / "tools" / "inject_to_iso.py"
     spec = importlib.util.spec_from_file_location("mesaos_inject", packer_path)
     if spec is None or spec.loader is None:
@@ -718,7 +721,9 @@ def pack_initrd(inyect_dir: Path) -> bytes:
             "use_default": True,
             "initrd_path": str(out),
         })
-        return out.read_bytes()
+        packed = out.read_bytes()
+    sys.dont_write_bytecode = bytecode
+    return packed
 
 
 # --------------------------------------------------------------------------
