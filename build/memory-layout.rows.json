@@ -3,8 +3,8 @@
   "version": 1,
   "provenance": {
     "producer": "MesaOS",
-    "producer_revision": "35da57bc6",
-    "generated_at": "2026-09-11T16:18:41-07:00",
+    "producer_revision": "e32526838",
+    "generated_at": "2026-09-12T11:33:57-07:00",
     "source_description": "Linked kernel ELF, embedded initrd container, and the nominal user address space of a loaded program"
   },
   "spaces": [

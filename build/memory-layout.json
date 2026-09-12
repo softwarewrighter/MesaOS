@@ -3,7 +3,7 @@
   "version": 1,
   "provenance": {
     "producer": "MesaOS",
-    "revision": "35da57bc6",
+    "revision": "e32526838",
     "kernel_sha256": "a3d7ee45d2481768fb358f973d7bbfc1b292fc71285505e0114fded95ec64d26",
     "initrd_sha256": "ee77e181b59210ba52acbeb671473d24ce2da5ed6d7d25176cbd18e97c5f2e90",
     "initrd_source": "inyect"
